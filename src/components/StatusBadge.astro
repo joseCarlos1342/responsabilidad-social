@@ -1,0 +1,21 @@
+---
+import { statusLabels } from '../lib/content';
+import type { ActivityEntry } from '../lib/content';
+
+interface Props {
+  status: ActivityEntry['data']['status'];
+  onAccent?: boolean;
+}
+const { status, onAccent = false } = Astro.props;
+---
+
+<span class:list={['status', `status--${status}`, { 'status--accent': onAccent }]}
+  >{statusLabels[status]}</span
+>
+
+<style>
+  .status--accent {
+    border-color: var(--white);
+    color: var(--white);
+  }
+</style>

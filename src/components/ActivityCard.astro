@@ -1,0 +1,107 @@
+---
+import type { ActivityEntry } from '../lib/content';
+import StatusBadge from './StatusBadge.astro';
+import { getOds } from '../lib/content';
+
+interface Props {
+  activity: ActivityEntry;
+  featured?: boolean;
+}
+const { activity, featured = false } = Astro.props;
+const odsNames = activity.data.ods.map((number) => getOds(number)?.name).filter(Boolean);
+---
+
+<article class:list={['activity-card', { 'activity-card--featured': featured }]}>
+  <div class="activity-card__topline">
+    <span class="activity-number">Actividad {activity.data.activityNumber}</span>
+    <StatusBadge status={activity.data.status} onAccent={featured} />
+  </div>
+  <div class="activity-card__body">
+    <p class="eyebrow-data">{activity.data.week} · {activity.data.category}</p>
+    <h2><a href={`/actividades/${activity.id}/`}>{activity.data.title}</a></h2>
+    <p>{activity.data.description}</p>
+    <div class="activity-card__meta">
+      <span>{odsNames.join(' · ')}</span>
+      <a class="text-link" href={`/actividades/${activity.id}/`}>Leer entrada →</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .activity-card {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    border: 1px solid var(--line);
+    background: var(--white);
+    box-shadow: 0 5px 0 var(--line);
+  }
+  .activity-card--featured {
+    grid-template-columns: 11rem 1fr;
+    border-color: var(--terracotta);
+    box-shadow: 0 5px 0 var(--terracotta);
+  }
+  .activity-card__topline {
+    display: grid;
+    align-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem;
+    border-right: 1px solid var(--line);
+    background: var(--mist);
+  }
+  .activity-card--featured .activity-card__topline {
+    background: var(--terracotta);
+    color: var(--white);
+  }
+  .activity-card--featured .status {
+    border-color: var(--white);
+    color: var(--white) !important;
+  }
+  .activity-number {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .activity-card__body {
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+  .activity-card h2 {
+    margin: 0.6rem 0 0.8rem;
+    font-size: clamp(1.55rem, 3vw, 2.5rem);
+  }
+  .activity-card h2 a {
+    text-decoration: none;
+  }
+  .activity-card p {
+    max-width: 65ch;
+    color: var(--ink-soft);
+  }
+  .activity-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 1.35rem;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.72rem;
+  }
+  .text-link {
+    color: var(--petrol);
+    font-weight: 800;
+    text-decoration: none;
+  }
+  @media (max-width: 620px) {
+    .activity-card,
+    .activity-card--featured {
+      grid-template-columns: 1fr;
+    }
+    .activity-card__topline {
+      grid-template-columns: 1fr auto;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+</style>

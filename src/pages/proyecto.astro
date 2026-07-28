@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="El proyecto"
+  description="Problemática, propósito y alcance del proyecto Decisiones que sí suman."
+>
+  <section class="section">
+    <div class="site-shell narrow-page">
+      <Breadcrumbs items={[{ label: 'Proyecto' }]} />
+      <header class="simple-header">
+        <span class="kicker">La pregunta detrás del blog</span><h1>
+          Organizar hoy para decidir mejor mañana.
+        </h1><p class="lede">
+          Una intervención educativa situada en Neiva para conversar sobre presupuesto, ahorro,
+          crédito responsable y prevención del fraude.
+        </p>
+      </header>
+      <div class="prose">
+        <h2>Problemática central</h2>
+        <p>
+          Insuficientes conocimientos y hábitos de educación financiera para tomar decisiones
+          responsables sobre presupuesto, ahorro y crédito. La situación puede traducirse en
+          desorden de gastos, dificultades para ahorrar, dependencia del crédito, sobreendeudamiento
+          y exposición a fraudes.
+        </p>
+        <h2>Una observación situada</h2>
+        <p>
+          El proyecto nace de la experiencia del autor como analista financiero y de las preguntas
+          que aparecen en su entorno laboral y cercano. Esa experiencia sirve para formular
+          preguntas y diseñar contenidos, pero debe contrastarse con un diagnóstico local. No se
+          presenta como una estadística sobre Neiva.
+        </p>
+        <h2>Qué sí puede hacer este proyecto</h2>
+        <ul>
+          <li>Traducir conceptos técnicos a ejemplos cotidianos.</li><li>
+            Ofrecer una plantilla de presupuesto reutilizable.
+          </li><li>Promover preguntas sobre costo total, plazo y capacidad de pago.</li><li>
+            Compartir rutas para reconocer fraude y consultar fuentes confiables.
+          </li>
+        </ul>
+        <h2>Qué no promete</h2>
+        <p>
+          No resolverá deudas particulares, no dará asesoría financiera personalizada, no
+          recomendará entidades ni productos y no generalizará resultados de un grupo pequeño a toda
+          la ciudad.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow-page {
+    max-width: 920px;
+  }
+  .simple-header {
+    padding-block: 3rem 4rem;
+  }
+  .simple-header h1 {
+    max-width: 13ch;
+    margin: 0.8rem 0 1.1rem;
+  }
+</style>

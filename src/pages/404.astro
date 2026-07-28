@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Página no encontrada"
+  description="La página que buscas no existe en este blog académico."
+>
+  <section class="section not-found">
+    <div class="site-shell">
+      <span class="kicker">Error 404</span><h1>Esta página tomó otra ruta.</h1><p class="lede">
+        No encontramos la dirección. Puedes volver al inicio o recorrer las actividades disponibles.
+      </p><div class="button-row">
+        <a class="button" href="/">Volver al inicio</a><a
+          class="button button--quiet"
+          href="/actividades/">Ver actividades</a
+        >
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 60vh;
+    display: grid;
+    align-items: center;
+  }
+  .not-found h1 {
+    max-width: 12ch;
+    margin: 0.8rem 0 1rem;
+  }
+</style>

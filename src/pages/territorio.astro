@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Territorio"
+  description="Neiva, Huila: territorio y comunidad cercana del proyecto de educación financiera."
+>
+  <section class="section">
+    <div class="site-shell territory-grid">
+      <div>
+        <Breadcrumbs items={[{ label: 'Territorio' }]} /><span class="kicker">Punto de partida</span
+        ><h1>Neiva, Huila.</h1><p class="lede">
+          El territorio no es un fondo decorativo: determina con quién se conversa, qué preguntas
+          tienen sentido y hasta dónde pueden llegar las conclusiones.
+        </p>
+      </div>
+      <div class="territory-mark" aria-label="Coordenadas de referencia de Neiva">
+        <span class="eyebrow-data">Coordenadas de referencia</span><strong>2.9273° N</strong><strong
+          >75.2819° O</strong
+        ><small>Ubicación general del territorio, no de participantes.</small>
+      </div>
+    </div>
+  </section>
+  <section class="section section--tight">
+    <div class="site-shell grid grid--2">
+      <div class="prose">
+        <h2>Comunidad cercana</h2><p>
+          Asesores de crédito, compañeros de oficina, familiares, conocidos y otras personas adultas
+          que participen voluntariamente. Hay trayectorias distintas: jóvenes con su primer salario,
+          trabajadores con ingresos variables, personas que administran el hogar y adultos mayores.
+        </p>
+      </div>
+      <div class="prose">
+        <h2>Lectura responsable</h2><p>
+          Los datos nacionales y departamentales ayudan a formular hipótesis, pero no describen
+          automáticamente la realidad de Neiva. Por eso, el diagnóstico local será breve, anónimo y
+          limitado a conocimientos y hábitos generales.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .territory-grid {
+    display: grid;
+    grid-template-columns: 1fr 0.7fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .territory-grid h1 {
+    max-width: none;
+    margin: 0.8rem 0 1rem;
+  }
+  .territory-mark {
+    display: grid;
+    gap: 0.5rem;
+    padding: 2rem;
+    border: 1px solid var(--ink);
+    background: var(--petrol);
+    color: var(--paper);
+    box-shadow: 12px 12px 0 var(--terracotta);
+    transform: rotate(-2deg);
+  }
+  .territory-mark strong {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 1;
+  }
+  .territory-mark small {
+    margin-top: 1rem;
+    color: var(--mist);
+  }
+  @media (max-width: 760px) {
+    .territory-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

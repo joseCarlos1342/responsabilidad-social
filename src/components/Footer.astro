@@ -1,0 +1,57 @@
+<footer class="site-footer">
+  <div class="site-shell footer-grid">
+    <div>
+      <p class="footer-title">Decisiones que sí suman</p>
+      <p class="footer-copy">
+        Blog académico de Práctica en Responsabilidad Social · Humanidades Digitales.
+      </p>
+    </div>
+    <nav aria-label="Información del sitio" class="footer-links">
+      <a href="/referencias/">Referencias</a>
+      <a href="/recursos/">Recursos</a>
+      <a href="/privacidad/">Privacidad y ética</a>
+      <a href="/comentarios/">Comentarios</a>
+    </nav>
+    <p class="footer-meta">
+      Neiva, Huila · 2026<br />Contenido educativo, no asesoría financiera personalizada.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 3rem 2rem;
+    border-top: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 2rem;
+  }
+  .footer-title {
+    margin: 0 0 0.4rem;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+  .footer-copy,
+  .footer-meta {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.84rem;
+  }
+  .footer-links {
+    display: grid;
+    gap: 0.4rem;
+    align-content: start;
+    font-size: 0.84rem;
+    font-weight: 750;
+  }
+  @media (max-width: 760px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

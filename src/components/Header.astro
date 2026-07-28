@@ -1,0 +1,164 @@
+---
+const links = [
+  { href: '/actividades/', label: 'Actividades' },
+  { href: '/plan-humanidades-digitales/', label: 'Plan' },
+  { href: '/proyecto/', label: 'Proyecto' },
+  { href: '/territorio/', label: 'Territorio' },
+];
+---
+
+<header class="site-header">
+  <div class="site-shell header-inner">
+    <a class="brand" href="/" aria-label="Decisiones que sí suman, inicio">
+      <span class="brand-mark" aria-hidden="true">↗</span>
+      <span><strong>Decisiones</strong><small>que sí suman</small></span>
+    </a>
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      aria-label="Abrir menú"
+    >
+      <span class="sr-only" data-menu-label>Abrir menú</span>
+      <span aria-hidden="true">Menú</span>
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Navegación principal">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      <a href="/sobre-el-autor/">Autor</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Cambiar tema"
+        >◐</button
+      >
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 2;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+  }
+  .header-inner {
+    display: flex;
+    min-height: 76px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .brand-mark {
+    display: grid;
+    width: 2.2rem;
+    height: 2.2rem;
+    place-items: center;
+    border: 1px solid var(--terracotta);
+    border-radius: 50%;
+    color: var(--terracotta);
+    font-size: 1.4rem;
+  }
+  .brand strong,
+  .brand small {
+    display: block;
+    line-height: 1;
+  }
+  .brand strong {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.1rem;
+  }
+  .brand small {
+    margin-top: 0.25rem;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+    font-size: 0.86rem;
+    font-weight: 750;
+  }
+  .site-nav a {
+    text-decoration: none;
+  }
+  .theme-toggle,
+  .menu-toggle {
+    min-width: 42px;
+    min-height: 42px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .menu-toggle {
+    display: none;
+    border-radius: 999px;
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (max-width: 780px) {
+    .menu-toggle {
+      display: block;
+    }
+    .site-nav {
+      position: absolute;
+      top: calc(100% + 1px);
+      right: 0.65rem;
+      left: 0.65rem;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 0.7rem;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+    .site-nav[data-open='true'] {
+      display: flex;
+    }
+    .site-nav a {
+      padding: 0.8rem;
+    }
+    .theme-toggle {
+      align-self: flex-start;
+      margin: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  const menuButton = document.querySelector('.menu-toggle');
+  const nav = document.querySelector('#site-nav');
+  menuButton?.addEventListener('click', () => {
+    const open = nav?.getAttribute('data-open') === 'true';
+    nav?.setAttribute('data-open', String(!open));
+    menuButton.setAttribute('aria-expanded', String(!open));
+    menuButton.setAttribute('aria-label', open ? 'Abrir menú' : 'Cerrar menú');
+    menuButton
+      .querySelector('[data-menu-label]')
+      ?.replaceChildren(open ? 'Abrir menú' : 'Cerrar menú');
+  });
+</script>

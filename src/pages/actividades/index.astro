@@ -1,0 +1,208 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ActivityCard from '../../components/ActivityCard.astro';
+import { sortActivities, odsData } from '../../lib/content';
+
+const activities = sortActivities(await getCollection('activity', ({ data }) => !data.draft));
+const weeks = [...new Set(activities.map((activity) => activity.data.week))];
+const statuses = [...new Set(activities.map((activity) => activity.data.status))];
+---
+
+<BaseLayout
+  title="Actividades"
+  description="Entradas del blog académico organizadas por actividad, semana, estado y ODS."
+>
+  <section class="section page-intro">
+    <div class="site-shell page-intro__grid">
+      <div><span class="kicker">Bitácora de aprendizaje</span><h1>Actividades</h1></div>
+      <p class="lede">
+        Cada entrada distingue requisitos, decisiones del estudiante, fuentes externas y evidencia
+        real. Usa los filtros para recorrer el proceso sin convertirlo en una aplicación pesada.
+      </p>
+    </div>
+  </section>
+  <section class="section section--tight">
+    <div class="site-shell">
+      <form class="filters" id="activity-filters">
+        <label
+          >Semana<select name="week"
+            ><option value="">Todas las semanas</option>{
+              weeks.map((week) => <option value={week}>{week}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >Estado<select name="status"
+            ><option value="">Todos los estados</option>{
+              statuses.map((status) => <option value={status}>{status}</option>)
+            }</select
+          ></label
+        >
+        <label
+          >ODS<select name="ods"
+            ><option value="">Todos los ODS</option>{
+              odsData.map((ods) => (
+                <option value={ods.number}>
+                  ODS {ods.number} · {ods.name}
+                </option>
+              ))
+            }</select
+          ></label
+        >
+        <label
+          >Tipo<select name="type"
+            ><option value="">Todos los tipos</option><option value="actividad">Actividad</option
+            ><option value="guía">Guía</option><option value="entrada-reflexiva"
+              >Entrada reflexiva</option
+            ></select
+          ></label
+        >
+        <button class="button button--quiet button--small" type="reset">Limpiar filtros</button>
+      </form>
+      <p class="filter-summary" aria-live="polite"></p>
+      <div class="activities-list" id="activities-list">
+        {
+          activities.map((activity) => (
+            <div
+              class="activity-item"
+              data-week={activity.data.week}
+              data-status={activity.data.status}
+              data-ods={activity.data.ods.join(',')}
+              data-type={activity.data.contentType}
+            >
+              <ActivityCard activity={activity} featured={activity.data.featured} />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .page-intro {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .page-intro__grid {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 3rem;
+    align-items: end;
+  }
+  .page-intro h1 {
+    max-width: none;
+    margin: 0.8rem 0 0;
+  }
+  .page-intro .lede {
+    margin: 0;
+  }
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) auto;
+    gap: 0.8rem;
+    align-items: end;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+  .filters label {
+    display: grid;
+    gap: 0.35rem;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .filters select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0.45rem;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.85rem;
+    text-transform: none;
+  }
+  .filter-summary {
+    min-height: 1.4rem;
+    margin-block: 1rem;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.75rem;
+  }
+  .activities-list {
+    display: grid;
+    gap: 1.4rem;
+  }
+  .activity-item[data-hidden='true'] {
+    display: none;
+  }
+  @media (max-width: 850px) {
+    .filters {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .filters button {
+      width: fit-content;
+    }
+    .page-intro__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 520px) {
+    .filters {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#activity-filters');
+  const items = [...document.querySelectorAll<HTMLElement>('.activity-item')];
+  const summary = document.querySelector<HTMLElement>('.filter-summary');
+  const update = () => {
+    const data = new FormData(form ?? undefined);
+    const week = String(data.get('week') ?? '');
+    const status = String(data.get('status') ?? '');
+    const ods = String(data.get('ods') ?? '');
+    const type = String(data.get('type') ?? '');
+    const params = new URLSearchParams(window.location.search);
+    for (const [key, value] of [
+      ['week', week],
+      ['status', status],
+      ['ods', ods],
+      ['type', type],
+    ]) {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    }
+    const query = params.toString();
+    window.history.replaceState({}, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+    let visible = 0;
+    items.forEach((item) => {
+      const match =
+        (!week || item.dataset.week === week) &&
+        (!status || item.dataset.status === status) &&
+        (!ods || item.dataset.ods?.split(',').includes(ods)) &&
+        (!type || item.dataset.type === type);
+      item.dataset.hidden = String(!match);
+      if (match) visible += 1;
+    });
+    if (summary)
+      summary.textContent = `${visible} ${visible === 1 ? 'entrada visible' : 'entradas visibles'}`;
+  };
+  form?.addEventListener('change', update);
+  form?.addEventListener('reset', () => requestAnimationFrame(update));
+  const initialParams = new URLSearchParams(window.location.search);
+  for (const name of ['week', 'status', 'ods', 'type']) {
+    const value = initialParams.get(name);
+    const control = form?.elements.namedItem(name);
+    if (value && control instanceof HTMLSelectElement) control.value = value;
+  }
+  update();
+</script>

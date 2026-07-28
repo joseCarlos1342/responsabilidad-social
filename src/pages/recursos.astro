@@ -1,0 +1,84 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+const resources = await getCollection('recurso');
+---
+
+<BaseLayout
+  title="Recursos"
+  description="Plantillas, guías y fuentes para acompañar las actividades del proyecto."
+>
+  <section class="section">
+    <div class="site-shell">
+      <Breadcrumbs items={[{ label: 'Recursos' }]} /><header class="simple-header">
+        <span class="kicker">Caja de herramientas</span><h1>
+          Recursos para volver a la pregunta.
+        </h1><p class="lede">
+          Las herramientas se incorporan cuando existen, han sido revisadas y no contienen datos de
+          terceros.
+        </p>
+      </header><div class="resource-list">
+        {
+          resources.map((resource) => (
+            <article>
+              <>
+                <span class="eyebrow-data">{resource.data.kind}</span>
+                <h2>{resource.data.title}</h2>
+                <p>{resource.data.description}</p>
+                <strong class:list={{ pending: resource.data.status === 'pendiente' }}>
+                  {resource.data.status === 'pendiente'
+                    ? 'Evidencia pendiente de incorporación'
+                    : 'Disponible'}
+                </strong>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .simple-header {
+    max-width: 780px;
+    padding-block: 3rem 4rem;
+  }
+  .simple-header h1 {
+    max-width: 14ch;
+    margin: 0.8rem 0 1rem;
+  }
+  .resource-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+  .resource-list article {
+    min-height: 13rem;
+    padding: 1.5rem;
+    background: var(--white);
+  }
+  .resource-list h2 {
+    margin: 1rem 0 0.6rem;
+    font-size: 2rem;
+  }
+  .resource-list p {
+    color: var(--ink-soft);
+  }
+  .resource-list strong {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.74rem;
+  }
+  .resource-list strong.pending {
+    color: var(--terracotta);
+  }
+  @media (max-width: 650px) {
+    .resource-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

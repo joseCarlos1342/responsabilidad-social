@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { odsData } from '../lib/content';
+---
+
+<BaseLayout
+  title="ODS y responsabilidad social"
+  description="Relaciones argumentadas entre las actividades del proyecto y los Objetivos de Desarrollo Sostenible."
+>
+  <section class="section">
+    <div class="site-shell">
+      <Breadcrumbs items={[{ label: 'ODS' }]} /><header class="simple-header">
+        <span class="kicker">No solo iconos</span><h1>ODS con alcance realista.</h1><p class="lede">
+          Cada relación debe explicar qué acción concreta aporta, qué alcance puede tener y qué
+          limitación conviene reconocer.
+        </p>
+      </header><div class="ods-page-grid">
+        {
+          odsData.map((ods) => (
+            <article class="ods-page-item" style={`--ods-color: ${ods.color}`}>
+              <>
+                <strong>ODS {ods.number}</strong>
+                <h2>{ods.name}</h2>
+                <p>
+                  {ods.number === 4
+                    ? 'Las actividades convierten conceptos de la vida económica en aprendizajes prácticos y accesibles.'
+                    : ods.number === 10
+                      ? 'El lenguaje claro y los recursos sin costo buscan reducir barreras de comprensión, sin negar desigualdades estructurales.'
+                      : ods.number === 16
+                        ? 'La prevención del fraude y la consulta de fuentes confiables fortalecen decisiones informadas.'
+                        : 'La relación se desarrolla en las entradas correspondientes y se mantiene como contribución indirecta, local y limitada.'}
+                </p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .simple-header {
+    max-width: 760px;
+    padding-block: 3rem 4rem;
+  }
+  .simple-header h1 {
+    max-width: 12ch;
+    margin: 0.8rem 0 1rem;
+  }
+  .ods-page-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .ods-page-item {
+    min-height: 14rem;
+    padding: 1.5rem;
+    border-top: 2px solid var(--ods-color);
+    background: var(--white);
+  }
+  .ods-page-item strong {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.78rem;
+  }
+  .ods-page-item h2 {
+    margin: 1.2rem 0 0.7rem;
+    font-size: 2rem;
+  }
+  .ods-page-item p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 650px) {
+    .ods-page-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

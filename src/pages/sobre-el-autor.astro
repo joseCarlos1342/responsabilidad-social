@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Sobre el autor"
+  description="José Carlos Gómez, estudiante y autor del proyecto académico."
+>
+  <section class="section">
+    <div class="site-shell author-layout">
+      <div>
+        <Breadcrumbs items={[{ label: 'Sobre el autor' }]} /><span class="kicker"
+          >Quién escribe</span
+        ><h1>José Carlos Gómez</h1><p class="lede">
+          Estudiante de la asignatura Práctica en Responsabilidad Social y autor de este proyecto
+          sobre educación financiera.
+        </p>
+      </div><div class="author-note">
+        <span class="eyebrow-data">Proyecto Social de Formación</span><strong
+          >Humanidades Digitales</strong
+        ><span class="eyebrow-data">Territorio</span><strong>Neiva, Huila</strong>
+      </div>
+    </div>
+  </section><section class="section section--tight">
+    <div class="site-shell narrow-page prose">
+      <h2>Desde la experiencia, con límites</h2><p>
+        El autor trabaja como analista financiero y tiene contacto con asesores, compañeros,
+        clientes y una coordinadora con experiencia. Esa cercanía ayuda a reconocer preguntas
+        frecuentes, pero no autoriza a publicar datos de clientes ni a promocionar productos. El
+        blog comparte conocimiento educativo y remite a fuentes confiables cuando una situación
+        requiere orientación profesional.
+      </p>
+    </div>
+  </section></BaseLayout
+>
+
+<style>
+  .author-layout {
+    display: grid;
+    grid-template-columns: 1fr 0.65fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .author-layout h1 {
+    max-width: none;
+    margin: 0.8rem 0 1rem;
+  }
+  .author-note {
+    display: grid;
+    gap: 0.65rem;
+    padding: 2rem;
+    border: 1px solid var(--line);
+    background: var(--mist);
+  }
+  .author-note strong {
+    margin-bottom: 1rem;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.7rem;
+  }
+  .narrow-page {
+    max-width: 920px;
+  }
+  @media (max-width: 760px) {
+    .author-layout {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

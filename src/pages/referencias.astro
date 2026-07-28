@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Referencias"
+  description="Fuentes académicas e institucionales usadas como contexto del proyecto."
+>
+  <section class="section">
+    <div class="site-shell narrow-page">
+      <Breadcrumbs items={[{ label: 'Referencias' }]} /><header class="simple-header">
+        <span class="kicker">Fuentes y límites</span><h1>Leer antes de concluir.</h1><p
+          class="lede"
+        >
+          Las referencias sostienen el contexto. No convierten automáticamente una cifra nacional en
+          un resultado de Neiva.
+        </p>
+      </header><div class="references prose">
+        <ol>
+          <li>
+            Arenas de Mesa, A., &amp; Cecchini, S. (2022). <em
+              >Igualdad y protección social: Claves para un desarrollo inclusivo y sostenible</em
+            >. El Trimestre Económico, 89(353), 277–309.
+          </li><li>
+            Banco Mundial. (2025). <em>The Little Data Book on Financial Inclusion 2025</em>. <a
+              href="https://www.worldbank.org/en/publication/globalfindex"
+              target="_blank"
+              rel="noreferrer">World Bank / Global Findex</a
+            >.
+          </li><li>
+            Jiménez Herrero, L. M. (2018). <em
+              >Desarrollo sostenible: transición hacia la coevolución global</em
+            >. Pirámide.
+          </li><li>
+            Naciones Unidas. (s. f.). <a
+              href="https://sdgs.un.org/goals"
+              target="_blank"
+              rel="noreferrer">Objetivos de Desarrollo Sostenible</a
+            >.
+          </li><li>
+            Pacheco Duarte, J. F., et al. (2022). <em
+              >Ruta de Innovación Social: Paso a paso para desarrollar innovaciones sociales</em
+            >. Corporación Universitaria Minuto de Dios.
+          </li><li>
+            Superintendencia Financiera de Colombia. (2024). <em
+              >Resultados de la encuesta sobre preferencias de los consumidores financieros
+              colombianos para recibir educación financiera</em
+            >.
+          </li><li>
+            Superintendencia Financiera de Colombia. (2025). <a
+              href="https://www.superfinanciera.gov.co/educacionSFC/"
+              target="_blank"
+              rel="noreferrer"><em>Educación financiera para todos</em></a
+            >.
+          </li><li>
+            Superintendencia Financiera de Colombia &amp; Banca de las Oportunidades. (2025). <em
+              >Reporte de Inclusión Financiera 2024</em
+            >.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow-page {
+    max-width: 920px;
+  }
+  .simple-header {
+    padding-block: 3rem 4rem;
+  }
+  .simple-header h1 {
+    max-width: 12ch;
+    margin: 0.8rem 0 1rem;
+  }
+  .references li + li {
+    margin-top: 1rem;
+  }
+</style>

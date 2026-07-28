@@ -1,0 +1,12 @@
+node_modules
+dist
+.astro
+coverage
+playwright-report
+test-results
+.agents/skills
+.codex
+.impeccable
+pnpm-lock.yaml
+*.pdf
+*.docx

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#164B4A"/>
+  <path d="M0 530C230 430 310 580 520 480S850 330 1200 440v190H0Z" fill="#C65D43"/>
+  <path d="M720 0h480v230c-170 60-310 42-480-30Z" fill="#B68A3A" opacity=".9"/>
+  <g fill="#F7F1E7" font-family="Georgia,serif">
+    <text x="90" y="220" font-size="84" font-weight="700">Decisiones</text>
+    <text x="90" y="315" font-size="84" font-weight="700">que sí suman.</text>
+  </g>
+  <g fill="#F7F1E7" font-family="monospace" font-size="24" letter-spacing="3">
+    <text x="94" y="380">EDUCACIÓN FINANCIERA · NEIVA, HUILA</text>
+    <text x="94" y="560">OBSERVAR / ORDENAR / COMPARAR / DECIDIR</text>
+  </g>
+</svg>

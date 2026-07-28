@@ -1,0 +1,38 @@
+---
+interface Props {
+  items: { label: string; href?: string }[];
+}
+const { items } = Astro.props;
+---
+
+<nav aria-label="Migas de pan" class="breadcrumbs">
+  <a href="/">Inicio</a>
+  {
+    items.map((item) => (
+      <>
+        <span aria-hidden="true">/</span>
+        {item.href ? (
+          <a href={item.href}>{item.label}</a>
+        ) : (
+          <span aria-current="page">{item.label}</span>
+        )}
+      </>
+    ))
+  }
+</nav>
+
+<style>
+  .breadcrumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.74rem;
+  }
+  .breadcrumbs a {
+    color: var(--petrol);
+    font-weight: 800;
+  }
+</style>

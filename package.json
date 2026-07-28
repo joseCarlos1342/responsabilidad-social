@@ -1,0 +1,51 @@
+{
+  "name": "decisiones-que-si-suman",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Blog académico sobre educación financiera, responsabilidad social y Humanidades Digitales.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm test:unit",
+    "test:unit": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
+    "test:links": "node scripts/check-links.mjs dist",
+    "validate": "pnpm format:check && pnpm lint && pnpm check && pnpm test:unit && pnpm build && pnpm test:links && pnpm test:e2e",
+    "deploy": "pnpm build && wrangler pages deploy dist --project-name decisiones-que-si-suman --branch main"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "7.0.4",
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/sitemap": "3.7.3",
+    "astro": "7.1.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@axe-core/playwright": "4.12.1",
+    "@playwright/test": "1.62.0",
+    "@typescript-eslint/eslint-plugin": "8.65.0",
+    "@typescript-eslint/parser": "8.65.0",
+    "@vitest/coverage-v8": "4.1.10",
+    "eslint": "10.8.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-astro": "3.0.1",
+    "prettier": "3.9.6",
+    "prettier-plugin-astro": "0.14.1",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10",
+    "wrangler": "4.114.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "workerd"
+    ]
+  }
+}

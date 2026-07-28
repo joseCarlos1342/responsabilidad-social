@@ -1,0 +1,30 @@
+node_modules/
+dist/
+.astro/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.*
+!.env.example
+.wrangler/
+
+# Skills y hooks locales del agente; se documentan, no se publican dentro de la app.
+.agents/
+.codex/
+
+# Material académico original: contiene identificadores y metadatos privados.
+*.pdf
+*.docx
+
+# Impeccable ephemeral output; shared skill/config files remain tracked.
+.impeccable/config.local.json
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
+.impeccable/*.png
+.impeccable/live/server.json
+.impeccable/live/sessions/
+.impeccable/live/previews/
+.impeccable/live/annotations/
+.impeccable/live/cache/
+.impeccable/live/*.png

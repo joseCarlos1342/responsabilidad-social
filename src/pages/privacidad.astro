@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+---
+
+<BaseLayout
+  title="Privacidad y ética"
+  description="Política breve de privacidad, finalidad académica y límites del proyecto."
+>
+  <section class="section">
+    <div class="site-shell narrow-page">
+      <Breadcrumbs items={[{ label: 'Privacidad y ética' }]} /><header class="simple-header">
+        <span class="kicker">Cuidar también es parte del proyecto</span><h1>
+          Privacidad, consentimiento y límites.
+        </h1>
+      </header><div class="prose">
+        <h2>Finalidad académica</h2><p>
+          Este sitio documenta la asignatura Práctica en Responsabilidad Social y el Proyecto Social
+          de Formación Humanidades Digitales. El contenido es educativo y no constituye asesoría
+          financiera personalizada.
+        </p><h2>Qué no publicamos</h2><ul>
+          <li>Número completo de identificación o ID universitario.</li><li>
+            Datos de clientes, empresa, créditos reales, teléfonos, correos privados o firmas.
+          </li><li>Respuestas individuales, fotografías o testimonios sin autorización.</li><li>
+            Documentos originales con metadatos o comentarios internos no revisados.
+          </li>
+        </ul><h2>Diagnóstico</h2><p>
+          La participación es voluntaria. No se solicitan nombres, saldos, claves, cuentas ni datos
+          que permitan identificar obligaciones. Los resultados, cuando existan, se presentarán
+          agrupados y con sus limitaciones.
+        </p><h2>Comentarios y servicios de terceros</h2><p>
+          Si se activa Giscus, la conversación se alojará en GitHub Discussions y la aplicación
+          podrá cargar contenido externo de Giscus. Participar requiere una sesión de GitHub y queda
+          sujeto a las políticas y cookies de esos servicios. El sitio no recibe ni almacena
+          contraseñas, tokens ni datos financieros.
+        </p><h2>Entrevista</h2><p>
+          La entrevista solo se grabará, editará y publicará después de explicar su finalidad y
+          obtener consentimiento. El nombre y perfil de la experta permanecen pendientes hasta
+          contar con autorización.
+        </p><h2>Fuentes y correcciones</h2><p>
+          Las publicaciones distinguen experiencia del estudiante, requisitos de las guías, fuentes
+          externas y actividades. Si detectas un error factual, puedes reportarlo mediante GitHub
+          Issues del repositorio.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .narrow-page {
+    max-width: 920px;
+  }
+  .simple-header {
+    padding-block: 3rem 4rem;
+  }
+  .simple-header h1 {
+    max-width: 12ch;
+    margin: 0.8rem 0 0;
+  }
+</style>

@@ -1,0 +1,282 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Comments from '../../components/Comments.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import { estimateReadingTime, getOds } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const activities = await getCollection('activity', ({ data }) => !data.draft);
+  return activities.map((activity) => ({ params: { slug: activity.id }, props: { activity } }));
+}
+
+const { activity } = Astro.props;
+const { Content, headings } = await render(activity);
+const readingTime = estimateReadingTime(activity.body ?? '');
+const tocHeadings = headings.filter((heading) => heading.depth <= 2);
+---
+
+<BaseLayout
+  title={activity.data.title}
+  description={activity.data.description}
+  type="article"
+  publishedDate={activity.data.date}
+  updatedDate={activity.data.updatedDate}
+>
+  <article class="article-page section">
+    <div class="site-shell">
+      <Breadcrumbs
+        items={[
+          { label: 'Actividades', href: '/actividades/' },
+          { label: `Actividad ${activity.data.activityNumber}` },
+        ]}
+      />
+      <header class="article-header">
+        <div class="article-header__meta">
+          <span>Actividad {activity.data.activityNumber}</span><span>{activity.data.week}</span
+          ><StatusBadge status={activity.data.status} />
+        </div>
+        <h1>{activity.data.title}</h1>
+        <p class="lede">{activity.data.description}</p>
+        <div class="article-facts">
+          <span
+            >Publicado: <time datetime={activity.data.date.toISOString()}
+              >{activity.data.date.toLocaleDateString('es-CO')}</time
+            ></span
+          >{
+            activity.data.updatedDate && (
+              <span>
+                Actualizado:{' '}
+                <time datetime={activity.data.updatedDate.toISOString()}>
+                  {activity.data.updatedDate.toLocaleDateString('es-CO')}
+                </time>
+              </span>
+            )
+          }<span>{readingTime} min de lectura</span>
+        </div>
+      </header>
+      <div class="article-layout">
+        <aside class="toc" aria-label="Tabla de contenido">
+          <p class="eyebrow-data">En esta entrada</p>
+          <ol>
+            {
+              tocHeadings.map((heading) => (
+                <li>
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))
+            }
+          </ol>
+        </aside>
+        <div class="article-main">
+          <div class="prose"><Content /></div>
+          <section class="article-evidence" aria-labelledby="evidence-title">
+            <div class="section-heading">
+              <span class="kicker">Trazabilidad</span><h2 id="evidence-title">
+                Estado de la evidencia
+              </h2><p>
+                La publicación solo muestra enlaces disponibles o estados pendientes, nunca
+                resultados inventados.
+              </p>
+            </div>
+            <div class="evidence-list">
+              {
+                activity.data.evidence.map((evidence) => (
+                  <div class="evidence-row">
+                    <span>{evidence.label}</span>
+                    <strong class:list={{ pending: evidence.status === 'pendiente' }}>
+                      {evidence.status === 'pendiente'
+                        ? 'Evidencia pendiente de incorporación'
+                        : evidence.status}
+                    </strong>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+          <section class="ods-section" aria-labelledby="ods-title">
+            <div class="section-heading">
+              <span class="kicker">Contribución argumentada</span><h2 id="ods-title">
+                ODS relacionados
+              </h2><p>
+                La relación se explica dentro de la actividad: acción concreta, alcance posible y
+                limitaciones.
+              </p>
+            </div>
+            <div class="ods-list">
+              {
+                activity.data.ods.map((number) => {
+                  const ods = getOds(number);
+                  return (
+                    ods && (
+                      <div class="ods-item" style={`--ods-color: ${ods.color}`}>
+                        <strong>ODS {ods.number}</strong>
+                        <span>{ods.name}</span>
+                      </div>
+                    )
+                  );
+                })
+              }
+            </div>
+          </section>
+          {
+            activity.data.references.length > 0 && (
+              <section class="article-references" aria-labelledby="refs-title">
+                <h2 id="refs-title">Referencias de esta entrada</h2>
+                <ul>
+                  {activity.data.references.map((reference) => (
+                    <li>
+                      {reference.href ? (
+                        <a href={reference.href} target="_blank" rel="noreferrer">
+                          {reference.label}
+                        </a>
+                      ) : (
+                        reference.label
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+          <Comments pathname={`/actividades/${activity.id}/`} enabled={true} />
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .article-header {
+    max-width: 75ch;
+    padding-block: 3rem 4rem;
+  }
+  .article-header__meta,
+  .article-facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    align-items: center;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.75rem;
+  }
+  .article-header__meta > span:not(.status)::after {
+    margin-left: 1rem;
+    color: var(--line);
+    content: '·';
+  }
+  .article-header h1 {
+    max-width: 15ch;
+    margin: 1rem 0;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+  }
+  .article-header .lede {
+    margin-bottom: 1.25rem;
+  }
+  .article-layout {
+    display: grid;
+    grid-template-columns: 13rem minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .toc {
+    position: sticky;
+    top: 1.5rem;
+    padding-top: 0.5rem;
+    border-top: 2px solid var(--terracotta);
+  }
+  .toc ol {
+    display: grid;
+    gap: 0.6rem;
+    padding-left: 1.1rem;
+    margin: 0.8rem 0 0;
+    font-size: 0.82rem;
+  }
+  .toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .article-main {
+    min-width: 0;
+  }
+  .article-evidence,
+  .ods-section,
+  .article-references {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .article-evidence h2,
+  .ods-section h2,
+  .article-references h2 {
+    margin: 0.5rem 0;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+  }
+  .evidence-list {
+    border-top: 1px solid var(--line);
+  }
+  .evidence-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .evidence-row strong {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.72rem;
+    text-align: right;
+  }
+  .evidence-row strong.pending {
+    color: var(--terracotta);
+  }
+  .ods-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+  }
+  .ods-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 0.8rem;
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--ods-color);
+    background: var(--paper-deep);
+  }
+  .ods-item strong {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.76rem;
+  }
+  .article-references ul {
+    padding-left: 1.2rem;
+  }
+  @media (max-width: 800px) {
+    .article-layout {
+      grid-template-columns: 1fr;
+    }
+    .toc {
+      position: static;
+    }
+    .toc ol {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (max-width: 520px) {
+    .ods-list {
+      grid-template-columns: 1fr;
+    }
+    .evidence-row {
+      display: grid;
+    }
+    .evidence-row strong {
+      text-align: left;
+    }
+  }
+</style>
