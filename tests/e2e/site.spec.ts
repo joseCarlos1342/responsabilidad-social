@@ -21,7 +21,6 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: /¿Cómo manejamos nuestro dinero?/i }),
   ).toBeVisible();
-  await expect(page.getByText('Comentarios pendientes de configuración.')).toBeVisible();
 
   await page.goto('/plan-humanidades-digitales/');
   await expect(page.getByRole('heading', { name: 'Plan de Humanidades Digitales' })).toBeVisible();
@@ -55,12 +54,12 @@ test('la navegación por teclado llega a contenido y controles', async ({ page }
   await expect(page.locator('#contenido')).toBeFocused();
 });
 
-test('muestra una 404 real y no Giscus en páginas generales', async ({ page }) => {
+test('muestra una 404 real y una página informativa de participación', async ({ page }) => {
   const response = await page.goto('/ruta-inexistente/');
   expect(response?.status()).toBe(404);
   await expect(page.getByRole('heading', { name: /Esta página tomó otra ruta/i })).toBeVisible();
-  await page.goto('/referencias/');
-  await expect(page.locator('.giscus-shell')).toHaveCount(0);
+  await page.goto('/comentarios/');
+  await expect(page.getByRole('heading', { name: /No hay comentarios integrados/i })).toBeVisible();
 });
 
 test('publica metadatos, RSS y sitemap', async ({ page, request }) => {

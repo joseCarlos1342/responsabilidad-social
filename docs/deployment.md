@@ -34,4 +34,4 @@ La URL definitiva y los resultados se registrarán al final de esta implementaci
 
 ## Bloqueos
 
-El despliegue requiere que `wrangler whoami` confirme una cuenta autenticada. Giscus requiere además habilitar Discussions y autorizar manualmente la aplicación si GitHub lo solicita.
+El despliegue requiere que `wrangler whoami` confirme una cuenta autenticada.

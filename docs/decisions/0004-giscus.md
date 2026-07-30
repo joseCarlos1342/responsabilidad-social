@@ -1,13 +1,13 @@
-# ADR 0004: Giscus para comentarios
+# ADR 0004: No habilitar comentarios en la entrega temporal
 
 ## Estado
 
-Aceptada, pendiente de activación
+Rechazada como implementación; decisión vigente: no habilitar comentarios
 
 ## Decisión
 
-Usar Giscus asociado por `pathname` y moderado desde GitHub Discussions.
+No incorporar Giscus, GitHub Discussions ni cuentas de usuario para comentarios.
 
 ## Por qué
 
-Conserva el sitio estático, evita una base de datos y deja la moderación en un espacio conocido. La activación necesita autorización manual de la aplicación.
+Aunque Giscus es gratuito y técnicamente adecuado, obliga a autenticarse con GitHub, carga un servicio externo y requiere moderación. Para un trabajo académico temporal, el coste operativo supera el beneficio. La decisión podrá reevaluarse si el sitio se vuelve permanente.

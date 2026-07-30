@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data: https://*.giscus.app; style-src 'self' 'unsafe-inline' https://giscus.app; script-src 'self' 'unsafe-inline' https://giscus.app; frame-src https://giscus.app; connect-src 'self' https://giscus.app; form-action 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; frame-src 'none'; connect-src 'self'; form-action 'self'; upgrade-insecure-requests
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
   X-Content-Type-Options: nosniff

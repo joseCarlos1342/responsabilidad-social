@@ -26,7 +26,7 @@ El estudiante trabaja como analista financiero y puede aprender de asesores, com
 
 - Sitio estático generado con Astro y desplegado en Cloudflare Pages.
 - Colecciones tipadas para actividades, plan y recursos.
-- Comentarios opcionales con Giscus y GitHub Discussions.
+- No se habilitan cuentas de usuario ni comentarios en esta versión temporal.
 - No CMS, base de datos, autenticación, analítica ni formulario propio de publicación.
 - No se inventan participantes, resultados, fotos, testimonios ni evidencias.
 - No se publican identificaciones completas, datos de clientes, empresa, créditos reales ni información sensible.

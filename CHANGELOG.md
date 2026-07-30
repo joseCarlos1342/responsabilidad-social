@@ -9,7 +9,7 @@ Todos los cambios relevantes se registran aquí.
 - Base Astro 7 estática con TypeScript estricto.
 - Colecciones tipadas de actividades, plan y recursos.
 - Actividad 2, actividad 4 y plan de Humanidades Digitales.
-- Portada, actividades filtrables, ODS, territorio, referencias, privacidad, comentarios y 404.
+- Portada, actividades filtrables, ODS, territorio, referencias, privacidad, participación y 404.
 - SEO, sitemap, RSS, robots.txt y headers de seguridad para Cloudflare Pages.
 - Vitest, Playwright, axe, comprobador de enlaces y GitHub Actions.
 - Sistema visual documentado en `DESIGN.md`.
@@ -17,4 +17,4 @@ Todos los cambios relevantes se registran aquí.
 ### Pending
 
 - Resultados y evidencias reales del diagnóstico.
-- Entrevista, webinar y autorización de Giscus.
+- Entrevista y webinar.

@@ -61,7 +61,7 @@ Abre `http://localhost:4321/`.
 
 ## Comentarios
 
-Giscus está preparado pero permanece pendiente de configuración porque requiere Discussions, una categoría específica y autorización de la aplicación. Consulta [`docs/comments.md`](docs/comments.md).
+No se habilitan comentarios ni cuentas de usuario en esta versión temporal. La decisión está documentada en [`docs/comments.md`](docs/comments.md).
 
 ## Despliegue
 

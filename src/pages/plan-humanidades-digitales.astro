@@ -2,7 +2,6 @@
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import Comments from '../components/Comments.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 
 const plan = await getEntry('plan', 'plan-humanidades-digitales');
@@ -43,7 +42,6 @@ const { Content } = await render(plan);
           >
         </aside><div class="prose"><Content /></div>
       </div>
-      <Comments pathname="/plan-humanidades-digitales/" enabled={true} />
     </div>
   </article>
 </BaseLayout>
