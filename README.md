@@ -80,6 +80,7 @@ src/
 tests/                Unitarias, E2E y accesibilidad
 docs/                 Arquitectura, contenido, pruebas y ADRs
 public/               SVG, headers y recursos estáticos
+docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 ```
 
 ## Estado actual de la materia

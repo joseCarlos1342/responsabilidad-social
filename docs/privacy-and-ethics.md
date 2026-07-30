@@ -1,6 +1,6 @@
 # Privacidad y ética
 
-- Los PDF y DOCX originales no se versionan porque contienen ID universitario, autoría y metadatos.
+- Los PDF fuente están organizados en `docs/fuentes-academicas/` y permanecen ignorados por Git porque contienen ID universitario, autoría y metadatos.
 - El sitio solo muestra `José Carlos Gómez`, no el nombre completo salvo que el contexto académico lo requiera.
 - No se almacenan respuestas individuales ni datos de clientes.
 - El diagnóstico debe ser voluntario, anónimo y limitado a hábitos/conocimientos.
