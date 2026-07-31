@@ -24,6 +24,7 @@ gallery: []
 evidence:
   - label: 'Instrumento diagnóstico de ocho preguntas'
     status: disponible
+    href: '/actividades/actividad-4-del-diagnostico-a-la-accion/#instrumento-diagnostico'
   - label: 'Resultados consolidados y anonimizados'
     status: pendiente
   - label: 'Captura o enlace del formulario aplicado'
@@ -39,9 +40,10 @@ references:
   - label: 'Naciones Unidas, Objetivos de Desarrollo Sostenible'
   - label: 'Superintendencia Financiera de Colombia (2024), preferencias de educación financiera'
   - label: 'Superintendencia Financiera de Colombia y Banca de las Oportunidades (2025), Reporte de Inclusión Financiera 2024'
+documentSlug: actividad-4-publica
 ---
 
-> **Estado real:** durante la semana 4 el instrumento quedó preparado y comenzó su aplicación. No se presentan porcentajes, conclusiones ni testimonios hasta cerrar y revisar las respuestas.
+> **Estado real:** durante la semana 4 el instrumento quedó preparado para su aplicación. No se presentan porcentajes, conclusiones ni testimonios porque todavía no hay respuestas consolidadas ni evidencia verificable de distribución.
 
 ## Introducción: desarrollo integral sostenible
 
@@ -58,6 +60,8 @@ Identificar hábitos, dudas y necesidades sobre presupuesto, registro de gastos,
 ### Comunidad y forma de aplicación
 
 El diagnóstico está dirigido a asesores de crédito, compañeros de oficina, familiares, conocidos y otras personas adultas del entorno cercano en Neiva. Será breve, voluntario y anónimo, compartido por celular o aplicado presencialmente. No se solicitan nombres, ingresos exactos, números de cuenta, claves, documentos ni datos que permitan identificar obligaciones.
+
+<span id="instrumento-diagnostico"></span>
 
 ### Ocho preguntas diagnósticas
 

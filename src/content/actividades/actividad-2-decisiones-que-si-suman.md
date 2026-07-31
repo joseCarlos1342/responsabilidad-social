@@ -24,7 +24,8 @@ evidence:
   - label: 'Documento de contexto y problemática'
     status: disponible
   - label: 'Evidencia de publicación del blog'
-    status: pendiente
+    status: disponible
+    href: '/actividades/actividad-2-decisiones-que-si-suman/'
 draft: false
 featured: true
 order: 1
@@ -33,6 +34,7 @@ references:
   - label: 'Reyna Cruz, Carreón Corona y Armijo Mena (2019), interrelación disciplinar'
   - label: 'Superintendencia Financiera de Colombia (2024), encuesta de educación financiera'
   - label: 'Superintendencia Financiera de Colombia y Banca de las Oportunidades (2025), Reporte de Inclusión Financiera 2024'
+documentSlug: actividad-2-publica
 ---
 
 > **Entrada de actividad 2.** Esta publicación distingue entre lo que nace de la observación y experiencia del estudiante, lo que proviene de fuentes externas y lo que todavía debe comprobarse con un diagnóstico local.

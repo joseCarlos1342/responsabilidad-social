@@ -16,6 +16,9 @@ test-results/
 # Material académico original: contiene identificadores y metadatos privados.
 *.pdf
 *.docx
+!public/documents/
+!public/documents/**/*-publico.pdf
+!public/documents/**/*-publica.pdf
 
 # Impeccable ephemeral output; shared skill/config files remain tracked.
 .impeccable/config.local.json
