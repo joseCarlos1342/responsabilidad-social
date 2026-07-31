@@ -1,0 +1,345 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  pageCount: number;
+}
+
+const { src, title, pageCount } = Astro.props;
+---
+
+<section
+  class="pdf-viewer"
+  data-pdf-viewer
+  data-src={src}
+  data-page-count={pageCount}
+  aria-labelledby="pdf-viewer-title"
+>
+  <div class="pdf-viewer__head">
+    <div>
+      <span class="kicker">Lectura documental</span>
+      <h3 id="pdf-viewer-title">{title}</h3>
+    </div>
+    <a class="text-link" href={src} target="_blank" rel="noreferrer">Abrir PDF en otra pestaña ↗</a>
+  </div>
+  <div class="pdf-toolbar" role="toolbar" aria-label="Controles del documento">
+    <button type="button" data-action="previous" aria-label="Página anterior" disabled>←</button>
+    <label for="pdf-page">Página</label>
+    <input
+      id="pdf-page"
+      data-page-input
+      type="number"
+      min="1"
+      max={pageCount}
+      value="1"
+      inputmode="numeric"
+    />
+    <span aria-hidden="true">/</span><span data-total-pages>{pageCount}</span>
+    <button type="button" data-action="next" aria-label="Página siguiente" disabled>→</button>
+    <span class="pdf-toolbar__spacer" aria-hidden="true"></span>
+    <button type="button" data-action="zoom-out" aria-label="Alejar" disabled>−</button>
+    <span data-zoom aria-live="polite">100%</span>
+    <button type="button" data-action="zoom-in" aria-label="Acercar" disabled>+</button>
+    <button type="button" data-action="fit" disabled>Ajustar al ancho</button>
+    <button type="button" data-action="reset" disabled>Restablecer</button>
+    <a class="button button--small" href={src} download>Descargar</a>
+  </div>
+  <p class="pdf-status" data-status aria-live="polite">
+    El lector se cargará al abrir esta pestaña.
+  </p>
+  <div class="pdf-canvas-wrap" data-canvas-wrap>
+    <button class="pdf-load" type="button" data-load>Activar lector PDF</button>
+    <canvas data-canvas aria-label={`Página 1 de ${pageCount} de ${title}`}></canvas>
+  </div>
+  <p class="pdf-fallback">
+    Si el lector no carga, <a href={src} download>descarga la versión pública en PDF</a> o <a
+      href={src}
+      target="_blank"
+      rel="noreferrer">ábrela en otra pestaña</a
+    >.
+  </p>
+</section>
+
+<style>
+  .pdf-viewer {
+    margin-top: 2rem;
+  }
+  .pdf-viewer__head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.5rem;
+    align-items: end;
+    margin-bottom: 1rem;
+  }
+  .pdf-viewer__head h3 {
+    margin: 0.5rem 0 0;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+  }
+  .pdf-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+  .pdf-toolbar button,
+  .pdf-toolbar input {
+    min-height: 40px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .pdf-toolbar button {
+    padding: 0.45rem 0.7rem;
+    cursor: pointer;
+    font-weight: 750;
+  }
+  .pdf-toolbar button:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+  .pdf-toolbar input {
+    width: 4rem;
+    padding: 0.35rem;
+    text-align: center;
+  }
+  .pdf-toolbar label,
+  .pdf-toolbar span {
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.8rem;
+  }
+  .pdf-toolbar__spacer {
+    flex: 1 1 1rem;
+  }
+  .pdf-canvas-wrap {
+    position: relative;
+    display: grid;
+    min-height: 22rem;
+    place-items: center;
+    margin-top: 1rem;
+    padding: 1rem;
+    overflow: auto;
+    border: 1px solid var(--line);
+    background: #d8d2c7;
+  }
+  .pdf-canvas-wrap canvas {
+    display: none;
+    max-width: 100%;
+    height: auto;
+    background: white;
+    box-shadow: 0 8px 24px rgb(31 41 40 / 18%);
+  }
+  .pdf-canvas-wrap[data-ready='true'] canvas {
+    display: block;
+  }
+  .pdf-load {
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    border: 1px solid var(--petrol);
+    background: var(--petrol);
+    color: var(--paper);
+    cursor: pointer;
+    font-weight: 800;
+  }
+  .pdf-canvas-wrap[data-ready='true'] .pdf-load {
+    display: none;
+  }
+  .pdf-status {
+    min-height: 1.5rem;
+    margin: 0.8rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .pdf-fallback {
+    margin-top: 0.8rem;
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+  @media (max-width: 650px) {
+    .pdf-viewer__head {
+      display: grid;
+      align-items: start;
+    }
+    .pdf-toolbar__spacer {
+      display: none;
+    }
+    .pdf-canvas-wrap {
+      min-height: 16rem;
+      padding: 0.5rem;
+    }
+  }
+</style>
+
+<script>
+  import type { PDFDocumentProxy, PDFPageProxy, RenderTask } from 'pdfjs-dist';
+  import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?worker&url';
+
+  const viewer = document.querySelector<HTMLElement>('[data-pdf-viewer]');
+  if (viewer) {
+    const src = viewer.dataset.src;
+    const pageCount = Number(viewer.dataset.pageCount);
+    const canvas = viewer.querySelector<HTMLCanvasElement>('[data-canvas]');
+    const canvasWrap = viewer.querySelector<HTMLElement>('[data-canvas-wrap]');
+    const status = viewer.querySelector<HTMLElement>('[data-status]');
+    const pageInput = viewer.querySelector<HTMLInputElement>('[data-page-input]');
+    const zoomLabel = viewer.querySelector<HTMLElement>('[data-zoom]');
+    const loadButton = viewer.querySelector<HTMLButtonElement>('[data-load]');
+    const previousButton = viewer.querySelector<HTMLButtonElement>('[data-action="previous"]');
+    const nextButton = viewer.querySelector<HTMLButtonElement>('[data-action="next"]');
+    const controls = [...viewer.querySelectorAll<HTMLButtonElement>('button[data-action]')];
+    let pdf: PDFDocumentProxy | undefined;
+    let currentPage: PDFPageProxy | undefined;
+    let renderTask: RenderTask | undefined;
+    let pageNumber = 1;
+    let zoom = 1;
+    let fitWidth = false;
+    let loading: Promise<void> | undefined;
+
+    const setStatus = (message: string) => {
+      if (status) status.textContent = message;
+    };
+    const setControls = (enabled: boolean) =>
+      controls.forEach((control) => {
+        control.disabled = !enabled;
+      });
+    const updatePageControls = () => {
+      if (pageInput) pageInput.value = String(pageNumber);
+      if (previousButton) previousButton.disabled = !pdf || pageNumber <= 1;
+      if (nextButton) nextButton.disabled = !pdf || pageNumber >= (pdf?.numPages ?? pageCount);
+      if (canvas)
+        canvas.setAttribute('aria-label', `Página ${pageNumber} de ${pdf?.numPages ?? pageCount}`);
+    };
+    const updateZoom = () => {
+      if (zoomLabel) zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+    };
+
+    const renderPage = async () => {
+      if (!pdf || !canvas || !canvasWrap) return;
+      renderTask?.cancel();
+      currentPage?.cleanup();
+      currentPage = undefined;
+      const page = await pdf.getPage(pageNumber);
+      currentPage = page;
+      const baseViewport = page.getViewport({ scale: 1 });
+      const width = Math.max(240, canvasWrap.clientWidth - 32);
+      const scale = fitWidth ? Math.min(width / baseViewport.width, 2.5) : zoom;
+      const viewport = page.getViewport({ scale });
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.floor(viewport.width * dpr);
+      canvas.height = Math.floor(viewport.height * dpr);
+      canvas.style.width = `${viewport.width}px`;
+      canvas.style.height = `${viewport.height}px`;
+      const context = canvas.getContext('2d');
+      if (!context) throw new Error('No se pudo preparar el canvas del lector.');
+      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      renderTask = page.render({ canvas, canvasContext: context, viewport });
+      try {
+        await renderTask.promise;
+        setStatus(`Página ${pageNumber} de ${pdf.numPages} cargada.`);
+      } catch (error) {
+        if ((error as Error).name !== 'RenderingCancelledException') throw error;
+      } finally {
+        page.cleanup();
+        if (currentPage === page) currentPage = undefined;
+        renderTask = undefined;
+      }
+      updatePageControls();
+    };
+
+    const load = async () => {
+      if (!src || !canvas || loading) return loading;
+      loading = (async () => {
+        setStatus('Cargando lector PDF…');
+        loadButton?.setAttribute('aria-busy', 'true');
+        try {
+          const pdfjs = await import('pdfjs-dist');
+          pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
+          pdf = await pdfjs.getDocument({ url: src }).promise;
+          canvasWrap?.setAttribute('data-ready', 'true');
+          setControls(true);
+          await renderPage();
+        } catch {
+          setStatus(
+            'No se pudo cargar el PDF. Usa el enlace convencional para abrirlo o descargarlo.',
+          );
+          loadButton?.focus();
+        } finally {
+          loadButton?.removeAttribute('aria-busy');
+          loading = undefined;
+        }
+      })();
+      return loading;
+    };
+
+    const changePage = (nextPage: number) => {
+      pageNumber = Math.max(1, Math.min(nextPage, pdf?.numPages ?? pageCount));
+      void renderPage().catch(() =>
+        setStatus('No se pudo renderizar esta página. Intenta restablecer el zoom.'),
+      );
+    };
+    const changeZoom = (amount: number) => {
+      fitWidth = false;
+      zoom = Math.max(0.5, Math.min(2.5, zoom + amount));
+      updateZoom();
+      void renderPage();
+    };
+
+    const onModeChange = (event: Event) => {
+      if ((event as CustomEvent<string>).detail === 'pdf') void load();
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!pdf || (!viewer.matches(':hover') && !viewer.contains(document.activeElement))) return;
+      if (event.key === 'ArrowLeft') changePage(pageNumber - 1);
+      if (event.key === 'ArrowRight') changePage(pageNumber + 1);
+      if (event.key === '+') changeZoom(0.1);
+      if (event.key === '-') changeZoom(-0.1);
+      if (event.key === '0') {
+        fitWidth = false;
+        zoom = 1;
+        updateZoom();
+        void renderPage();
+      }
+    };
+    const cleanup = () => {
+      renderTask?.cancel();
+      currentPage?.cleanup();
+      currentPage = undefined;
+      pdf?.cleanup();
+      pdf = undefined;
+      if (canvas) {
+        canvas.width = 0;
+        canvas.height = 0;
+      }
+      document.removeEventListener('document-mode-change', onModeChange);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+
+    loadButton?.addEventListener('click', () => void load());
+    document.addEventListener('document-mode-change', onModeChange);
+    previousButton?.addEventListener('click', () => changePage(pageNumber - 1));
+    nextButton?.addEventListener('click', () => changePage(pageNumber + 1));
+    pageInput?.addEventListener('change', () => changePage(Number(pageInput.value) || 1));
+    viewer
+      .querySelector('[data-action="zoom-out"]')
+      ?.addEventListener('click', () => changeZoom(-0.1));
+    viewer
+      .querySelector('[data-action="zoom-in"]')
+      ?.addEventListener('click', () => changeZoom(0.1));
+    viewer.querySelector('[data-action="fit"]')?.addEventListener('click', () => {
+      fitWidth = true;
+      void renderPage();
+    });
+    viewer.querySelector('[data-action="reset"]')?.addEventListener('click', () => {
+      fitWidth = false;
+      zoom = 1;
+      updateZoom();
+      void renderPage();
+    });
+    document.addEventListener('keydown', onKeyDown);
+    window.addEventListener('pagehide', cleanup, { once: true });
+    updatePageControls();
+    updateZoom();
+  }
+</script>

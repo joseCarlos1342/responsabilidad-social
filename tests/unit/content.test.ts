@@ -8,6 +8,13 @@ import {
   sortActivities,
   type ActivityEntry,
 } from '../../src/lib/content';
+import {
+  getDocumentRoute,
+  sortDocuments,
+  validateDocumentEntry,
+  type DocumentEntry,
+} from '../../src/lib/documents';
+import { projectTimeline } from '../../src/lib/project';
 
 const activity = (
   id: string,
@@ -74,5 +81,81 @@ describe('content utilities', () => {
 
   it('genera slugs legibles sin tildes', () => {
     expect(slugify('Decisiones que sí suman')).toBe('decisiones-que-si-suman');
+  });
+
+  it('ordena documentos por fecha de publicación', () => {
+    const documentEntry = (id: string, publishedAt: string): DocumentEntry => ({
+      id,
+      body: '',
+      collection: 'document',
+      data: {
+        title: id,
+        description: '',
+        slug: id,
+        documentType: 'actividad',
+        activityNumber: 2,
+        week: 'Semana 2',
+        status: 'ejecutado',
+        publishedAt: new Date(publishedAt),
+        updatedAt: new Date(publishedAt),
+        originalFile: 'docs/fuentes-academicas/source.pdf',
+        webRoute: '/actividades/actividad-2-decisiones-que-si-suman/',
+        pageCount: 1,
+        version: '1.0 pública',
+        ods: [4],
+        tags: [],
+        downloadable: true,
+        publicVersion: `/documents/${id}-publica.pdf`,
+        privacyReviewed: true,
+        evidenceStatus: 'disponible',
+      },
+    });
+    const entries = [documentEntry('later', '2026-07-27'), documentEntry('first', '2026-07-07')];
+    expect(sortDocuments(entries).map((entry) => entry.id)).toEqual(['first', 'later']);
+    expect(getDocumentRoute(entries[0])).toBe('/documentos/later/');
+  });
+
+  it('valida que un PDF público exista y tenga privacidad revisada', () => {
+    const documentEntry = {
+      id: 'actividad-2-publica',
+      body: '',
+      collection: 'document' as const,
+      data: {
+        title: 'Actividad 2',
+        description: '',
+        slug: 'actividad-2-publica',
+        documentType: 'actividad' as const,
+        activityNumber: 2,
+        week: 'Semana 2',
+        status: 'ejecutado' as const,
+        publishedAt: new Date('2026-07-07'),
+        updatedAt: new Date('2026-07-30'),
+        originalFile: 'docs/fuentes-academicas/source.pdf',
+        webRoute: '/actividades/actividad-2-decisiones-que-si-suman/',
+        pageCount: 4,
+        version: '1.0 pública',
+        ods: [4],
+        tags: [],
+        downloadable: true,
+        publicVersion: '/documents/actividad-2-publica.pdf',
+        privacyReviewed: true as const,
+        evidenceStatus: 'disponible' as const,
+      },
+    } as DocumentEntry;
+    expect(validateDocumentEntry(documentEntry)).toEqual([]);
+    expect(validateDocumentEntry(documentEntry, '/tmp/documentos-inexistentes')).toContain(
+      'PDF público inexistente: /documents/actividad-2-publica.pdf',
+    );
+  });
+
+  it('mantiene la cronología canónica de semanas 2 a 7', () => {
+    expect(projectTimeline.map((item) => item.week)).toEqual([
+      'Semana 2',
+      'Semana 3',
+      'Semana 4',
+      'Semana 5',
+      'Semana 6',
+      'Semana 7',
+    ]);
   });
 });

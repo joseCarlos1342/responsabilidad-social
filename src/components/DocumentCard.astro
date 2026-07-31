@@ -1,0 +1,136 @@
+---
+import type { DocumentEntry } from '../lib/documents';
+import { getDocumentRoute } from '../lib/documents';
+import StatusBadge from './StatusBadge.astro';
+
+interface Props {
+  document: DocumentEntry;
+}
+
+const { document } = Astro.props;
+const { data } = document;
+const documentTypeLabel = {
+  actividad: 'Actividad',
+  plan: 'Plan',
+  guía: 'Guía',
+}[data.documentType];
+---
+
+<article class="document-card">
+  <div class="document-card__marker" aria-hidden="true">
+    {data.activityNumber ? `0${data.activityNumber}` : 'HD'}
+  </div>
+  <div class="document-card__body">
+    <div class="document-card__topline">
+      <span class="eyebrow-data">{documentTypeLabel} · {data.week}</span>
+      <StatusBadge status={data.status} />
+    </div>
+    <h2><a href={getDocumentRoute(document)}>{data.title}</a></h2>
+    <p>{data.description}</p>
+    <dl class="document-card__facts">
+      <div>
+        <dt>Fecha</dt><dd>{data.publishedAt.toLocaleDateString('es-CO', { timeZone: 'UTC' })}</dd>
+      </div>
+      <div>
+        <dt>Actualizado</dt><dd>
+          {data.updatedAt.toLocaleDateString('es-CO', { timeZone: 'UTC' })}
+        </dd>
+      </div>
+      <div><dt>Páginas</dt><dd>{data.pageCount}</dd></div>
+      <div><dt>Versión</dt><dd>{data.version}</dd></div>
+      <div><dt>ODS</dt><dd>{data.ods.map((number) => `ODS ${number}`).join(' · ')}</dd></div>
+    </dl>
+    <div class="document-card__actions">
+      <a class="button button--small" href={data.webRoute}>Leer versión web</a>
+      <a class="text-link" href={data.publicVersion} target="_blank" rel="noreferrer"
+        >Ver documento original ↗</a
+      >
+      <a class="text-link" href={data.publicVersion} download>Descargar versión pública</a>
+      <a class="text-link" href={getDocumentRoute(document)}>Ficha documental →</a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .document-card {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    border: 1px solid var(--line);
+    background: var(--white);
+    box-shadow: 0 5px 0 var(--line);
+  }
+  .document-card__marker {
+    display: grid;
+    min-height: 100%;
+    place-items: center;
+    border-right: 1px solid var(--line);
+    background: var(--mist);
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 1.35rem;
+    font-weight: 800;
+  }
+  .document-card__body {
+    min-width: 0;
+    padding: clamp(1.2rem, 3vw, 2rem);
+  }
+  .document-card__topline,
+  .document-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .document-card h2 {
+    margin: 0.8rem 0 0.6rem;
+    font-size: clamp(1.7rem, 3vw, 2.7rem);
+  }
+  .document-card h2 a {
+    text-decoration: none;
+  }
+  .document-card p {
+    max-width: 65ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .document-card__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin: 1.4rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .document-card__facts div {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .document-card__facts dt {
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+  }
+  .document-card__facts dd {
+    margin: 0;
+    font-weight: 750;
+  }
+  .text-link {
+    color: var(--petrol);
+    font-weight: 800;
+    text-decoration: none;
+  }
+  @media (max-width: 520px) {
+    .document-card {
+      grid-template-columns: 1fr;
+    }
+    .document-card__marker {
+      min-height: 3.5rem;
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      place-items: start;
+      padding: 0.8rem 1rem;
+    }
+  }
+</style>

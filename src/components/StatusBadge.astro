@@ -1,9 +1,9 @@
 ---
 import { statusLabels } from '../lib/content';
-import type { ActivityEntry } from '../lib/content';
+import type { ContentStatus } from '../lib/content';
 
 interface Props {
-  status: ActivityEntry['data']['status'];
+  status: ContentStatus;
   onAccent?: boolean;
 }
 const { status, onAccent = false } = Astro.props;

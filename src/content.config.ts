@@ -5,13 +5,20 @@ import { z } from 'astro/zod';
 const evidenceSchema = z.object({
   label: z.string(),
   status: z.enum(['pendiente', 'disponible', 'autorizada']),
-  href: z.url().optional(),
+  href: z
+    .string()
+    .refine((value) => value.startsWith('/') || /^https?:\/\//u.test(value), {
+      message: 'La evidencia debe usar una ruta interna o una URL HTTP(S).',
+    })
+    .optional(),
 });
 
 const referenceSchema = z.object({
   label: z.string(),
   href: z.url().optional(),
 });
+
+const documentStatus = z.enum(['planeado', 'en-desarrollo', 'ejecutado', 'finalizado']);
 
 const activity = defineCollection({
   loader: glob({ base: './src/content/actividades', pattern: '**/*.{md,mdx}' }),
@@ -36,6 +43,7 @@ const activity = defineCollection({
     featured: z.boolean().default(false),
     order: z.number().int(),
     references: z.array(referenceSchema).default([]),
+    documentSlug: z.string().optional(),
   }),
 });
 
@@ -49,6 +57,7 @@ const plan = defineCollection({
     territory: z.string(),
     download: z.string().optional(),
     references: z.array(referenceSchema).default([]),
+    documentSlug: z.string().optional(),
   }),
 });
 
@@ -64,4 +73,29 @@ const recurso = defineCollection({
   }),
 });
 
-export const collections = { activity, plan, recurso };
+const document = defineCollection({
+  loader: glob({ base: './src/content/documents', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    slug: z.string().regex(/^[a-z0-9-]+$/u),
+    documentType: z.enum(['plan', 'actividad', 'guía']),
+    activityNumber: z.number().int().positive().optional(),
+    week: z.string(),
+    status: documentStatus,
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
+    originalFile: z.string().optional(),
+    webRoute: z.string().regex(/^\/(actividades|plan-humanidades-digitales)\//u),
+    pageCount: z.number().int().positive(),
+    version: z.string().min(1),
+    ods: z.array(z.number().int().min(1).max(17)),
+    tags: z.array(z.string()),
+    downloadable: z.boolean(),
+    publicVersion: z.string().regex(/^\/documents\/.*-(?:publico|publica)\.pdf$/u),
+    privacyReviewed: z.literal(true),
+    evidenceStatus: z.enum(['pendiente', 'disponible', 'autorizada']),
+  }),
+});
+
+export const collections = { activity, plan, recurso, document };

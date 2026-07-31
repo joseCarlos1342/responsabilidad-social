@@ -43,9 +43,9 @@ El estudiante trabaja como analista financiero y puede aprender de asesores, com
 
 ## Evidence on Hand
 
-- `semana 2.pdf`: material titulado “Del diagnóstico a la acción”, con el desarrollo de la actividad de semana 4 y evidencias aún pendientes.
-- `semana 4.pdf`: material titulado “Decisiones Que Sí Suman”, con contexto, problemática y plan general.
-- `Plan_Responsabilidad_Social_Educacion_Financiera_Jose_Carlos_Gomez_Ajustado.docx`: documento de diagnóstico y plan de trabajo. Contiene ID universitario y metadatos privados; no se publica directamente.
+- `docs/fuentes-academicas/semana-2-del-diagnostico-a-la-accion.pdf`: material titulado “Del diagnóstico a la acción”, con el desarrollo de la actividad de semana 4 y evidencias aún pendientes.
+- `docs/fuentes-academicas/semana-4-decisiones-que-si-suman.pdf`: material titulado “Decisiones Que Sí Suman”, con contexto, problemática y plan general.
+- `docs/fuentes-academicas/plan-responsabilidad-social-educacion-financiera.pdf`: documento de diagnóstico y plan de trabajo. Contiene información académica y metadatos privados; no se publica directamente.
 - No hay resultados locales cerrados, testimonios autorizados, entrevista grabada ni webinar ejecutado.
 
 ## Product Principles

@@ -9,6 +9,7 @@
 - `pnpm test:e2e`: flujos de navegación, filtros, menú, teclado, 404, metadatos, RSS y sitemap.
 - `pnpm test:a11y`: axe sobre portada, actividades, actividad 4 y plan.
 - `pnpm test:links`: enlaces internos de `dist`.
+- `pnpm documents:check`: firma, metadatos y ausencia de identificadores en PDF públicos; requiere herramientas locales de documentos.
 
 ## Ejecución
 
@@ -18,6 +19,8 @@ pnpm test:e2e
 ```
 
 El workflow instala Chromium en CI. Firefox y WebKit pueden añadirse después si el entorno dispone de los binarios.
+
+La suite documental cubre `/documentos/`, las tres fichas, pestañas, primera página, navegación, zoom, descarga, teclado, móvil, errores de carga y ausencia del ID universitario. Axe también revisa la biblioteca y el visor.
 
 ## Cobertura
 

@@ -1,0 +1,162 @@
+---
+import type { DocumentEntry } from '../../lib/documents';
+import PdfViewer from './PdfViewer.astro';
+
+interface Props {
+  document: DocumentEntry;
+}
+
+const { document } = Astro.props;
+const tabsId = `document-tabs-${document.data.slug}`;
+---
+
+<div class="document-tabs" id={tabsId} data-document-tabs>
+  <div class="document-tabs__list" role="tablist" aria-label="Modo de lectura">
+    <button
+      id={`${tabsId}-web-tab`}
+      type="button"
+      role="tab"
+      aria-selected="true"
+      aria-controls={`${tabsId}-web`}
+      data-tab="web"
+    >
+      Versión web
+    </button>
+    <button
+      id={`${tabsId}-pdf-tab`}
+      type="button"
+      role="tab"
+      aria-selected="false"
+      aria-controls={`${tabsId}-pdf`}
+      data-tab="pdf"
+      tabindex="-1"
+    >
+      Documento original
+    </button>
+  </div>
+  <section
+    id={`${tabsId}-web`}
+    role="tabpanel"
+    aria-labelledby={`${tabsId}-web-tab`}
+    data-panel="web"
+  >
+    <slot name="web" />
+  </section>
+  <section
+    id={`${tabsId}-pdf`}
+    role="tabpanel"
+    aria-labelledby={`${tabsId}-pdf-tab`}
+    data-panel="pdf"
+    hidden
+  >
+    <div class="document-tabs__notice">
+      <strong>Edición pública revisada</strong>
+      <span
+        >El archivo no es el original privado: se reconstruyó para consulta web sin identificadores
+        ni metadatos personales.</span
+      >
+    </div>
+    <PdfViewer
+      src={document.data.publicVersion}
+      title={document.data.title}
+      pageCount={document.data.pageCount}
+    />
+  </section>
+</div>
+
+<style>
+  .document-tabs {
+    margin-top: 2rem;
+  }
+  .document-tabs__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .document-tabs__list button {
+    min-height: 48px;
+    padding: 0.7rem 1rem;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-weight: 800;
+  }
+  .document-tabs__list button[aria-selected='true'] {
+    border-bottom-color: var(--terracotta);
+    color: var(--ink);
+  }
+  .document-tabs__list button:hover {
+    color: var(--terracotta);
+  }
+  .document-tabs__notice {
+    display: grid;
+    gap: 0.2rem;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+  .document-tabs__notice span {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  const tabGroups = document.querySelectorAll<HTMLElement>('[data-document-tabs]');
+
+  tabGroups.forEach((group) => {
+    const tabs = [...group.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = [...group.querySelectorAll<HTMLElement>('[role="tabpanel"]')];
+
+    const selectTab = (selected: HTMLButtonElement, updateUrl = true) => {
+      tabs.forEach((tab) => {
+        const active = tab === selected;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        panel.hidden = panel.id !== selected.getAttribute('aria-controls');
+      });
+      if (updateUrl) {
+        const params = new URLSearchParams(window.location.search);
+        if (selected.dataset.tab === 'pdf') params.set('vista', 'documento');
+        else params.delete('vista');
+        const query = params.toString();
+        window.history.replaceState(
+          {},
+          '',
+          `${window.location.pathname}${query ? `?${query}` : ''}`,
+        );
+      }
+      document.dispatchEvent(
+        new CustomEvent('document-mode-change', { detail: selected.dataset.tab }),
+      );
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const nextIndex =
+          event.key === 'Home'
+            ? 0
+            : event.key === 'End'
+              ? tabs.length - 1
+              : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[nextIndex]?.focus();
+        selectTab(tabs[nextIndex]);
+      });
+    });
+
+    const initial =
+      new URLSearchParams(window.location.search).get('vista') === 'documento'
+        ? tabs.find((tab) => tab.dataset.tab === 'pdf')
+        : tabs[0];
+    if (initial) selectTab(initial, false);
+  });
+</script>

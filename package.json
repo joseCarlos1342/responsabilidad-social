@@ -17,14 +17,17 @@
     "test:e2e": "playwright test",
     "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
     "test:links": "node scripts/check-links.mjs dist",
-    "validate": "pnpm format:check && pnpm lint && pnpm check && pnpm test:unit && pnpm build && pnpm test:links && pnpm test:e2e",
-    "deploy": "pnpm build && wrangler pages deploy dist --project-name decisiones-que-si-suman --branch main"
+    "documents:generate": "node scripts/generate-public-documents.mjs",
+    "documents:check": "node scripts/check-public-documents.mjs",
+    "validate": "pnpm format:check && pnpm lint && pnpm check && pnpm documents:check && pnpm test:unit && pnpm build && pnpm test:links && pnpm test:a11y && pnpm test:e2e",
+    "deploy": "node scripts/deploy-production.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "7.0.4",
     "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.7.3",
-    "astro": "7.1.4"
+    "astro": "7.1.4",
+    "pdfjs-dist": "6.2.108"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
