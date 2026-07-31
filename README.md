@@ -63,6 +63,17 @@ Abre `http://localhost:4321/`.
 
 No se habilitan comentarios ni cuentas de usuario en esta versión temporal. La decisión está documentada en [`docs/comments.md`](docs/comments.md).
 
+## Documentos y entregas
+
+La biblioteca pública está disponible en [`/documentos/`](https://decisiones-que-si-suman.pages.dev/documentos/). Publica reconstrucciones sanitizadas del plan, la actividad 2 y la actividad 4; los PDF originales permanecen fuera de Git y de `public/`.
+
+Para generar y revisar las versiones públicas localmente:
+
+```bash
+pnpm documents:generate
+pnpm documents:check
+```
+
 ## Despliegue
 
 El destino es Cloudflare Pages, proyecto `decisiones-que-si-suman`, con `dist/` como salida. Consulta [`docs/deployment.md`](docs/deployment.md).
@@ -85,4 +96,4 @@ docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 
 ## Estado actual de la materia
 
-La actividad 2 está publicada como contexto y definición del proyecto. La actividad 4 está en desarrollo: el instrumento y la guía de presupuesto están descritos, pero sus resultados y evidencias aún no se incorporan. El plan de Humanidades Digitales está publicado como ruta de trabajo.
+La actividad 2 está publicada como contexto y definición del proyecto. La actividad 4 está en desarrollo: el instrumento quedó preparado para su aplicación, pero sus resultados y evidencias aún no se incorporan. El plan de Humanidades Digitales está publicado como resumen web y documento público completo.

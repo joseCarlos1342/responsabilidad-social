@@ -8,4 +8,4 @@ La opción Giscus fue evaluada y descartada porque obligaba a los visitantes a a
 
 ## Alternativa futura
 
-Si el proyecto se convierte en un sitio permanente, se podrá reevaluar Giscus u otra solución. Esa futura decisión deberá considerar autenticación, privacidad, moderación y mantenimiento.
+La reevaluación ampliada está en [`docs/decisions/comments-reassessment.md`](decisions/comments-reassessment.md). Si el proyecto se convierte en un sitio permanente, se podrá reevaluar Giscus u otra solución. Esa futura decisión deberá considerar autenticación, privacidad, moderación y mantenimiento.

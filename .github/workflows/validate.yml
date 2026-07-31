@@ -21,9 +21,11 @@ jobs:
           node-version: 24.14.1
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - run: sudo apt-get update && sudo apt-get install -y mupdf-tools libimage-exiftool-perl
       - run: pnpm format:check
       - run: pnpm lint
       - run: pnpm check
+      - run: pnpm documents:check
       - run: pnpm test:unit
       - run: pnpm build
       - run: pnpm test:links

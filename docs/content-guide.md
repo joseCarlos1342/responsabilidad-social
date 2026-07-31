@@ -8,6 +8,8 @@
 - No publiques nombres, IDs, saldos, documentos, teléfonos, correos privados ni historias identificables.
 - No promociones empresas, entidades ni productos.
 - Usa `planeada` o `en-desarrollo` mientras la actividad no tenga evidencia.
+- Relaciona cada actividad o plan con un `documentSlug` cuando exista una edición pública.
+- No marques un documento como descargable sin `privacyReviewed: true` y un PDF bajo `public/documents/`.
 
 ## Frontmatter mínimo
 
@@ -36,3 +38,7 @@ references: []
 ## Evidencias
 
 Usa `pendiente` para placeholders. Cuando exista una evidencia, revisa metadatos, datos personales, consentimiento, licencia y autorización. No subas el documento original del plan ni los PDF fuente.
+
+## Documentos públicos
+
+Los PDF públicos deben tener nombres `*-publico.pdf` o `*-publica.pdf`, una leyenda de versión pública y una revisión explícita de ID, metadatos, firmas, terceros, imágenes y datos de clientes. Ejecuta `pnpm documents:check` antes de incorporarlos.

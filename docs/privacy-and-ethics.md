@@ -8,3 +8,5 @@
 - Ejemplos numéricos se marcan como ficticios.
 - Toda referencia externa conserva su atribución y se revisa antes de publicar.
 - El texto aclara que el contenido es educativo y no asesoría personalizada.
+- Los PDF públicos se reconstruyen sin ID universitario, nombres completos, firmas, historial, metadatos personales, logos no autorizados ni datos de terceros.
+- Los originales no se publican, no se versionan y permanecen fuera de `public/`.
