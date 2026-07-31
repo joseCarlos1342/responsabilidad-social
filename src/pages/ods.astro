@@ -1,7 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getCollection } from 'astro:content';
 import { odsData } from '../lib/content';
+
+const activities = await getCollection('activity', ({ data }) => !data.draft);
 ---
 
 <BaseLayout
@@ -19,19 +22,39 @@ import { odsData } from '../lib/content';
         {
           odsData.map((ods) => (
             <article class="ods-page-item" style={`--ods-color: ${ods.color}`}>
-              <>
-                <strong>ODS {ods.number}</strong>
-                <h2>{ods.name}</h2>
-                <p>
-                  {ods.number === 4
-                    ? 'Las actividades convierten conceptos de la vida económica en aprendizajes prácticos y accesibles.'
-                    : ods.number === 10
-                      ? 'El lenguaje claro y los recursos sin costo buscan reducir barreras de comprensión, sin negar desigualdades estructurales.'
-                      : ods.number === 16
-                        ? 'La prevención del fraude y la consulta de fuentes confiables fortalecen decisiones informadas.'
-                        : 'La relación se desarrolla en las entradas correspondientes y se mantiene como contribución indirecta, local y limitada.'}
-                </p>
-              </>
+              <strong>ODS {ods.number}</strong>
+              <h2>{ods.name}</h2>
+              <p>{ods.explanation}</p>
+              <dl class="ods-details">
+                <div>
+                  <>
+                    <dt>Acción relacionada</dt>
+                    <dd>{ods.action}</dd>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <dt>Alcance realista</dt>
+                    <dd>{ods.scope}</dd>
+                  </>
+                </div>
+                <div>
+                  <>
+                    <dt>Limitación</dt>
+                    <dd>{ods.limitation}</dd>
+                  </>
+                </div>
+              </dl>
+              <div class="ods-activities">
+                <span class="eyebrow-data">Actividades relacionadas</span>
+                {activities
+                  .filter((activity) => activity.data.ods.includes(ods.number))
+                  .map((activity) => (
+                    <a href={`/actividades/${activity.id}/`}>
+                      Actividad {activity.data.activityNumber} →
+                    </a>
+                  ))}
+              </div>
             </article>
           ))
         }
@@ -74,6 +97,39 @@ import { odsData } from '../lib/content';
   .ods-page-item p {
     margin: 0;
     color: var(--ink-soft);
+  }
+  .ods-details {
+    display: grid;
+    gap: 0.8rem;
+    margin: 1.4rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .ods-details div {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .ods-details dt {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .ods-details dd {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .ods-activities {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1.3rem;
+  }
+  .ods-activities a {
+    color: var(--petrol);
+    font-size: 0.88rem;
+    font-weight: 800;
   }
   @media (max-width: 650px) {
     .ods-page-grid {

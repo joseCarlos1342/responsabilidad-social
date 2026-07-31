@@ -1,0 +1,136 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import DocumentTabs from '../../components/documents/DocumentTabs.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import { sortDocuments, validateDocuments, type DocumentEntry } from '../../lib/documents';
+
+export async function getStaticPaths() {
+  const documents = sortDocuments(await getCollection('document'));
+  validateDocuments(documents);
+  return documents.map((document) => ({
+    params: { slug: document.data.slug },
+    props: { document },
+  }));
+}
+
+const { document } = Astro.props as { document: DocumentEntry };
+const { Content } = await render(document);
+const { data } = document;
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  type="article"
+  publishedDate={data.publishedAt}
+  updatedDate={data.updatedAt}
+>
+  <article class="section document-page">
+    <div class="site-shell">
+      <Breadcrumbs
+        items={[{ label: 'Documentos y entregas', href: '/documentos/' }, { label: data.title }]}
+      />
+      <header class="document-header">
+        <div class="document-header__meta">
+          <span>{data.documentType}</span><span>{data.week}</span><StatusBadge
+            status={data.status}
+          />
+        </div>
+        <h1>{data.title}</h1>
+        <p class="lede">{data.description}</p>
+        <div class="document-header__facts">
+          <span
+            >Publicado: <time datetime={data.publishedAt.toISOString()}
+              >{data.publishedAt.toLocaleDateString('es-CO', { timeZone: 'UTC' })}</time
+            ></span
+          >
+          <span
+            >Última actualización: <time datetime={data.updatedAt.toISOString()}
+              >{data.updatedAt.toLocaleDateString('es-CO', { timeZone: 'UTC' })}</time
+            ></span
+          >
+          <span>{data.pageCount} páginas · {data.version}</span>
+        </div>
+        <div class="document-header__ods">
+          <span class="eyebrow-data">ODS relacionados</span>
+          <span>{data.ods.map((number) => `ODS ${number}`).join(' · ')}</span>
+        </div>
+      </header>
+      <DocumentTabs document={document}>
+        <div slot="web" class="document-web-layout">
+          <div class="prose"><Content /></div>
+          <aside class="document-side">
+            <span class="eyebrow-data">Documento relacionado</span>
+            <a href={data.webRoute}>Leer la entrega web completa →</a>
+            <a href={data.publicVersion} target="_blank" rel="noreferrer"
+              >Ver documento original ↗</a
+            >
+            <a href={data.publicVersion} download>Descargar versión pública</a>
+          </aside>
+        </div>
+      </DocumentTabs>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .document-header {
+    max-width: 76ch;
+    padding-block: 2.5rem 2rem;
+  }
+  .document-header__meta,
+  .document-header__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1rem;
+    align-items: center;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.75rem;
+  }
+  .document-header__ods {
+    display: grid;
+    gap: 0.35rem;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 0.85rem;
+  }
+  .document-header h1 {
+    max-width: 15ch;
+    margin: 1rem 0;
+  }
+  .document-header__facts {
+    margin-top: 1.2rem;
+  }
+  .document-web-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 15rem;
+    gap: 3rem;
+    align-items: start;
+    padding-top: 2rem;
+  }
+  .document-side {
+    display: grid;
+    gap: 0.8rem;
+    position: sticky;
+    top: 1.5rem;
+    padding-top: 0.7rem;
+    border-top: 2px solid var(--terracotta);
+  }
+  .document-side a {
+    color: var(--petrol);
+    font-weight: 750;
+  }
+  @media (max-width: 760px) {
+    .document-web-layout {
+      grid-template-columns: 1fr;
+    }
+    .document-side {
+      position: static;
+    }
+  }
+</style>

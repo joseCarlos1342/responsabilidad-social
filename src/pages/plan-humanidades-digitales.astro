@@ -1,11 +1,18 @@
 ---
-import { getEntry, render } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import StatusBadge from '../components/StatusBadge.astro';
+import DocumentTabs from '../components/documents/DocumentTabs.astro';
+import type { DocumentEntry } from '../lib/documents';
 
 const plan = await getEntry('plan', 'plan-humanidades-digitales');
 if (!plan) throw new Error('No se encontró el plan de Humanidades Digitales.');
+const documents = await getCollection('document');
+const relatedDocument = documents.find(
+  (document) => document.data.slug === plan.data.documentSlug,
+) as DocumentEntry | undefined;
+if (!relatedDocument) throw new Error('No hay documento público relacionado con el plan.');
 const { Content } = await render(plan);
 ---
 
@@ -24,24 +31,39 @@ const { Content } = await render(plan);
         >
           <span class="eyebrow-data">Estado</span><StatusBadge status={plan.data.status} /><span
             class="eyebrow-data"
-            >Actualizado {plan.data.updatedDate.toLocaleDateString('es-CO')}</span
+            >Actualizado {
+              plan.data.updatedDate.toLocaleDateString('es-CO', { timeZone: 'UTC' })
+            }</span
           >
         </div>
       </header>
-      <div class="plan-layout">
-        <aside class="plan-aside">
-          <p class="eyebrow-data">Territorio</p><strong>{plan.data.territory}</strong><div
-            class="rule"
-          >
-          </div><p class="eyebrow-data">Publicaciones</p><strong>6 previstas</strong><p
-            class="eyebrow-data"
-          >
-            Entrevista
-          </p><strong>1 prevista</strong><p class="eyebrow-data">Webinar</p><strong
-            >1 previsto</strong
-          >
-        </aside><div class="prose"><Content /></div>
-      </div>
+      <DocumentTabs document={relatedDocument}>
+        <div slot="web">
+          <div class="plan-layout">
+            <aside class="plan-aside">
+              <p class="eyebrow-data">Territorio</p>
+              <strong>{plan.data.territory}</strong>
+              <div class="rule"></div>
+              <p class="eyebrow-data">Publicaciones</p>
+              <strong>6 previstas</strong>
+              <p class="eyebrow-data">Entrevista</p>
+              <strong>1 prevista</strong>
+              <p class="eyebrow-data">Webinar</p>
+              <strong>1 previsto</strong>
+            </aside>
+            <div class="prose">
+              <Content />
+            </div>
+          </div>
+          <nav class="plan-navigation" aria-label="Navegación del plan">
+            <a href="/actividades/">Ver actividades →</a>
+            <a href={relatedDocument.data.publicVersion} target="_blank" rel="noreferrer">
+              Ver documento original ↗
+            </a>
+            <a href={relatedDocument.data.publicVersion} download> Descargar versión pública </a>
+          </nav>
+        </div>
+      </DocumentTabs>
     </div>
   </article>
 </BaseLayout>
@@ -85,6 +107,18 @@ const { Content } = await render(plan);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 1.45rem;
     line-height: 1.1;
+  }
+  .plan-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+  }
+  .plan-navigation a {
+    color: var(--petrol);
+    font-weight: 800;
   }
   @media (max-width: 800px) {
     .plan-header,

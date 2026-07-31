@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import DocumentCard from '../../components/DocumentCard.astro';
+import { sortDocuments, validateDocuments } from '../../lib/documents';
+
+const documents = sortDocuments(await getCollection('document'));
+validateDocuments(documents);
+---
+
+<BaseLayout
+  title="Documentos y entregas"
+  description="Biblioteca pública de documentos y entregas del proyecto Decisiones que sí suman."
+>
+  <section class="section documents-intro">
+    <div class="site-shell documents-intro__grid">
+      <div>
+        <Breadcrumbs items={[{ label: 'Documentos y entregas' }]} />
+        <span class="kicker">Biblioteca pública</span>
+        <h1>Documentos y entregas</h1>
+      </div>
+      <p class="lede">
+        Tres entregas revisadas para consulta: cada ficha conecta la lectura web con una edición
+        pública descargable y mantiene visible el estado real de la evidencia.
+      </p>
+    </div>
+  </section>
+  <section class="section section--tight">
+    <div class="site-shell">
+      <div class="documents-list">
+        {documents.map((document) => <DocumentCard document={document} />)}
+      </div>
+      <p class="documents-note">
+        Los archivos originales se conservan fuera de la publicación. Las versiones disponibles aquí
+        fueron revisadas para retirar identificadores, metadatos personales, historial y datos de
+        terceros.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .documents-intro {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .documents-intro__grid {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 3rem;
+    align-items: end;
+  }
+  .documents-intro h1 {
+    max-width: 12ch;
+    margin: 0.8rem 0 0;
+  }
+  .documents-intro .lede {
+    margin: 0;
+  }
+  .documents-list {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .documents-note {
+    max-width: 70ch;
+    margin: 2rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  @media (max-width: 760px) {
+    .documents-intro__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

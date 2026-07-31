@@ -3,32 +3,15 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ActivityCard from '../components/ActivityCard.astro';
 import StatusBadge from '../components/StatusBadge.astro';
+import DocumentCard from '../components/DocumentCard.astro';
 import { sortActivities } from '../lib/content';
+import { projectStatus, projectTimeline } from '../lib/project';
+import { sortDocuments, validateDocuments } from '../lib/documents';
 
 const activities = sortActivities(await getCollection('activity', ({ data }) => !data.draft));
 const featured = activities.find((activity) => activity.data.featured) ?? activities[0];
-const timeline = [
-  {
-    week: '02',
-    title: 'Nombrar la problemática',
-    detail: 'Contexto, territorio y propósito del proyecto.',
-  },
-  {
-    week: '04',
-    title: 'Escuchar y ordenar',
-    detail: 'Diagnóstico breve y presupuesto en cuatro pasos.',
-  },
-  {
-    week: '05',
-    title: 'Profundizar',
-    detail: 'Ahorro, entrevista y conversación con una experta.',
-  },
-  {
-    week: '06–07',
-    title: 'Compartir y aprender',
-    detail: 'Crédito, fraude, webinar y aprendizajes finales.',
-  },
-];
+const documents = sortDocuments(await getCollection('document'));
+validateDocuments(documents);
 ---
 
 <BaseLayout
@@ -109,7 +92,7 @@ const timeline = [
         </div>
         <div class="state-card">
           <span class="eyebrow-data">Estado general</span><StatusBadge status="en-desarrollo" /><p>
-            El diagnóstico está preparado; los resultados se incorporarán después de revisarlos.
+            {projectStatus.currentStage}
           </p>
         </div>
       </div>
@@ -148,7 +131,7 @@ const timeline = [
       </div>
       <ol class="timeline">
         {
-          timeline.map((item) => (
+          projectTimeline.map((item) => (
             <li>
               <>
                 <span class="timeline__week">{item.week}</span>
@@ -163,6 +146,18 @@ const timeline = [
           ))
         }
       </ol>
+    </div>
+  </section>
+
+  <section class="section deliveries-section">
+    <div class="site-shell">
+      <div class="section-heading section-heading--split">
+        <div><span class="kicker">Biblioteca pública</span><h2>Entregas disponibles.</h2></div>
+        <a class="text-arrow" href="/documentos/">Abrir documentos →</a>
+      </div>
+      <div class="deliveries-grid">
+        {documents.map((document) => <DocumentCard document={document} />)}
+      </div>
     </div>
   </section>
 
@@ -371,7 +366,7 @@ const timeline = [
   }
   .timeline {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 0;
     padding: 0;
     margin: 0;
@@ -406,6 +401,13 @@ const timeline = [
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
+  }
+  .deliveries-grid {
+    display: grid;
+    gap: 1.2rem;
+  }
+  .deliveries-grid .document-card {
+    box-shadow: none;
   }
   .big-link {
     display: grid;
