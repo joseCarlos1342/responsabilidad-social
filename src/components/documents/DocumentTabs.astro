@@ -8,6 +8,7 @@ interface Props {
 
 const { document } = Astro.props;
 const tabsId = `document-tabs-${document.data.slug}`;
+const isOriginal = document.data.documentSource === 'original';
 ---
 
 <div class="document-tabs" id={tabsId} data-document-tabs>
@@ -50,16 +51,20 @@ const tabsId = `document-tabs-${document.data.slug}`;
     hidden
   >
     <div class="document-tabs__notice">
-      <strong>Edición pública revisada</strong>
+      <strong>{isOriginal ? 'Documento original académico' : 'Edición pública revisada'}</strong>
       <span
-        >El archivo no es el original privado: se reconstruyó para consulta web sin identificadores
-        ni metadatos personales.</span
+        >{
+          isOriginal
+            ? 'Este archivo conserva el diseño institucional y los datos de autoría de la fuente original; se publica para consulta académica a solicitud del autor.'
+            : 'El archivo no es el original privado: se reconstruyó para consulta web sin identificadores ni metadatos personales.'
+        }</span
       >
     </div>
     <PdfViewer
       src={document.data.publicVersion}
       title={document.data.title}
       pageCount={document.data.pageCount}
+      isOriginal={isOriginal}
     />
   </section>
 </div>

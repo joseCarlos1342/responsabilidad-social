@@ -17,6 +17,7 @@ tags: [diagnóstico, presupuesto, ahorro, crédito responsable, seguridad digita
 downloadable: true
 publicVersion: /documents/actividad-4-publica.pdf
 privacyReviewed: true
+documentSource: publica
 evidenceStatus: disponible
 ---
 

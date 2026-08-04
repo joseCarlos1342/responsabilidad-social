@@ -3,9 +3,10 @@ interface Props {
   src: string;
   title: string;
   pageCount: number;
+  isOriginal?: boolean;
 }
 
-const { src, title, pageCount } = Astro.props;
+const { src, title, pageCount, isOriginal = false } = Astro.props;
 ---
 
 <section
@@ -52,11 +53,9 @@ const { src, title, pageCount } = Astro.props;
     <canvas data-canvas aria-label={`Página 1 de ${pageCount} de ${title}`}></canvas>
   </div>
   <p class="pdf-fallback">
-    Si el lector no carga, <a href={src} download>descarga la versión pública en PDF</a> o <a
-      href={src}
-      target="_blank"
-      rel="noreferrer">ábrela en otra pestaña</a
-    >.
+    Si el lector no carga, <a href={src} download
+      >descarga {isOriginal ? 'el documento original académico' : 'la versión pública en PDF'}</a
+    > o <a href={src} target="_blank" rel="noreferrer">ábrela en otra pestaña</a>.
   </p>
 </section>
 

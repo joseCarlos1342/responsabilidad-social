@@ -17,6 +17,7 @@ tags: [educación financiera, contexto, Neiva, Humanidades Digitales]
 downloadable: true
 publicVersion: /documents/actividad-2-publica.pdf
 privacyReviewed: true
+documentSource: publica
 evidenceStatus: disponible
 ---
 

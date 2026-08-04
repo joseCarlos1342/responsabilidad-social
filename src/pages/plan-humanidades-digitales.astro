@@ -60,7 +60,13 @@ const { Content } = await render(plan);
             <a href={relatedDocument.data.publicVersion} target="_blank" rel="noreferrer">
               Ver documento original ↗
             </a>
-            <a href={relatedDocument.data.publicVersion} download> Descargar versión pública </a>
+            <a href={relatedDocument.data.publicVersion} download>
+              {
+                relatedDocument.data.documentSource === 'original'
+                  ? 'Descargar documento original'
+                  : 'Descargar versión pública'
+              }
+            </a>
           </nav>
         </div>
       </DocumentTabs>

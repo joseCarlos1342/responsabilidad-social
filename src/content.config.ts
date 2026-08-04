@@ -92,8 +92,13 @@ const document = defineCollection({
     ods: z.array(z.number().int().min(1).max(17)),
     tags: z.array(z.string()),
     downloadable: z.boolean(),
-    publicVersion: z.string().regex(/^\/documents\/.*-(?:publico|publica)\.pdf$/u),
+    publicVersion: z
+      .string()
+      .regex(
+        /^\/documents\/(?:.*-(?:publico|publica)\.pdf|plan-responsabilidad-social-educacion-financiera\.pdf)$/u,
+      ),
     privacyReviewed: z.literal(true),
+    documentSource: z.enum(['publica', 'original']),
     evidenceStatus: z.enum(['pendiente', 'disponible', 'autorizada']),
   }),
 });

@@ -9,6 +9,7 @@ interface Props {
 
 const { document } = Astro.props;
 const { data } = document;
+const isOriginal = data.documentSource === 'original';
 const documentTypeLabel = {
   actividad: 'Actividad',
   plan: 'Plan',
@@ -45,7 +46,9 @@ const documentTypeLabel = {
       <a class="text-link" href={data.publicVersion} target="_blank" rel="noreferrer"
         >Ver documento original ↗</a
       >
-      <a class="text-link" href={data.publicVersion} download>Descargar versión pública</a>
+      <a class="text-link" href={data.publicVersion} download
+        >{isOriginal ? 'Descargar documento original' : 'Descargar versión pública'}</a
+      >
       <a class="text-link" href={getDocumentRoute(document)}>Ficha documental →</a>
     </div>
   </div>

@@ -46,7 +46,7 @@ export function validateDocumentEntry(document: DocumentEntry, root = publicRoot
   if (data.originalFile?.startsWith('/public/')) {
     errors.push(`el original no puede publicarse como asset: ${data.originalFile}`);
   }
-  if (!data.privacyReviewed) {
+  if (!data.privacyReviewed && data.documentSource === 'publica') {
     errors.push('el documento no tiene privacidad revisada');
   }
   if (!data.downloadable && data.publicVersion) {

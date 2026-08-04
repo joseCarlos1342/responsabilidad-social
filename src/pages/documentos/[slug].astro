@@ -67,7 +67,13 @@ const { data } = document;
             <a href={data.publicVersion} target="_blank" rel="noreferrer"
               >Ver documento original ↗</a
             >
-            <a href={data.publicVersion} download>Descargar versión pública</a>
+            <a href={data.publicVersion} download>
+              {
+                data.documentSource === 'original'
+                  ? 'Descargar documento original'
+                  : 'Descargar versión pública'
+              }
+            </a>
           </aside>
         </div>
       </DocumentTabs>
