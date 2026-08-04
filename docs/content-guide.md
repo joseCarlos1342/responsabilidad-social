@@ -41,4 +41,6 @@ Usa `pendiente` para placeholders. Cuando exista una evidencia, revisa metadatos
 
 ## Documentos públicos
 
-Los PDF públicos deben tener nombres `*-publico.pdf` o `*-publica.pdf`, una leyenda de versión pública y una revisión explícita de ID, metadatos, firmas, terceros, imágenes y datos de clientes. Ejecuta `pnpm documents:check` antes de incorporarlos.
+Los PDF públicos deben tener nombres `*-publico.pdf` o `*-publica.pdf`, una leyenda de versión pública y una revisión explícita de ID, metadatos, firmas, terceros, imágenes y datos de clientes. Ejecuta `pnpm documents:check` antes de incorporarlos. El plan académico es una excepción explícita: conserva el PDF original a solicitud del autor y debe anunciarse como original, no como edición sanitizada.
+
+Las evidencias de publicaciones sociales son una excepción controlada: `public/documents/publi1.pdf` a `public/documents/publi4.pdf` conservan los nombres proporcionados para mantener sus rutas oficiales. Cada una debe conservar su miniatura, su enlace directo al PDF y su enlace exacto de Facebook en `src/lib/publications.ts`. No se deben añadir métricas, fechas ni resultados que no aparezcan en la pieza visual.

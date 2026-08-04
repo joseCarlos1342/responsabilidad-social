@@ -65,7 +65,7 @@ No se habilitan comentarios ni cuentas de usuario en esta versión temporal. La 
 
 ## Documentos y entregas
 
-La biblioteca pública está disponible en [`/documentos/`](https://decisiones-que-si-suman.pages.dev/documentos/). Publica reconstrucciones sanitizadas del plan, la actividad 2 y la actividad 4; los PDF originales permanecen fuera de Git y de `public/`.
+La biblioteca pública está disponible en [`/documentos/`](https://decisiones-que-si-suman.pages.dev/documentos/). Publica reconstrucciones sanitizadas de las actividades 2 y 4, y enlaza el PDF original académico del plan a solicitud del autor.
 
 Para generar y revisar las versiones públicas localmente:
 
@@ -96,4 +96,4 @@ docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 
 ## Estado actual de la materia
 
-La actividad 2 está publicada como contexto y definición del proyecto. La actividad 4 está en desarrollo: el instrumento quedó preparado para su aplicación, pero sus resultados y evidencias aún no se incorporan. El plan de Humanidades Digitales está publicado como resumen web y documento público completo.
+La actividad 2 está publicada como contexto y definición del proyecto. Durante las semanas 4 y 5 se incorporaron cuatro evidencias de publicaciones educativas en Facebook: diagnóstico rápido, presupuesto, gastos hormiga y fondo de emergencia. La actividad 4 y el plan de Humanidades Digitales continúan en desarrollo: los resultados del diagnóstico, la entrevista, el webinar y las publicaciones 5 y 6 siguen pendientes.

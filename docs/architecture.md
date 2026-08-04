@@ -14,6 +14,7 @@ El sitio es un generador estático Astro 7. Las publicaciones viven en el reposi
 - `src/pages/`: rutas estáticas y endpoints RSS/robots.
 - `public/`: assets propios, SVG social y `_headers` de Pages.
 - `src/components/documents/`: pestañas documentales y visor PDF.js progresivo.
+- `src/lib/publications.ts` y `src/components/PublicationCard.astro`: catálogo y presentación de las evidencias de publicaciones sociales.
 
 ## Flujo de publicación
 
@@ -21,7 +22,9 @@ El sitio es un generador estático Astro 7. Las publicaciones viven en el reposi
 Markdown/MDX → schema Zod → getCollection/render → rutas estáticas → dist → Cloudflare Pages
 ```
 
-La colección `document` relaciona una edición pública con su ruta web. La validación build-time comprueba que el PDF exista bajo `public/documents/`, que la ruta sea conocida y que la revisión de privacidad sea verdadera. Los originales académicos no forman parte del flujo de publicación.
+La colección `document` relaciona una edición pública o un original académico autorizado con su ruta web. La validación build-time comprueba que el PDF exista bajo `public/documents/`, que la ruta sea conocida y que la revisión declarada corresponda a su origen. Las actividades usan reconstrucciones sanitizadas; el plan conserva el PDF original solicitado por el autor.
+
+Las cuatro evidencias sociales se conservan con sus nombres originales (`publi1.pdf` a `publi4.pdf`) bajo `public/documents/` y sus miniaturas de primera página bajo `public/assets/publicaciones/`. El catálogo enlaza cada PDF con su publicación oficial de Facebook sin incrustar contenido de esa red.
 
 ## Rendimiento
 
