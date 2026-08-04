@@ -8,6 +8,62 @@ test('carga la portada con su propuesta y navegación principal', async ({ page 
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
 });
 
+test('muestra las cuatro evidencias de publicaciones de las semanas 4 y 5', async ({
+  page,
+  request,
+}) => {
+  await page.goto('/');
+  await expect(
+    page.getByRole('heading', { name: 'Publicaciones realizadas en Facebook.' }),
+  ).toBeVisible();
+  await expect(page.locator('.publication-card')).toHaveCount(4);
+  await expect(page.getByText('4 de 6 publicaciones realizadas')).toBeVisible();
+  await expect(page.locator('progress')).toHaveAttribute('value', '4');
+  await expect(page.locator('progress')).toHaveAttribute('max', '6');
+
+  const facebookUrls = [
+    'https://www.facebook.com/share/p/1DtDHVwr6r/',
+    'https://www.facebook.com/share/r/1MfWpiS7BT/',
+    'https://www.facebook.com/share/p/19BGtDDH9q/',
+    'https://www.facebook.com/share/p/1QUunWR1rH/',
+  ];
+
+  for (const [index, facebookUrl] of facebookUrls.entries()) {
+    const card = page.locator(`[data-publication="${index + 1}"]`);
+    await expect(card.locator('img')).toHaveAttribute('alt', /Primera página/);
+    await expect(card.locator('a.button')).toHaveAttribute(
+      'href',
+      `/documents/publi${index + 1}.pdf`,
+    );
+    const facebookLink = card.getByRole('link', { name: /Ver publicación .* Facebook/ });
+    await expect(facebookLink).toHaveAttribute('href', facebookUrl);
+    await expect(facebookLink).toHaveAttribute('target', '_blank');
+    await expect(facebookLink).toHaveAttribute('rel', 'noopener noreferrer');
+    expect((await request.get(`/documents/publi${index + 1}.pdf`)).ok()).toBeTruthy();
+  }
+
+  const facebookPageLink = page.getByRole('link', { name: /Visitar la página de Facebook/ });
+  await expect(facebookPageLink).toHaveAttribute(
+    'href',
+    'https://www.facebook.com/share/1DPqucucd7/',
+  );
+  await expect(facebookPageLink).toHaveAttribute('target', '_blank');
+  await expect(facebookPageLink).toHaveAttribute('rel', 'noopener noreferrer');
+});
+
+test('apila las evidencias en una columna sin desbordamiento en móvil', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await expect(page.locator('.publication-card')).toHaveCount(4);
+  await expect(page.locator('body')).toHaveJSProperty('scrollWidth', 390);
+  const columnCount = await page
+    .locator('.publications-grid')
+    .evaluate(
+      (element) => getComputedStyle(element).gridTemplateColumns.trim().split(/\s+/u).length,
+    );
+  expect(columnCount).toBe(1);
+});
+
 test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('link', { name: /Nombrar el problema/ }).click();
@@ -25,6 +81,13 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   await page.goto('/plan-humanidades-digitales/');
   await expect(page.getByRole('heading', { name: 'Plan de Humanidades Digitales' })).toBeVisible();
   await expect(page.getByText('Cronograma de semanas 4 a 7')).toBeVisible();
+
+  await page.getByRole('tab', { name: 'Documento original' }).click();
+  await expect(page.getByText('Documento original académico')).toBeVisible();
+  await expect(page.locator('[data-pdf-viewer]')).toHaveAttribute(
+    'data-src',
+    '/documents/plan-responsabilidad-social-educacion-financiera.pdf',
+  );
 });
 
 test('filtra actividades progresivamente', async ({ page }) => {

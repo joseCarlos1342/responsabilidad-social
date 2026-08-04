@@ -4,14 +4,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ActivityCard from '../components/ActivityCard.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import DocumentCard from '../components/DocumentCard.astro';
+import PublicationCard from '../components/PublicationCard.astro';
 import { sortActivities } from '../lib/content';
 import { projectStatus, projectTimeline } from '../lib/project';
 import { sortDocuments, validateDocuments } from '../lib/documents';
+import { getPublicationProgress, publications } from '../lib/publications';
 
 const activities = sortActivities(await getCollection('activity', ({ data }) => !data.draft));
 const featured = activities.find((activity) => activity.data.featured) ?? activities[0];
 const documents = sortDocuments(await getCollection('document'));
 validateDocuments(documents);
+const publicationProgress = getPublicationProgress(publications);
 ---
 
 <BaseLayout
@@ -95,6 +98,51 @@ validateDocuments(documents);
             {projectStatus.currentStage}
           </p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section execution-section" id="ejecucion-proyecto">
+    <div class="site-shell">
+      <div class="execution-intro">
+        <div class="section-heading">
+          <span class="kicker">Ejecución del proyecto</span>
+          <h2>Publicaciones realizadas en Facebook.</h2>
+          <p>
+            Durante las semanas 4 y 5 se desarrollaron y publicaron los primeros cuatro contenidos
+            educativos de Decisiones que sí suman. Estas publicaciones fueron diseñadas para
+            presentar conceptos financieros de forma clara, visual y cercana, promoviendo la
+            reflexión y la participación de la comunidad a través de la página de Facebook del
+            proyecto.
+          </p>
+        </div>
+        <div class="execution-progress">
+          <span class="eyebrow-data">Avance del componente de publicaciones</span>
+          <strong
+            >{publicationProgress.current} de {publicationProgress.total} publicaciones realizadas</strong
+          >
+          <progress
+            value={publicationProgress.current}
+            max={publicationProgress.total}
+            aria-label="Progreso del componente de publicaciones"></progress>
+          <span class="execution-progress__note">Las publicaciones 5 y 6 continúan planeadas.</span>
+        </div>
+      </div>
+      <div class="publications-grid">
+        {publications.map((publication) => <PublicationCard publication={publication} />)}
+      </div>
+      <div class="execution-footer">
+        <p>
+          Con estas cuatro publicaciones quedan desarrollados los contenidos previstos para las
+          semanas 4 y 5. El siguiente momento del proyecto corresponde a la entrevista con una
+          persona experta y a la preparación de los contenidos de la semana 6.
+        </p>
+        <a
+          class="button"
+          href="https://www.facebook.com/share/1DPqucucd7/"
+          target="_blank"
+          rel="noopener noreferrer">Visitar la página de Facebook ↗</a
+        >
       </div>
     </div>
   </section>
@@ -353,6 +401,70 @@ validateDocuments(documents);
   .state-card--accent .eyebrow-data {
     color: var(--white);
   }
+  .execution-section {
+    border-block: 1px solid var(--line);
+    background: color-mix(in srgb, var(--paper-deep) 55%, var(--paper));
+  }
+  .execution-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: end;
+    margin-bottom: 2.5rem;
+  }
+  .execution-intro .section-heading {
+    margin-bottom: 0;
+  }
+  .execution-intro h2 {
+    max-width: 15ch;
+  }
+  .execution-progress {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.25rem;
+    border: 1px solid var(--petrol);
+    background: var(--petrol);
+    color: var(--paper);
+  }
+  .execution-progress .eyebrow-data,
+  .execution-progress__note {
+    color: var(--mist);
+  }
+  .execution-progress strong {
+    max-width: 12ch;
+    color: var(--paper);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.7rem, 3vw, 2.5rem);
+    line-height: 1.05;
+  }
+  .execution-progress progress {
+    width: 100%;
+    height: 0.7rem;
+    accent-color: var(--terracotta);
+  }
+  .execution-progress__note {
+    font-size: 0.84rem;
+  }
+  .publications-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+  .execution-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+  .execution-footer p {
+    max-width: 65ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
   .section-heading--split {
     display: flex;
     justify-content: space-between;
@@ -439,7 +551,9 @@ validateDocuments(documents);
   @media (max-width: 780px) {
     .home-hero__grid,
     .intro-strip,
-    .state-grid {
+    .state-grid,
+    .execution-intro,
+    .publications-grid {
       grid-template-columns: 1fr;
     }
     .decision-board {

@@ -1,6 +1,7 @@
 export const projectStatus = {
-  currentWeek: 'Semana 4',
-  currentStage: 'Diagnóstico preparado; resultados pendientes de consolidación.',
+  currentWeek: 'Semana 5',
+  currentStage:
+    'Cuatro publicaciones educativas ejecutadas; entrevista, webinar y resultados pendientes.',
 } as const;
 
 export const projectTimeline = [
@@ -17,12 +18,13 @@ export const projectTimeline = [
   {
     week: 'Semana 4',
     title: 'Diagnóstico y presupuesto',
-    detail: 'Preparar el instrumento y la herramienta de presupuesto.',
+    detail:
+      'Publicar el diagnóstico rápido y el carrusel de presupuesto; mantener resultados pendientes.',
   },
   {
     week: 'Semana 5',
     title: 'Ahorro y entrevista',
-    detail: 'Desarrollar contenidos sobre ahorro y coordinar la entrevista.',
+    detail: 'Publicar gastos hormiga y fondo de emergencia; coordinar la entrevista pendiente.',
   },
   {
     week: 'Semana 6',

@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import {
   estimateReadingTime,
   filterByOds,
@@ -14,6 +16,12 @@ import {
   validateDocumentEntry,
   type DocumentEntry,
 } from '../../src/lib/documents';
+import {
+  getPublicationProgress,
+  publicationTotal,
+  publications,
+  type Publication,
+} from '../../src/lib/publications';
 import { projectTimeline } from '../../src/lib/project';
 
 const activity = (
@@ -107,6 +115,7 @@ describe('content utilities', () => {
         downloadable: true,
         publicVersion: `/documents/${id}-publica.pdf`,
         privacyReviewed: true,
+        documentSource: 'publica',
         evidenceStatus: 'disponible',
       },
     });
@@ -139,6 +148,7 @@ describe('content utilities', () => {
         downloadable: true,
         publicVersion: '/documents/actividad-2-publica.pdf',
         privacyReviewed: true as const,
+        documentSource: 'publica' as const,
         evidenceStatus: 'disponible' as const,
       },
     } as DocumentEntry;
@@ -156,6 +166,85 @@ describe('content utilities', () => {
       'Semana 5',
       'Semana 6',
       'Semana 7',
+    ]);
+  });
+
+  it('registra las cuatro publicaciones ejecutadas de las seis previstas', () => {
+    expect(publications).toHaveLength(4);
+    expect(publications.map((publication) => publication.number)).toEqual([1, 2, 3, 4]);
+    expect(publicationTotal).toBe(6);
+    expect(getPublicationProgress(publications)).toEqual({ current: 4, total: publicationTotal });
+    expect(publications.every((publication) => publication.status === 'ejecutada')).toBe(true);
+    expect(publications.map((publication) => publication.week)).toEqual([
+      'Semana 4',
+      'Semana 4',
+      'Semana 5',
+      'Semana 5',
+    ]);
+  });
+
+  it('conserva una URL PDF, miniatura y enlace de Facebook por publicación', () => {
+    const requiredFields: Array<keyof Publication> = [
+      'pdfHref',
+      'thumbnailSrc',
+      'facebookHref',
+      'title',
+      'callToAction',
+    ];
+
+    publications.forEach((publication) => {
+      requiredFields.forEach((field) => expect(publication[field]).toBeTruthy());
+      expect(publication.pdfHref).toMatch(/^\/documents\/publi[1-4]\.pdf$/u);
+      expect(publication.thumbnailSrc).toMatch(/^\/assets\/publicaciones\/publi[1-4]\.png$/u);
+      expect(publication.facebookHref).toMatch(/^https:\/\/www\.facebook\.com\/share\//u);
+      expect(existsSync(resolve(process.cwd(), 'public', publication.pdfHref.slice(1)))).toBe(true);
+      expect(existsSync(resolve(process.cwd(), 'public', publication.thumbnailSrc.slice(1)))).toBe(
+        true,
+      );
+    });
+  });
+
+  it('conserva la ficha editorial extraída de cada pieza visual', () => {
+    expect(
+      publications.map(({ title, theme, format, callToAction }) => ({
+        title,
+        theme,
+        format,
+        callToAction,
+      })),
+    ).toEqual([
+      {
+        title: '¿Cómo manejas tu dinero?',
+        theme: 'Diagnóstico rápido',
+        format: 'Carrusel educativo',
+        callToAction:
+          'Desliza y haz tu autoevaluación → En comentarios, escribe una palabra: presupuesto, ahorro, crédito o fraude.',
+      },
+      {
+        title: 'Presupuesto sin enredos',
+        theme: 'Organiza lo que entra y lo que sale',
+        format: 'Carrusel educativo',
+        callToAction: 'Desliza para construir uno en 3 pasos → Pruébala durante 7 días.',
+      },
+      {
+        title: 'Pequeños gastos, gran diferencia',
+        theme: 'Gastos hormiga',
+        format: 'Carrusel educativo',
+        callToAction: 'Acepta el reto de 7 días → ¿Qué meta financiarías con ese dinero?',
+      },
+      {
+        title: 'Tu fondo de emergencia',
+        theme: 'Ahorro para imprevistos',
+        format: 'Carrusel educativo',
+        callToAction:
+          'Desliza para construirlo por etapas → Adapta el monto a tu realidad, no a la de otra persona.',
+      },
+    ]);
+    expect(publications.map((publication) => publication.summary)).toEqual([
+      expect.stringContaining('ocho preguntas'),
+      expect.stringContaining('ingresos, gastos y saldo'),
+      expect.stringContaining('gastos repetidos'),
+      expect.stringContaining('fondo de emergencia'),
     ]);
   });
 });

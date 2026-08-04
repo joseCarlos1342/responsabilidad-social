@@ -29,8 +29,9 @@ evidence:
     status: pendiente
   - label: 'Captura o enlace del formulario aplicado'
     status: pendiente
-  - label: 'Carrusel digital y plantilla reutilizable'
-    status: pendiente
+  - label: 'Carrusel educativo de presupuesto'
+    status: disponible
+    href: '/documents/publi2.pdf'
 draft: false
 featured: false
 order: 2
@@ -144,7 +145,7 @@ Preguntas para leer el ejemplo: ¿qué gasto podría ajustarse sin afectar una n
 
 ### Evidencia y reflexión
 
-**Evidencia pendiente de incorporación.** Se añadirá el carrusel de cuatro pasos, la plantilla editable o una captura solo después de crearlos y revisar que no incluyan datos reales.
+El carrusel educativo de presupuesto está disponible como evidencia de ejecución en [la sección de publicaciones realizadas](/#ejecucion-proyecto). La plantilla editable y los resultados del diagnóstico siguen pendientes de incorporación; no se presentan cifras ni conclusiones sin un consolidado real.
 
 Un presupuesto útil debe adaptarse a ingresos variables, priorizar necesidades, ofrecer protección frente a emergencias y fomentar decisiones conscientes. La herramienta no debe culpabilizar a quien tiene ingresos insuficientes: ordenar ayuda a ver opciones, pero no elimina las causas estructurales de la vulnerabilidad.
 

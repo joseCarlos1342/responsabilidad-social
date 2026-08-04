@@ -57,14 +57,14 @@ La participación será voluntaria. No se solicitarán nombres, documentos, sald
 
 ## Publicaciones proyectadas
 
-| N.º | Tema                             | Propósito                                      | Estado        |
-| --: | -------------------------------- | ---------------------------------------------- | ------------- |
-|   1 | Problema y diagnóstico           | Escuchar dudas sin datos sensibles.            | En desarrollo |
-|   2 | Presupuesto y registro de gastos | Elegir un cambio concreto.                     | En desarrollo |
-|   3 | Ahorro y fondo de emergencia     | Construir metas realistas.                     | Planeada      |
-|   4 | Gastos hormiga y consumo         | Hacer visibles decisiones pequeñas.            | Planeada      |
-|   5 | Crédito responsable              | Comparar tasa, cuota, plazo y costo total.     | Planeada      |
-|   6 | Fraude y fuentes confiables      | Reconocer señales de alerta y rutas oficiales. | Planeada      |
+| N.º | Tema                             | Propósito                                      | Estado    |
+| --: | -------------------------------- | ---------------------------------------------- | --------- |
+|   1 | Diagnóstico rápido               | Escuchar dudas sin datos sensibles.            | Ejecutada |
+|   2 | Presupuesto y registro de gastos | Elegir un cambio concreto.                     | Ejecutada |
+|   3 | Gastos hormiga y consumo         | Hacer visibles decisiones pequeñas.            | Ejecutada |
+|   4 | Ahorro y fondo de emergencia     | Construir metas realistas.                     | Ejecutada |
+|   5 | Crédito responsable              | Comparar tasa, cuota, plazo y costo total.     | Planeada  |
+|   6 | Fraude y fuentes confiables      | Reconocer señales de alerta y rutas oficiales. | Planeada  |
 
 ## Entrevista a una experta
 
@@ -92,12 +92,12 @@ Las metas son prospectivas, no resultados: mínimo 5 asistentes en vivo, 20 visu
 
 ## Cronograma de semanas 4 a 7
 
-| Semana | Trabajo previsto                                                               | Evidencia que se incorporará si existe                         |
-| ------ | ------------------------------------------------------------------------------ | -------------------------------------------------------------- |
-| 4      | Activar blog, publicar dos entradas y aplicar diagnóstico.                     | Enlace, instrumento, consolidado anonimizado.                  |
-| 5      | Publicar dos contenidos, realizar entrevista autorizada y revisar interacción. | Grabación o transcripción autorizada, registro de interacción. |
-| 6      | Publicar crédito y fraude; realizar webinar.                                   | Invitación, asistencia voluntaria, grabación y evaluación.     |
-| 7      | Publicar resultados, aprendizajes y ajustes.                                   | Comparación agregada, reflexión y conclusiones.                |
+| Semana | Trabajo previsto                                                        | Evidencia que se incorporará si existe                         |
+| ------ | ----------------------------------------------------------------------- | -------------------------------------------------------------- |
+| 4      | Activar blog, publicar dos contenidos y dejar preparado el diagnóstico. | Enlaces a publicaciones, instrumento, consolidado anonimizado. |
+| 5      | Publicar dos contenidos, coordinar entrevista y revisar interacción.    | Enlaces a publicaciones, entrevista autorizada, interacción.   |
+| 6      | Publicar crédito y fraude; realizar webinar.                            | Invitación, asistencia voluntaria, grabación y evaluación.     |
+| 7      | Publicar resultados, aprendizajes y ajustes.                            | Comparación agregada, reflexión y conclusiones.                |
 
 ## Indicadores de seguimiento
 

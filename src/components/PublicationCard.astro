@@ -1,0 +1,171 @@
+---
+import type { Publication } from '../lib/publications';
+
+interface Props {
+  publication: Publication;
+}
+
+const { publication } = Astro.props;
+---
+
+<article class="publication-card" data-publication={publication.number}>
+  <a
+    class="publication-card__preview"
+    href={publication.pdfHref}
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label={`Ver evidencia en PDF: publicación ${publication.number}, ${publication.title}`}
+  >
+    <img src={publication.thumbnailSrc} alt={publication.thumbnailAlt} width="1125" height="1407" />
+    <span class="publication-card__preview-label">Abrir evidencia ↗</span>
+  </a>
+  <div class="publication-card__body">
+    <div class="publication-card__topline">
+      <span class="publication-card__number">Publicación {publication.number}</span>
+      <span class="publication-card__format">{publication.format}</span>
+    </div>
+    <p class="eyebrow-data">{publication.week} · {publication.theme}</p>
+    <h3>{publication.title}</h3>
+    <p class="publication-card__summary">{publication.summary}</p>
+    <p class="publication-card__cta">
+      <strong>Llamado a la acción:</strong>
+      {publication.callToAction}
+    </p>
+    <div class="publication-card__actions">
+      <a
+        class="button button--small"
+        href={publication.pdfHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Ver evidencia en PDF de la publicación ${publication.number}`}
+        >Ver evidencia en PDF</a
+      >
+      <a
+        class="text-link"
+        href={publication.facebookHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Ver publicación ${publication.number} en Facebook, abre en una nueva pestaña`}
+        >Ver publicación en Facebook ↗</a
+      >
+    </div>
+  </div>
+</article>
+
+<style>
+  .publication-card {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: 0 5px 0 var(--line);
+  }
+  .publication-card__preview {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    background: var(--paper-deep);
+  }
+  .publication-card__preview::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3.5rem;
+    background: rgba(22, 75, 74, 0.72);
+    content: '';
+    pointer-events: none;
+  }
+  .publication-card__preview img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1125 / 1407;
+    object-fit: cover;
+    transition: transform 180ms ease;
+  }
+  .publication-card__preview:hover img {
+    transform: scale(1.025);
+  }
+  .publication-card__preview:focus-visible img {
+    transform: scale(1.025);
+  }
+  .publication-card__preview-label {
+    position: absolute;
+    z-index: 1;
+    right: 0.75rem;
+    bottom: 0.7rem;
+    padding: 0.25rem 0.45rem;
+    border-radius: 4px;
+    background: var(--petrol);
+    color: var(--white);
+    font-size: 0.82rem;
+    font-weight: 800;
+  }
+  .publication-card__body {
+    display: grid;
+    gap: 0.75rem;
+    padding: clamp(1.15rem, 2.5vw, 1.6rem);
+  }
+  .publication-card__topline,
+  .publication-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .publication-card__number,
+  .publication-card__format {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .publication-card__format {
+    padding: 0.3rem 0.55rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--ink-soft);
+    font-size: 0.68rem;
+  }
+  .publication-card .eyebrow-data {
+    margin: 0.35rem 0 0;
+  }
+  .publication-card h3 {
+    margin: 0;
+    color: var(--petrol);
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+  }
+  .publication-card__summary,
+  .publication-card__cta {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .publication-card__cta {
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .publication-card__cta strong {
+    color: var(--terracotta);
+  }
+  .publication-card__actions {
+    justify-content: flex-start;
+    margin-top: 0.35rem;
+  }
+  .text-link {
+    color: var(--petrol);
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .publication-card__preview img {
+      transition: none;
+    }
+  }
+</style>

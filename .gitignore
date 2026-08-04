@@ -19,6 +19,11 @@ test-results/
 !public/documents/
 !public/documents/**/*-publico.pdf
 !public/documents/**/*-publica.pdf
+!public/documents/publi1.pdf
+!public/documents/publi2.pdf
+!public/documents/publi3.pdf
+!public/documents/publi4.pdf
+!public/documents/plan-responsabilidad-social-educacion-financiera.pdf
 
 # Impeccable ephemeral output; shared skill/config files remain tracked.
 .impeccable/config.local.json
