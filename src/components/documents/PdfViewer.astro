@@ -7,6 +7,7 @@ interface Props {
 }
 
 const { src, title, pageCount, isOriginal = false } = Astro.props;
+const viewerId = `pdf-viewer-${title.toLowerCase().replace(/[^a-z0-9]+/gu, '-')}`;
 ---
 
 <section
@@ -14,26 +15,27 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
   data-pdf-viewer
   data-src={src}
   data-page-count={pageCount}
-  aria-labelledby="pdf-viewer-title"
+  aria-labelledby={`${viewerId}-title`}
 >
   <div class="pdf-viewer__head">
     <div>
       <span class="kicker">Lectura documental</span>
-      <h3 id="pdf-viewer-title">{title}</h3>
+      <h3 id={`${viewerId}-title`}>{title}</h3>
     </div>
     <a class="text-link" href={src} target="_blank" rel="noreferrer">Abrir PDF en otra pestaña ↗</a>
   </div>
   <div class="pdf-toolbar" role="toolbar" aria-label="Controles del documento">
     <button type="button" data-action="previous" aria-label="Página anterior" disabled>←</button>
-    <label for="pdf-page">Página</label>
+    <label for={`${viewerId}-page`}>Página</label>
     <input
-      id="pdf-page"
+      id={`${viewerId}-page`}
       data-page-input
       type="number"
       min="1"
       max={pageCount}
       value="1"
       inputmode="numeric"
+      disabled
     />
     <span aria-hidden="true">/</span><span data-total-pages>{pageCount}</span>
     <button type="button" data-action="next" aria-label="Página siguiente" disabled>→</button>
@@ -172,7 +174,7 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
 </style>
 
 <script>
-  import type { PDFDocumentProxy, PDFPageProxy, RenderTask } from 'pdfjs-dist';
+  import type { PDFDocumentLoadingTask, PDFDocumentProxy, RenderTask } from 'pdfjs-dist';
   import workerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?worker&url';
 
   const viewer = document.querySelector<HTMLElement>('[data-pdf-viewer]');
@@ -188,25 +190,32 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
     const previousButton = viewer.querySelector<HTMLButtonElement>('[data-action="previous"]');
     const nextButton = viewer.querySelector<HTMLButtonElement>('[data-action="next"]');
     const controls = [...viewer.querySelectorAll<HTMLButtonElement>('button[data-action]')];
+    let loadingTask: PDFDocumentLoadingTask | undefined;
     let pdf: PDFDocumentProxy | undefined;
-    let currentPage: PDFPageProxy | undefined;
     let renderTask: RenderTask | undefined;
+    let renderQueue: Promise<unknown> = Promise.resolve();
+    let renderGeneration = 0;
     let pageNumber = 1;
     let zoom = 1;
     let fitWidth = false;
     let loading: Promise<void> | undefined;
+    let ready = false;
+    let disposed = false;
 
     const setStatus = (message: string) => {
       if (status) status.textContent = message;
     };
-    const setControls = (enabled: boolean) =>
+    const setControls = (enabled: boolean) => {
       controls.forEach((control) => {
         control.disabled = !enabled;
       });
+      if (pageInput) pageInput.disabled = !enabled;
+    };
     const updatePageControls = () => {
       if (pageInput) pageInput.value = String(pageNumber);
-      if (previousButton) previousButton.disabled = !pdf || pageNumber <= 1;
-      if (nextButton) nextButton.disabled = !pdf || pageNumber >= (pdf?.numPages ?? pageCount);
+      if (previousButton) previousButton.disabled = !ready || !pdf || pageNumber <= 1;
+      if (nextButton)
+        nextButton.disabled = !ready || !pdf || pageNumber >= (pdf?.numPages ?? pageCount);
       if (canvas)
         canvas.setAttribute('aria-label', `Página ${pageNumber} de ${pdf?.numPages ?? pageCount}`);
     };
@@ -214,52 +223,98 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
       if (zoomLabel) zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
     };
 
-    const renderPage = async () => {
-      if (!pdf || !canvas || !canvasWrap) return;
-      renderTask?.cancel();
-      currentPage?.cleanup();
-      currentPage = undefined;
-      const page = await pdf.getPage(pageNumber);
-      currentPage = page;
+    const renderPage = async (request: {
+      generation: number;
+      pageNumber: number;
+      zoom: number;
+      fitWidth: boolean;
+    }) => {
+      const activePdf = pdf;
+      if (
+        !activePdf ||
+        !canvas ||
+        !canvasWrap ||
+        disposed ||
+        request.generation !== renderGeneration
+      )
+        return false;
+      const page = await activePdf.getPage(request.pageNumber);
+      if (disposed || request.generation !== renderGeneration) {
+        page.cleanup();
+        return false;
+      }
       const baseViewport = page.getViewport({ scale: 1 });
       const width = Math.max(240, canvasWrap.clientWidth - 32);
-      const scale = fitWidth ? Math.min(width / baseViewport.width, 2.5) : zoom;
+      const scale = request.fitWidth ? Math.min(width / baseViewport.width, 2.5) : request.zoom;
       const viewport = page.getViewport({ scale });
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.floor(viewport.width * dpr);
       canvas.height = Math.floor(viewport.height * dpr);
       canvas.style.width = `${viewport.width}px`;
       canvas.style.height = `${viewport.height}px`;
-      const context = canvas.getContext('2d');
-      if (!context) throw new Error('No se pudo preparar el canvas del lector.');
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
-      renderTask = page.render({ canvas, canvasContext: context, viewport });
+      const transform = dpr === 1 ? undefined : [dpr, 0, 0, dpr, 0, 0];
+      const task = page.render({ canvas, transform, viewport });
+      renderTask = task;
       try {
-        await renderTask.promise;
-        setStatus(`Página ${pageNumber} de ${pdf.numPages} cargada.`);
+        await task.promise;
+        if (disposed || request.generation !== renderGeneration) return false;
+        setStatus(`Página ${request.pageNumber} de ${activePdf.numPages} cargada.`);
+        return true;
       } catch (error) {
-        if ((error as Error).name !== 'RenderingCancelledException') throw error;
+        if ((error as Error).name === 'RenderingCancelledException') return false;
+        throw error;
       } finally {
         page.cleanup();
-        if (currentPage === page) currentPage = undefined;
-        renderTask = undefined;
+        if (renderTask === task) renderTask = undefined;
       }
-      updatePageControls();
+    };
+    const queueRender = () => {
+      const request = {
+        generation: ++renderGeneration,
+        pageNumber,
+        zoom,
+        fitWidth,
+      };
+      renderTask?.cancel();
+      const queued = renderQueue.then(() => renderPage(request));
+      renderQueue = queued.catch(() => undefined);
+      return queued;
+    };
+    const requestRender = () => {
+      void queueRender().catch(() =>
+        setStatus('No se pudo renderizar esta página. Intenta restablecer el zoom.'),
+      );
     };
 
     const load = async () => {
-      if (!src || !canvas || loading) return loading;
+      if (!src || !canvas || loading || pdf || disposed) return loading;
       loading = (async () => {
         setStatus('Cargando lector PDF…');
         loadButton?.setAttribute('aria-busy', 'true');
         try {
           const pdfjs = await import('pdfjs-dist');
           pdfjs.GlobalWorkerOptions.workerSrc = workerUrl;
-          pdf = await pdfjs.getDocument({ url: src }).promise;
+          loadingTask = pdfjs.getDocument({ url: src });
+          pdf = await loadingTask.promise;
+          const rendered = await queueRender();
+          if (disposed) return;
+          if (!rendered) throw new Error('El primer render del PDF no se completó.');
+          ready = true;
           canvasWrap?.setAttribute('data-ready', 'true');
           setControls(true);
-          await renderPage();
+          updatePageControls();
         } catch {
+          if (disposed) return;
+          ready = false;
+          renderGeneration += 1;
+          renderTask?.cancel();
+          const failedTask = loadingTask;
+          loadingTask = undefined;
+          pdf = undefined;
+          if (failedTask) await failedTask.destroy().catch(() => undefined);
+          canvasWrap?.removeAttribute('data-ready');
+          setControls(false);
+          updatePageControls();
           setStatus(
             'No se pudo cargar el PDF. Usa el enlace convencional para abrirlo o descargarlo.',
           );
@@ -273,23 +328,30 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
     };
 
     const changePage = (nextPage: number) => {
-      pageNumber = Math.max(1, Math.min(nextPage, pdf?.numPages ?? pageCount));
-      void renderPage().catch(() =>
-        setStatus('No se pudo renderizar esta página. Intenta restablecer el zoom.'),
-      );
+      if (!ready) {
+        updatePageControls();
+        return;
+      }
+      const boundedPage = Math.max(1, Math.min(nextPage, pdf?.numPages ?? pageCount));
+      if (boundedPage === pageNumber) return;
+      pageNumber = boundedPage;
+      updatePageControls();
+      requestRender();
     };
     const changeZoom = (amount: number) => {
+      if (!ready) return;
       fitWidth = false;
       zoom = Math.max(0.5, Math.min(2.5, zoom + amount));
       updateZoom();
-      void renderPage();
+      requestRender();
     };
 
     const onModeChange = (event: Event) => {
       if ((event as CustomEvent<string>).detail === 'pdf') void load();
     };
     const onKeyDown = (event: KeyboardEvent) => {
-      if (!pdf || (!viewer.matches(':hover') && !viewer.contains(document.activeElement))) return;
+      if (!ready || !pdf || (!viewer.matches(':hover') && !viewer.contains(document.activeElement)))
+        return;
       if (event.key === 'ArrowLeft') changePage(pageNumber - 1);
       if (event.key === 'ArrowRight') changePage(pageNumber + 1);
       if (event.key === '+') changeZoom(0.1);
@@ -298,14 +360,17 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
         fitWidth = false;
         zoom = 1;
         updateZoom();
-        void renderPage();
+        requestRender();
       }
     };
     const cleanup = () => {
+      disposed = true;
+      ready = false;
+      renderGeneration += 1;
       renderTask?.cancel();
-      currentPage?.cleanup();
-      currentPage = undefined;
-      pdf?.cleanup();
+      const activeLoadingTask = loadingTask;
+      if (activeLoadingTask) void activeLoadingTask.destroy().catch(() => undefined);
+      loadingTask = undefined;
       pdf = undefined;
       if (canvas) {
         canvas.width = 0;
@@ -327,18 +392,22 @@ const { src, title, pageCount, isOriginal = false } = Astro.props;
       .querySelector('[data-action="zoom-in"]')
       ?.addEventListener('click', () => changeZoom(0.1));
     viewer.querySelector('[data-action="fit"]')?.addEventListener('click', () => {
+      if (!ready) return;
       fitWidth = true;
-      void renderPage();
+      requestRender();
     });
     viewer.querySelector('[data-action="reset"]')?.addEventListener('click', () => {
+      if (!ready) return;
       fitWidth = false;
       zoom = 1;
       updateZoom();
-      void renderPage();
+      requestRender();
     });
     document.addEventListener('keydown', onKeyDown);
     window.addEventListener('pagehide', cleanup, { once: true });
     updatePageControls();
     updateZoom();
+    const panel = viewer.closest<HTMLElement>('[data-panel="pdf"]');
+    if (panel && !panel.hidden) void load();
   }
 </script>
