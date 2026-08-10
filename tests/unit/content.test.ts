@@ -23,6 +23,7 @@ import {
   type Publication,
 } from '../../src/lib/publications';
 import { projectTimeline } from '../../src/lib/project';
+import { diagnosticSummary } from '../../src/data/diagnostic';
 
 const activity = (
   id: string,
@@ -124,7 +125,7 @@ describe('content utilities', () => {
     expect(getDocumentRoute(entries[0])).toBe('/documentos/later/');
   });
 
-  it('valida que un PDF público exista y tenga privacidad revisada', () => {
+  it('valida que un PDF documental original exista', () => {
     const documentEntry = {
       id: 'actividad-2-publica',
       body: '',
@@ -141,20 +142,20 @@ describe('content utilities', () => {
         updatedAt: new Date('2026-07-30'),
         originalFile: 'docs/fuentes-academicas/source.pdf',
         webRoute: '/actividades/actividad-2-decisiones-que-si-suman/',
-        pageCount: 4,
-        version: '1.0 pública',
+        pageCount: 3,
+        version: '1.0 original académico',
         ods: [4],
         tags: [],
         downloadable: true,
-        publicVersion: '/documents/actividad-2-publica.pdf',
+        publicVersion: '/documents/actividad-2-original.pdf',
         privacyReviewed: true as const,
-        documentSource: 'publica' as const,
+        documentSource: 'original' as const,
         evidenceStatus: 'disponible' as const,
       },
     } as DocumentEntry;
     expect(validateDocumentEntry(documentEntry)).toEqual([]);
     expect(validateDocumentEntry(documentEntry, '/tmp/documentos-inexistentes')).toContain(
-      'PDF público inexistente: /documents/actividad-2-publica.pdf',
+      'PDF documental inexistente: /documents/actividad-2-original.pdf',
     );
   });
 
@@ -169,34 +170,36 @@ describe('content utilities', () => {
     ]);
   });
 
-  it('registra las cuatro publicaciones ejecutadas de las seis previstas', () => {
-    expect(publications).toHaveLength(4);
-    expect(publications.map((publication) => publication.number)).toEqual([1, 2, 3, 4]);
+  it('registra las seis publicaciones ejecutadas', () => {
+    expect(publications).toHaveLength(6);
+    expect(publications.map((publication) => publication.number)).toEqual([1, 2, 3, 4, 5, 6]);
     expect(publicationTotal).toBe(6);
-    expect(getPublicationProgress(publications)).toEqual({ current: 4, total: publicationTotal });
+    expect(getPublicationProgress(publications)).toEqual({ current: 6, total: publicationTotal });
     expect(publications.every((publication) => publication.status === 'ejecutada')).toBe(true);
     expect(publications.map((publication) => publication.week)).toEqual([
       'Semana 4',
       'Semana 4',
       'Semana 5',
       'Semana 5',
+      'Semana 6',
+      'Semana 6',
     ]);
   });
 
-  it('conserva una URL PDF, miniatura y enlace de Facebook por publicación', () => {
+  it('conserva PDF y miniatura por publicación, y enlaces sociales cuando existen', () => {
     const requiredFields: Array<keyof Publication> = [
       'pdfHref',
       'thumbnailSrc',
-      'facebookHref',
       'title',
       'callToAction',
     ];
 
     publications.forEach((publication) => {
       requiredFields.forEach((field) => expect(publication[field]).toBeTruthy());
-      expect(publication.pdfHref).toMatch(/^\/documents\/publi[1-4]\.pdf$/u);
-      expect(publication.thumbnailSrc).toMatch(/^\/assets\/publicaciones\/publi[1-4]\.png$/u);
-      expect(publication.facebookHref).toMatch(/^https:\/\/www\.facebook\.com\/share\//u);
+      expect(publication.pdfHref).toMatch(/^\/documents\/publi[1-6]\.pdf$/u);
+      expect(publication.thumbnailSrc).toMatch(/^\/assets\/publicaciones\/publi[1-6]\.png$/u);
+      if (publication.facebookHref)
+        expect(publication.facebookHref).toMatch(/^https:\/\/www\.facebook\.com\/share\//u);
       expect(existsSync(resolve(process.cwd(), 'public', publication.pdfHref.slice(1)))).toBe(true);
       expect(existsSync(resolve(process.cwd(), 'public', publication.thumbnailSrc.slice(1)))).toBe(
         true,
@@ -239,12 +242,35 @@ describe('content utilities', () => {
         callToAction:
           'Desliza para construirlo por etapas → Adapta el monto a tu realidad, no a la de otra persona.',
       },
+      {
+        title: 'Antes de aceptar un crédito, mira más allá de la cuota',
+        theme: 'Crédito responsable',
+        format: 'Carrusel educativo',
+        callToAction: 'Haz una pausa antes de decidir → Revisa seis datos y compara opciones.',
+      },
+      {
+        title: '¿Crédito fácil o fraude?',
+        theme: 'Prevención del fraude',
+        format: 'Carrusel educativo',
+        callToAction: 'Desconfía cuando haya presión o anticipos → Verifica por canales oficiales.',
+      },
     ]);
     expect(publications.map((publication) => publication.summary)).toEqual([
       expect.stringContaining('ocho preguntas'),
       expect.stringContaining('ingresos, gastos y saldo'),
       expect.stringContaining('gastos repetidos'),
       expect.stringContaining('fondo de emergencia'),
+      expect.stringContaining('tasa, plazo'),
+      expect.stringContaining('señales de alerta'),
     ]);
+  });
+
+  it('mantiene el consolidado diagnóstico en ocho preguntas y 16 respuestas', () => {
+    expect(diagnosticSummary.responseCount).toBe(16);
+    expect(diagnosticSummary.questions).toHaveLength(8);
+    expect(diagnosticSummary.hasPosttest).toBe(false);
+    diagnosticSummary.questions.forEach((question) => {
+      expect(question.options.reduce((total, option) => total + option.count, 0)).toBe(16);
+    });
   });
 });
