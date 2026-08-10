@@ -1,15 +1,15 @@
 export type Publication = {
   number: number;
-  week: 'Semana 4' | 'Semana 5';
+  week: 'Semana 4' | 'Semana 5' | 'Semana 6';
   title: string;
   theme: string;
   summary: string;
   format: 'Carrusel educativo';
   callToAction: string;
-  pdfHref: `/documents/publi${1 | 2 | 3 | 4}.pdf`;
-  thumbnailSrc: `/assets/publicaciones/publi${1 | 2 | 3 | 4}.png`;
+  pdfHref: `/documents/publi${1 | 2 | 3 | 4 | 5 | 6}.pdf`;
+  thumbnailSrc: `/assets/publicaciones/publi${1 | 2 | 3 | 4 | 5 | 6}.png`;
   thumbnailAlt: string;
-  facebookHref: string;
+  facebookHref?: string;
   status: 'ejecutada';
 };
 
@@ -78,6 +78,36 @@ export const publications: readonly Publication[] = [
     thumbnailAlt:
       'Primera página del carrusel “Tu fondo de emergencia” sobre ahorro para imprevistos.',
     facebookHref: 'https://www.facebook.com/share/p/1QUunWR1rH/',
+    status: 'ejecutada',
+  },
+  {
+    number: 5,
+    week: 'Semana 6',
+    title: 'Antes de aceptar un crédito, mira más allá de la cuota',
+    theme: 'Crédito responsable',
+    summary:
+      'Invita a revisar tasa, plazo, seguros, capacidad de pago y costo total antes de firmar. Una cuota menor no siempre significa un crédito más económico.',
+    format: 'Carrusel educativo',
+    callToAction: 'Haz una pausa antes de decidir → Revisa seis datos y compara opciones.',
+    pdfHref: '/documents/publi5.pdf',
+    thumbnailSrc: '/assets/publicaciones/publi5.png',
+    thumbnailAlt:
+      'Primera página del carrusel “Antes de aceptar un crédito, mira más allá de la cuota”.',
+    status: 'ejecutada',
+  },
+  {
+    number: 6,
+    week: 'Semana 6',
+    title: '¿Crédito fácil o fraude?',
+    theme: 'Prevención del fraude',
+    summary:
+      'Presenta señales de alerta, prácticas para proteger los datos y pasos para verificar ofertas, canales y entidades antes de entregar dinero o información.',
+    format: 'Carrusel educativo',
+    callToAction: 'Desconfía cuando haya presión o anticipos → Verifica por canales oficiales.',
+    pdfHref: '/documents/publi6.pdf',
+    thumbnailSrc: '/assets/publicaciones/publi6.png',
+    thumbnailAlt:
+      'Primera página del carrusel “¿Crédito fácil o fraude?” sobre seguridad financiera.',
     status: 'ejecutada',
   },
 ] as const;

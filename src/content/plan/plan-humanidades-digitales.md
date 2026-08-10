@@ -12,7 +12,7 @@ references:
 documentSlug: plan-humanidades-digitales-publico
 ---
 
-> **Estado del plan:** en desarrollo. Las fechas exactas de entrevista y webinar se confirmarán con las personas participantes y la docente. No se publican como realizadas hasta contar con evidencia.
+> **Estado del plan:** en desarrollo. Las seis publicaciones y el diagnóstico inicial tienen evidencia registrada. La entrevista publicada dura 7:20 frente a la meta de 15 minutos; el webinar, la asistencia y la evaluación final siguen pendientes.
 
 ## Problemática seleccionada
 
@@ -63,8 +63,8 @@ La participación será voluntaria. No se solicitarán nombres, documentos, sald
 |   2 | Presupuesto y registro de gastos | Elegir un cambio concreto.                     | Ejecutada |
 |   3 | Gastos hormiga y consumo         | Hacer visibles decisiones pequeñas.            | Ejecutada |
 |   4 | Ahorro y fondo de emergencia     | Construir metas realistas.                     | Ejecutada |
-|   5 | Crédito responsable              | Comparar tasa, cuota, plazo y costo total.     | Planeada  |
-|   6 | Fraude y fuentes confiables      | Reconocer señales de alerta y rutas oficiales. | Planeada  |
+|   5 | Crédito responsable              | Comparar tasa, cuota, plazo y costo total.     | Ejecutada |
+|   6 | Fraude y fuentes confiables      | Reconocer señales de alerta y rutas oficiales. | Ejecutada |
 
 ## Entrevista a una experta
 
@@ -78,7 +78,7 @@ Se proyecta conversar con una coordinadora con experiencia en análisis financie
 - ¿Qué señales alertan sobre sobreendeudamiento o fraude?
 - ¿Qué rutas confiables debería seguir una persona que anticipa dificultades de pago?
 
-**Meta de ejecución:** mínimo 15 minutos. La fecha de semana 5 está por confirmar.
+**Evidencia registrada:** video publicado en YouTube y archivo original conservado fuera del bundle web. La metadata del original registra 7 minutos y 20 segundos, por debajo de la meta de 15 minutos; la entrevista no se presenta como cumplimiento de esa meta.
 
 ## Webinar o seminario virtual
 
@@ -92,12 +92,12 @@ Las metas son prospectivas, no resultados: mínimo 5 asistentes en vivo, 20 visu
 
 ## Cronograma de semanas 4 a 7
 
-| Semana | Trabajo previsto                                                        | Evidencia que se incorporará si existe                         |
-| ------ | ----------------------------------------------------------------------- | -------------------------------------------------------------- |
-| 4      | Activar blog, publicar dos contenidos y dejar preparado el diagnóstico. | Enlaces a publicaciones, instrumento, consolidado anonimizado. |
-| 5      | Publicar dos contenidos, coordinar entrevista y revisar interacción.    | Enlaces a publicaciones, entrevista autorizada, interacción.   |
-| 6      | Publicar crédito y fraude; realizar webinar.                            | Invitación, asistencia voluntaria, grabación y evaluación.     |
-| 7      | Publicar resultados, aprendizajes y ajustes.                            | Comparación agregada, reflexión y conclusiones.                |
+| Semana | Trabajo previsto                                                      | Evidencia que se incorporará si existe                                                    |
+| ------ | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| 4      | Activar blog, publicar dos contenidos y aplicar el diagnóstico.       | Página activa, publicaciones 1–2 y 16 respuestas.                                         |
+| 5      | Publicar dos contenidos, registrar interacción y publicar entrevista. | Publicaciones 3–4, comentarios y entrevista de 7:20; meta de 15 min no cumplida.          |
+| 6      | Publicar crédito y fraude; preparar webinar y evaluación.             | Publicaciones 5–6 y seis publicaciones totales; webinar, asistencia y postest pendientes. |
+| 7      | Revisar métricas, satisfacción, comparación y reflexión.              | Pendiente de ejecución y evidencias.                                                      |
 
 ## Indicadores de seguimiento
 

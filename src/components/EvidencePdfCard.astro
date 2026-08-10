@@ -1,0 +1,229 @@
+---
+interface Props {
+  src: string;
+  title: string;
+  summary: string;
+  pageCount: number;
+  thumbnail: string;
+}
+
+const { src, title, summary, pageCount, thumbnail } = Astro.props;
+const dialogId = `evidence-dialog-${title.toLowerCase().replace(/[^a-z0-9]+/gu, '-')}`;
+---
+
+<article class="evidence-pdf-card" data-evidence-pdf data-pdf-src={src}>
+  <div class="evidence-pdf-card__preview">
+    <img
+      src={thumbnail}
+      alt="Miniatura de la primera página de la evidencia"
+      width="480"
+      height="679"
+      loading="lazy"
+    />
+    <span aria-hidden="true">PDF</span>
+  </div>
+  <div>
+    <span class="eyebrow-data">Evidencia registrada · {pageCount} páginas</span>
+    <h3>{title}</h3>
+    <p>{summary}</p>
+    <div class="evidence-pdf-card__actions">
+      <button
+        class="button button--small"
+        type="button"
+        data-pdf-open
+        aria-expanded="false"
+        aria-controls={dialogId}
+      >
+        Ver evidencia
+      </button>
+      <a class="text-link" href={src} target="_blank" rel="noopener noreferrer">Abrir PDF ↗</a>
+      <a class="text-link" href={src} download>Descargar PDF</a>
+    </div>
+    <dialog
+      class="evidence-pdf-dialog"
+      id={dialogId}
+      data-pdf-dialog
+      aria-labelledby={`${dialogId}-title`}
+    >
+      <div class="evidence-pdf-dialog__head">
+        <div>
+          <span class="eyebrow-data">Visor de evidencia · {pageCount} páginas</span>
+          <h4 id={`${dialogId}-title`}>{title}</h4>
+        </div>
+        <button
+          class="evidence-pdf-dialog__close"
+          type="button"
+          data-pdf-close
+          aria-label="Cerrar visor"
+        >
+          ×
+        </button>
+      </div>
+      <div class="evidence-pdf-dialog__frame" data-pdf-frame></div>
+      <p class="evidence-pdf-dialog__hint">
+        Si necesitas otra vista, puedes <a href={src} target="_blank" rel="noopener noreferrer"
+          >abrir el PDF en otra pestaña</a
+        >
+        o <a href={src} download>descargarlo</a>.
+      </p>
+    </dialog>
+  </div>
+</article>
+
+<style>
+  .evidence-pdf-card {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: 1.2rem;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+  .evidence-pdf-card__preview {
+    position: relative;
+    min-height: 5rem;
+    overflow: hidden;
+    background: var(--mist);
+  }
+  .evidence-pdf-card__preview img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .evidence-pdf-card__preview span {
+    position: absolute;
+    right: 0.4rem;
+    bottom: 0.4rem;
+    padding: 0.2rem 0.35rem;
+    background: var(--petrol);
+    color: var(--paper);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.65rem;
+    font-weight: 800;
+  }
+  .evidence-pdf-card h3 {
+    margin: 0.5rem 0;
+    color: var(--petrol);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .evidence-pdf-card p {
+    max-width: 65ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .evidence-pdf-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  .evidence-pdf-card .text-link {
+    color: var(--petrol);
+    font-size: 0.86rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .evidence-pdf-dialog {
+    width: min(96vw, 1180px);
+    max-width: none;
+    height: min(90dvh, 900px);
+    max-height: none;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 18px 60px rgb(31 41 40 / 32%);
+  }
+  .evidence-pdf-dialog::backdrop {
+    background: rgb(31 41 40 / 74%);
+  }
+  .evidence-pdf-dialog__head {
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    justify-content: space-between;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .evidence-pdf-dialog h4 {
+    margin: 0.35rem 0 0;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.35rem, 3vw, 2.2rem);
+  }
+  .evidence-pdf-dialog__close {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+  .evidence-pdf-dialog__frame {
+    height: calc(100% - 6.5rem);
+    margin-top: 1rem;
+    background: #d8d2c7;
+  }
+  .evidence-pdf-dialog__hint {
+    margin: 0.7rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
+  .evidence-pdf-dialog__hint a {
+    color: var(--petrol);
+    font-weight: 750;
+  }
+  @media (max-width: 520px) {
+    .evidence-pdf-card {
+      grid-template-columns: 1fr;
+    }
+    .evidence-pdf-dialog {
+      width: calc(100vw - 1rem);
+      height: calc(100dvh - 1rem);
+      padding: 0.7rem;
+    }
+    .evidence-pdf-dialog__frame {
+      height: calc(100% - 7rem);
+    }
+  }
+</style>
+
+<script>
+  const evidenceCards = document.querySelectorAll<HTMLElement>('[data-evidence-pdf]');
+  evidenceCards.forEach((card) => {
+    const button = card.querySelector<HTMLButtonElement>('[data-pdf-open]');
+    const dialog = card.querySelector<HTMLDialogElement>('[data-pdf-dialog]');
+    const frame = card.querySelector<HTMLElement>('[data-pdf-frame]');
+    const close = card.querySelector<HTMLButtonElement>('[data-pdf-close]');
+    const src = card.dataset.pdfSrc ?? card.querySelector<HTMLAnchorElement>('a[href]')?.href;
+    if (!button || !dialog || !frame || !close || !src) return;
+    button.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.className = 'evidence-pdf-frame';
+      iframe.title = 'Visor de evidencia: Pruebas de publicaciones y diagnóstico';
+      iframe.loading = 'lazy';
+      iframe.src = `${src}#page=1`;
+      frame.replaceWith(iframe);
+      dialog.showModal();
+      button.setAttribute('aria-expanded', 'true');
+      button.textContent = 'Ocultar evidencia';
+    });
+    const closeDialog = () => {
+      dialog.close();
+      button.setAttribute('aria-expanded', 'false');
+      button.textContent = 'Ver evidencia';
+      button.focus();
+    };
+    close.addEventListener('click', closeDialog);
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      closeDialog();
+    });
+  });
+</script>

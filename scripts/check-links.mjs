@@ -13,7 +13,14 @@ for (const file of files) {
   for (const match of html.matchAll(hrefPattern)) {
     const href = match[1];
     if (!href.startsWith('/') || href.startsWith('//') || href.startsWith('/#')) continue;
-    const clean = href.split('#')[0].split('?')[0];
+    const encodedPath = href.split('#')[0].split('?')[0];
+    let clean;
+    try {
+      clean = decodeURIComponent(encodedPath);
+    } catch {
+      broken.push(`${relative(process.cwd(), file)} -> ${href}`);
+      continue;
+    }
     if (!clean || clean.startsWith('/sitemap') || clean === '/robots.txt' || clean === '/rss.xml')
       continue;
     const candidates = [

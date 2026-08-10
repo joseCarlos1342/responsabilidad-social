@@ -16,7 +16,14 @@ const { publication } = Astro.props;
     rel="noopener noreferrer"
     aria-label={`Ver evidencia en PDF: publicación ${publication.number}, ${publication.title}`}
   >
-    <img src={publication.thumbnailSrc} alt={publication.thumbnailAlt} width="1125" height="1407" />
+    <img
+      src={publication.thumbnailSrc}
+      alt={publication.thumbnailAlt}
+      width="1125"
+      height="1407"
+      loading="lazy"
+      decoding="async"
+    />
     <span class="publication-card__preview-label">Abrir evidencia ↗</span>
   </a>
   <div class="publication-card__body">
@@ -40,14 +47,23 @@ const { publication } = Astro.props;
         aria-label={`Ver evidencia en PDF de la publicación ${publication.number}`}
         >Ver evidencia en PDF</a
       >
-      <a
-        class="text-link"
-        href={publication.facebookHref}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label={`Ver publicación ${publication.number} en Facebook, abre en una nueva pestaña`}
-        >Ver publicación en Facebook ↗</a
-      >
+      {
+        publication.facebookHref ? (
+          <a
+            class="text-link"
+            href={publication.facebookHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Ver publicación ${publication.number} en Facebook, abre en una nueva pestaña`}
+          >
+            Ver publicación en Facebook ↗
+          </a>
+        ) : (
+          <span class="publication-card__note">
+            Enlace individual no disponible; evidencia en PDF.
+          </span>
+        )
+      }
     </div>
   </div>
 </article>

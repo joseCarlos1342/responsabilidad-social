@@ -1,8 +1,32 @@
 export const projectStatus = {
-  currentWeek: 'Semana 5',
+  currentWeek: 'Semana 6',
   currentStage:
-    'Cuatro publicaciones educativas ejecutadas; entrevista, webinar y resultados pendientes.',
+    'Seis publicaciones y el diagnóstico están registrados; el webinar, el postest y la actividad académica de la semana 6 siguen en progreso.',
 } as const;
+
+export const projectWeeks = [
+  {
+    week: 'Semana 4',
+    status: 'completada' as const,
+    summary: 'Página activa, publicaciones 1 y 2, diagnóstico y 16 respuestas.',
+  },
+  {
+    week: 'Semana 5',
+    status: 'en-progreso' as const,
+    summary:
+      'Publicaciones 3 y 4, interacción y entrevista publicada; duración objetivo no cumplida.',
+  },
+  {
+    week: 'Semana 6',
+    status: 'en-progreso' as const,
+    summary: 'Publicaciones 5 y 6 registradas; webinar, asistencia y evaluación final pendientes.',
+  },
+  {
+    week: 'Semana 7',
+    status: 'pendiente' as const,
+    summary: 'Seguimiento, satisfacción, comparación y reflexión final pendientes.',
+  },
+] as const;
 
 export const projectTimeline = [
   {
@@ -18,22 +42,22 @@ export const projectTimeline = [
   {
     week: 'Semana 4',
     title: 'Diagnóstico y presupuesto',
-    detail:
-      'Publicar el diagnóstico rápido y el carrusel de presupuesto; mantener resultados pendientes.',
+    detail: 'Página activa, publicaciones 1 y 2 y diagnóstico completado con 16 respuestas.',
   },
   {
     week: 'Semana 5',
     title: 'Ahorro y entrevista',
-    detail: 'Publicar gastos hormiga y fondo de emergencia; coordinar la entrevista pendiente.',
+    detail:
+      'Publicaciones 3 y 4, comentarios y entrevista publicada; la duración mínima no se cumplió.',
   },
   {
     week: 'Semana 6',
     title: 'Crédito, fraude y webinar',
-    detail: 'Trabajar costo total, señales de fraude y sesión virtual.',
+    detail: 'Publicaciones 5 y 6 registradas; webinar, asistencia y postest siguen pendientes.',
   },
   {
     week: 'Semana 7',
     title: 'Resultados, evaluación y reflexión',
-    detail: 'Consolidar evidencias, revisar aprendizajes y documentar ajustes.',
+    detail: 'Revisar métricas, satisfacción, comparación pretest-postest y reflexión final.',
   },
 ] as const;

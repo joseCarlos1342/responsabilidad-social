@@ -26,6 +26,12 @@ if (!relatedDocument) throw new Error(`No hay documento relacionado para ${activ
 const { Content, headings } = await render(activity);
 const readingTime = estimateReadingTime(activity.body ?? '');
 const tocHeadings = headings.filter((heading) => heading.depth <= 2);
+const evidenceLabels = {
+  pendiente: 'PENDIENTE',
+  disponible: 'DISPONIBLE',
+  autorizada: 'AUTORIZADA',
+  completada: 'COMPLETADA',
+} as const;
 ---
 
 <BaseLayout
@@ -89,8 +95,8 @@ const tocHeadings = headings.filter((heading) => heading.depth <= 2);
                   <span class="kicker">Trazabilidad</span><h2 id="evidence-title">
                     Estado de la evidencia
                   </h2><p>
-                    La publicación solo muestra enlaces disponibles o estados pendientes, nunca
-                    resultados inventados.
+                    La publicación distingue resultados incorporados, evidencias disponibles y
+                    elementos que todavía no cuentan con soporte verificable.
                   </p>
                 </div>
                 <div class="evidence-list">
@@ -105,9 +111,7 @@ const tocHeadings = headings.filter((heading) => heading.depth <= 2);
                           )}
                         </span>
                         <strong class:list={{ pending: evidence.status === 'pendiente' }}>
-                          {evidence.status === 'pendiente'
-                            ? 'Evidencia pendiente de incorporación'
-                            : evidence.status}
+                          {evidenceLabels[evidence.status]}
                         </strong>
                       </div>
                     ))

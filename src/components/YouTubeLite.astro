@@ -1,0 +1,163 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+  thumbnail: string;
+  youtubeHref: string;
+}
+
+const { videoId, title, thumbnail, youtubeHref } = Astro.props;
+const titleId = `interview-title-${videoId}`;
+---
+
+<section class="youtube-lite" aria-labelledby={titleId} data-youtube-lite data-video-id={videoId}>
+  <div class="youtube-lite__header">
+    <div>
+      <span class="kicker">Evidencia audiovisual</span>
+      <h2 id={titleId}>{title}</h2>
+    </div>
+    <span class="eyebrow-data">Reproducción principal · YouTube</span>
+  </div>
+  <div class="youtube-lite__frame" data-youtube-frame>
+    <img
+      src={thumbnail}
+      alt="Miniatura de la entrevista sobre educación financiera"
+      width="480"
+      height="360"
+      loading="lazy"
+    />
+    <button
+      type="button"
+      class="youtube-lite__play"
+      data-youtube-play
+      aria-label={`Reproducir entrevista: ${title}`}
+    >
+      <span aria-hidden="true">▶</span>
+      <span>Reproducir entrevista</span>
+    </button>
+    <noscript>
+      <p class="youtube-lite__noscript">
+        JavaScript está desactivado. <a href={youtubeHref}>Abrir entrevista en YouTube ↗</a>
+      </p>
+    </noscript>
+  </div>
+  <p class="youtube-lite__caption">
+    Entrevista publicada en YouTube. El archivo local original se conserva fuera del bundle web; su
+    duración verificada es de 7:20, por debajo de la meta académica de 15 minutos.
+  </p>
+  <a class="text-link" href={youtubeHref} target="_blank" rel="noopener noreferrer">
+    Ver entrevista en YouTube ↗
+  </a>
+</section>
+
+<style>
+  .youtube-lite {
+    padding: clamp(1.2rem, 3vw, 2.5rem);
+    border: 1px solid var(--line);
+    background: var(--white);
+    box-shadow: 0 5px 0 var(--line);
+  }
+  .youtube-lite__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    align-items: end;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+  }
+  .youtube-lite h2 {
+    max-width: 15ch;
+    margin: 0.6rem 0 0;
+    color: var(--petrol);
+    font-size: clamp(2rem, 5vw, 4rem);
+  }
+  .youtube-lite__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    background: #111;
+  }
+  .youtube-lite__frame img,
+  .youtube-lite__frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+  .youtube-lite__play {
+    position: absolute;
+    z-index: 1;
+    inset: 50% auto auto 50%;
+    display: inline-flex;
+    gap: 0.65rem;
+    align-items: center;
+    min-height: 52px;
+    padding: 0.8rem 1.1rem;
+    border: 1px solid var(--paper);
+    border-radius: 999px;
+    background: var(--petrol);
+    color: var(--paper);
+    cursor: pointer;
+    font-weight: 800;
+    transform: translate(-50%, -50%);
+  }
+  .youtube-lite__play:hover {
+    background: var(--terracotta);
+  }
+  .youtube-lite__play span:first-child {
+    font-size: 1.1rem;
+  }
+  .youtube-lite__caption {
+    margin: 1rem 0 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .youtube-lite .text-link {
+    color: var(--petrol);
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .youtube-lite__noscript {
+    position: absolute;
+    inset: auto 1rem 1rem;
+    padding: 0.75rem;
+    background: var(--paper);
+    color: var(--ink);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .youtube-lite__play {
+      transform: translate(-50%, -50%);
+    }
+  }
+</style>
+
+<script>
+  const youtubeCards = document.querySelectorAll<HTMLElement>('[data-youtube-lite]');
+
+  youtubeCards.forEach((card) => {
+    const play = card.querySelector<HTMLButtonElement>('[data-youtube-play]');
+    const frame = card.querySelector<HTMLElement>('[data-youtube-frame]');
+    if (!play || !frame) return;
+    play.addEventListener(
+      'click',
+      () => {
+        const iframe = document.createElement('iframe');
+        const videoId = card.dataset.videoId;
+        if (!videoId) return;
+        iframe.className = 'youtube-lite__iframe';
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
+        iframe.title = 'Educación financiera para tomar mejores decisiones | Entrevista';
+        iframe.loading = 'lazy';
+        iframe.allowFullscreen = true;
+        iframe.setAttribute(
+          'allow',
+          'accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share',
+        );
+        frame.replaceChildren(iframe);
+        play.remove();
+      },
+      { once: true },
+    );
+  });
+</script>

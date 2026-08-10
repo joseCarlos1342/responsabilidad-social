@@ -4,7 +4,7 @@ import { z } from 'astro/zod';
 
 const evidenceSchema = z.object({
   label: z.string(),
-  status: z.enum(['pendiente', 'disponible', 'autorizada']),
+  status: z.enum(['pendiente', 'disponible', 'autorizada', 'completada']),
   href: z
     .string()
     .refine((value) => value.startsWith('/') || /^https?:\/\//u.test(value), {
@@ -95,7 +95,7 @@ const document = defineCollection({
     publicVersion: z
       .string()
       .regex(
-        /^\/documents\/(?:.*-(?:publico|publica)\.pdf|plan-responsabilidad-social-educacion-financiera\.pdf)$/u,
+        /^\/documents\/(?:.*-(?:publico|publica|original)\.pdf|plan-responsabilidad-social-educacion-financiera\.pdf)$/u,
       ),
     privacyReviewed: z.literal(true),
     documentSource: z.enum(['publica', 'original']),

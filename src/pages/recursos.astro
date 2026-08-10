@@ -31,6 +31,18 @@ const resources = await getCollection('recurso');
                     ? 'Evidencia pendiente de incorporación'
                     : 'Disponible'}
                 </strong>
+                {resource.data.href && (
+                  <a
+                    class="button button--small"
+                    href={resource.data.href}
+                    target={resource.data.href.startsWith('http') ? '_blank' : undefined}
+                    rel={resource.data.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  >
+                    {resource.data.kind === 'plantilla'
+                      ? 'Abrir plantilla editable'
+                      : 'Abrir recurso'}
+                  </a>
+                )}
               </>
             </article>
           ))
@@ -69,6 +81,8 @@ const resources = await getCollection('recurso');
     color: var(--ink-soft);
   }
   .resource-list strong {
+    display: block;
+    margin-bottom: 1rem;
     color: var(--petrol);
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 0.74rem;

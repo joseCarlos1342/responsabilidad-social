@@ -5,8 +5,11 @@ import ActivityCard from '../components/ActivityCard.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import DocumentCard from '../components/DocumentCard.astro';
 import PublicationCard from '../components/PublicationCard.astro';
+import DiagnosticSummary from '../components/DiagnosticSummary.astro';
+import YouTubeLite from '../components/YouTubeLite.astro';
+import EvidencePdfCard from '../components/EvidencePdfCard.astro';
 import { sortActivities } from '../lib/content';
-import { projectStatus, projectTimeline } from '../lib/project';
+import { projectStatus, projectTimeline, projectWeeks } from '../lib/project';
 import { sortDocuments, validateDocuments } from '../lib/documents';
 import { getPublicationProgress, publications } from '../lib/publications';
 
@@ -15,6 +18,9 @@ const featured = activities.find((activity) => activity.data.featured) ?? activi
 const documents = sortDocuments(await getCollection('document'));
 validateDocuments(documents);
 const publicationProgress = getPublicationProgress(publications);
+const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
+  projectWeeks.map((item) => [item.week, item.status]),
+);
 ---
 
 <BaseLayout
@@ -90,11 +96,12 @@ const publicationProgress = getPublicationProgress(publications);
         </div>
         <div class="state-card">
           <span class="eyebrow-data">Proyecto</span><strong>Humanidades Digitales</strong><p>
-            Seis publicaciones, una entrevista y un webinar como ruta de aprendizaje.
+            Seis publicaciones, una entrevista publicada y un webinar todavía pendiente como ruta de
+            aprendizaje.
           </p>
         </div>
         <div class="state-card">
-          <span class="eyebrow-data">Estado general</span><StatusBadge status="en-desarrollo" /><p>
+          <span class="eyebrow-data">Estado general</span><StatusBadge status="en-progreso" /><p>
             {projectStatus.currentStage}
           </p>
         </div>
@@ -109,11 +116,9 @@ const publicationProgress = getPublicationProgress(publications);
           <span class="kicker">Ejecución del proyecto</span>
           <h2>Publicaciones realizadas en Facebook.</h2>
           <p>
-            Durante las semanas 4 y 5 se desarrollaron y publicaron los primeros cuatro contenidos
-            educativos de Decisiones que sí suman. Estas publicaciones fueron diseñadas para
-            presentar conceptos financieros de forma clara, visual y cercana, promoviendo la
-            reflexión y la participación de la comunidad a través de la página de Facebook del
-            proyecto.
+            Durante las semanas 4, 5 y 6 se desarrollaron y publicaron seis contenidos educativos de
+            Decisiones que sí suman. Las piezas presentan conceptos financieros de forma clara,
+            visual y cercana, promoviendo la reflexión y la participación de la comunidad.
           </p>
         </div>
         <div class="execution-progress">
@@ -125,7 +130,10 @@ const publicationProgress = getPublicationProgress(publications);
             value={publicationProgress.current}
             max={publicationProgress.total}
             aria-label="Progreso del componente de publicaciones"></progress>
-          <span class="execution-progress__note">Las publicaciones 5 y 6 continúan planeadas.</span>
+          <span class="execution-progress__note"
+            >Las seis publicaciones están registradas; el webinar y la evaluación final siguen
+            pendientes.</span
+          >
         </div>
       </div>
       <div class="publications-grid">
@@ -133,9 +141,8 @@ const publicationProgress = getPublicationProgress(publications);
       </div>
       <div class="execution-footer">
         <p>
-          Con estas cuatro publicaciones quedan desarrollados los contenidos previstos para las
-          semanas 4 y 5. El siguiente momento del proyecto corresponde a la entrevista con una
-          persona experta y a la preparación de los contenidos de la semana 6.
+          Las publicaciones 5 y 6 cuentan con evidencia visual en sus PDF y en el consolidado de
+          pruebas. El webinar, la asistencia en vivo y el postest no se presentan como realizados.
         </p>
         <a
           class="button"
@@ -143,6 +150,69 @@ const publicationProgress = getPublicationProgress(publications);
           target="_blank"
           rel="noopener noreferrer">Visitar la página de Facebook ↗</a
         >
+      </div>
+    </div>
+  </section>
+
+  <section class="section evidence-section" id="diagnostico">
+    <div class="site-shell">
+      <DiagnosticSummary />
+    </div>
+  </section>
+
+  <section class="section evidence-section" id="entrevista">
+    <div class="site-shell evidence-section__grid">
+      <YouTubeLite
+        videoId="mLFCR_STZ2Q"
+        title="Educación financiera para tomar mejores decisiones"
+        thumbnail="/assets/entrevista-youtube.jpg"
+        youtubeHref="https://youtu.be/mLFCR_STZ2Q"
+      />
+      <div class="evidence-column">
+        <div class="section-heading">
+          <span class="kicker">Sección de evidencias</span>
+          <h2>Lo realizado, sin confundir alcance con impacto.</h2>
+          <p>
+            Las publicaciones, respuestas e interacciones muestran alcance. El impacto o aprendizaje
+            requiere una segunda aplicación del cuestionario.
+          </p>
+        </div>
+        <EvidencePdfCard
+          src="/documents/Pruebas.pdf"
+          title="Pruebas de publicaciones y diagnóstico"
+          summary="Capturas de las seis publicaciones, interacciones y resultados gráficos del diagnóstico inicial."
+          pageCount={10}
+          thumbnail="/assets/pruebas-evidencia.png"
+        />
+        <div class="evidence-status-list" aria-label="Estado de evidencias principales">
+          <div><span>Diagnóstico</span><strong>COMPLETADA · 16 respuestas</strong></div>
+          <div><span>Publicaciones educativas</span><strong>COMPLETADA · 6 de 6</strong></div>
+          <div><span>Entrevista</span><strong>EVIDENCIA REGISTRADA · YouTube</strong></div>
+          <div><span>Webinar</span><strong>PENDIENTE</strong></div>
+          <div><span>Evaluación final</span><strong>PENDIENTE · no hay postest</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section academic-week-section" id="actividad-semana-6">
+    <div class="site-shell">
+      <div class="section-heading">
+        <span class="kicker">Actividad académica · Semana 6</span>
+        <h2>La cuarta entrada todavía está en preparación.</h2>
+        <p>
+          Ya existen seis publicaciones, diagnóstico, entrevista, interacción y evidencias. Aún
+          falta producir y publicar el video con voz en off de 5 a 8 minutos y enlazar la entrada
+          definitiva.
+        </p>
+      </div>
+      <div class="academic-week-card">
+        <StatusBadge status="en-preparacion" />
+        <ul>
+          <li>Video final con voz en off de 5–8 minutos: pendiente.</li>
+          <li>Cuarta entrada del blog: pendiente.</li>
+          <li>Enlace definitivo en YouTube y blog: pendiente.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -183,6 +253,7 @@ const publicationProgress = getPublicationProgress(publications);
             <li>
               <>
                 <span class="timeline__week">{item.week}</span>
+                <StatusBadge status={weekStatuses.get(item.week) ?? 'pendiente'} />
                 <div>
                   <>
                     <h3>{item.title}</h3>
@@ -430,6 +501,62 @@ const publicationProgress = getPublicationProgress(publications);
   .execution-progress__note {
     color: var(--mist);
   }
+  .evidence-section {
+    border-block: 1px solid var(--line);
+  }
+  .evidence-section__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: start;
+  }
+  .evidence-column {
+    display: grid;
+    gap: 1.5rem;
+    max-width: 920px;
+  }
+  .evidence-column .section-heading {
+    margin-bottom: 0;
+  }
+  .evidence-column .section-heading h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+  .evidence-status-list {
+    border-top: 1px solid var(--line);
+  }
+  .evidence-status-list div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.9rem;
+  }
+  .evidence-status-list strong {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.72rem;
+    text-align: right;
+  }
+  .academic-week-section {
+    background: var(--paper-deep);
+  }
+  .academic-week-card {
+    display: grid;
+    grid-template-columns: minmax(12rem, 0.35fr) minmax(0, 1fr);
+    gap: 1rem 2rem;
+    align-items: start;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+  .academic-week-card ul {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding-left: 1.2rem;
+  }
   .execution-progress strong {
     max-width: 12ch;
     color: var(--paper);
@@ -499,6 +626,9 @@ const publicationProgress = getPublicationProgress(publications);
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 0.78rem;
     font-weight: 800;
+  }
+  .timeline .status {
+    margin-top: 0.75rem;
   }
   .timeline h3 {
     margin: 2.5rem 0 0.5rem;
@@ -575,6 +705,9 @@ const publicationProgress = getPublicationProgress(publications);
     }
     .section-heading--split {
       display: grid;
+    }
+    .academic-week-card {
+      grid-template-columns: 1fr;
     }
   }
 </style>

@@ -8,7 +8,12 @@ export type ContentStatus =
   | 'ejecutada'
   | 'ejecutado'
   | 'finalizada'
-  | 'finalizado';
+  | 'finalizado'
+  | 'completada'
+  | 'en-progreso'
+  | 'pendiente'
+  | 'evidencia-registrada'
+  | 'en-preparacion';
 
 export const statusLabels: Record<ContentStatus, string> = {
   planeada: 'Planeada',
@@ -16,8 +21,13 @@ export const statusLabels: Record<ContentStatus, string> = {
   'en-desarrollo': 'En desarrollo',
   ejecutada: 'Ejecutada',
   ejecutado: 'Ejecutado',
-  finalizada: 'Finalizada',
-  finalizado: 'Finalizado',
+  finalizada: 'COMPLETADA',
+  finalizado: 'COMPLETADO',
+  completada: 'COMPLETADA',
+  'en-progreso': 'EN PROGRESO',
+  pendiente: 'PENDIENTE',
+  'evidencia-registrada': 'EVIDENCIA REGISTRADA',
+  'en-preparacion': 'EN PREPARACIÓN',
 };
 
 export function sortActivities(activities: ActivityEntry[]): ActivityEntry[] {

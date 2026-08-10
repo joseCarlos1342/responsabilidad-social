@@ -1,9 +1,10 @@
 ---
 title: 'Plantilla reutilizable de presupuesto'
-description: 'Estructura educativa para anotar ingresos, gastos, ahorro, saldo y una acción de mejora.'
+description: 'Plantilla editable para organizar ingresos, gastos, ahorro, saldo y una acción de mejora.'
 kind: plantilla
-status: pendiente
-updatedDate: 2026-07-27
+status: disponible
+href: https://www.canva.com/d/osljqsu323O_2OF
+updatedDate: 2026-08-09
 ---
 
-La plantilla final se incorporará después de crearla y revisarla. **Evidencia pendiente de incorporación.**
+La plantilla forma parte del carrusel **Presupuesto sin enredos** y puede editarse directamente en Canva.
