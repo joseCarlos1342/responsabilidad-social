@@ -12,9 +12,9 @@ const publishedEvidence = [
   { name: 'publi6.pdf', pages: 4 },
   { name: 'Pruebas.pdf', pages: 10 },
 ];
-const forbidden = [/967350/gu, /comencé su aplicación/giu, /comenzó su aplicación/giu];
+const forbidden = [/967350/u, /comencé su aplicación/iu, /comenzó su aplicación/iu];
 
-const verifyPdf = (name, pages, label) => {
+const verifyPdf = (name, pages, label, inspectRestrictedContent = false) => {
   const path = join('public', 'documents', name);
   return readFile(path).then((bytes) => {
     if (bytes.subarray(0, 5).toString() !== '%PDF-')
@@ -23,9 +23,13 @@ const verifyPdf = (name, pages, label) => {
     const pageCount = Number(info.match(/Pages:\s+(\d+)/u)?.[1]);
     if (pageCount !== pages)
       throw new Error(`${name}: se esperaban ${pages} páginas, hay ${pageCount}`);
-    const binary = bytes.toString('latin1');
-    if (forbidden.some((pattern) => pattern.test(binary))) {
-      throw new Error(`${name}: contiene un identificador o texto bloqueado`);
+    if (inspectRestrictedContent) {
+      const text = execFileSync('mutool', ['draw', '-F', 'txt', '-o', '-', path], {
+        encoding: 'utf8',
+      });
+      if (forbidden.some((pattern) => pattern.test(text))) {
+        throw new Error(`${name}: contiene un identificador o texto bloqueado`);
+      }
     }
     console.log(`${name}: ${label} verificado (${pages} páginas)`);
   });
@@ -54,10 +58,27 @@ for (const evidence of activityFourEvidence) {
     throw new Error(`actividad-4-original.pdf: falta evidencia final: ${evidence}`);
   }
 }
-console.log('actividad-4-original.pdf: lista final de evidencias verificada');
+const activityFourAnnotations = execFileSync(
+  'mutool',
+  ['show', activityFourPath, 'pages/5/Annots/*'],
+  { encoding: 'utf8' },
+);
+const activityFourLinks = [
+  'https://decisiones-que-si-suman.pages.dev/',
+  'https://decisiones-que-si-suman.pages.dev/documents/Pruebas.pdf#page=7',
+  'https://decisiones-que-si-suman.pages.dev/actividades/actividad-4-del-diagnostico-a-la-accion/#instrumento-diagnostico',
+  'https://decisiones-que-si-suman.pages.dev/documents/publi2.pdf',
+  'https://www.canva.com/d/osljqsu323O_2OF',
+];
+for (const uri of activityFourLinks) {
+  if (!activityFourAnnotations.includes(`/URI (${uri})`)) {
+    throw new Error(`actividad-4-original.pdf: falta enlace interactivo: ${uri}`);
+  }
+}
+console.log('actividad-4-original.pdf: lista final y enlaces interactivos verificados');
 
 for (const { name, pages } of publishedEvidence) {
-  await verifyPdf(name, pages, 'evidencia visual autorizada');
+  await verifyPdf(name, pages, 'evidencia visual autorizada', true);
 }
 
 const spreadsheetPath = join('public', 'documents', 'Decisiones que suman.xlsx');

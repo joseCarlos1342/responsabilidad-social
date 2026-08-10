@@ -247,9 +247,11 @@ test('navega entre versión web y PDF, renderiza páginas y conserva controles',
   expect(download.suggestedFilename()).toBe('actividad-4-original.pdf');
 });
 
-test('carga directamente los PDF originales con contenido visible', async ({ browser }) => {
+test('carga directamente los PDF originales con contenido visible', async ({
+  browser,
+}, testInfo) => {
   const context = await browser.newContext({
-    baseURL: 'http://127.0.0.1:4321',
+    baseURL: testInfo.project.use.baseURL,
     deviceScaleFactor: 2,
     viewport: { width: 1280, height: 900 },
   });

@@ -35,5 +35,4 @@ Todos los cambios relevantes se registran aquí.
 
 ### Pending
 
-- Resultados y evidencias reales del diagnóstico.
-- Entrevista y webinar.
+- Postest, webinar y evaluación final.
