@@ -37,10 +37,10 @@ references: []
 
 ## Evidencias
 
-Usa `pendiente` para placeholders. Cuando exista una evidencia, revisa metadatos, datos personales, consentimiento, licencia y autorización. No subas el documento original del plan ni los PDF fuente.
+Usa `pendiente` para placeholders. Cuando exista una evidencia, revisa metadatos, datos personales, consentimiento, licencia y autorización. Los PDFs fuente permanecen fuera del despliegue salvo que exista autorización explícita para publicar el original.
 
 ## Documentos públicos
 
-Los PDF públicos deben tener nombres `*-publico.pdf` o `*-publica.pdf`, una leyenda de versión pública y una revisión explícita de ID, metadatos, firmas, terceros, imágenes y datos de clientes. Ejecuta `pnpm documents:check` antes de incorporarlos. El plan académico es una excepción explícita: conserva el PDF original a solicitud del autor y debe anunciarse como original, no como edición sanitizada.
+Los PDF públicos deben tener nombres `*-publico.pdf` o `*-publica.pdf`, una leyenda de versión pública y una revisión explícita de ID, metadatos, firmas, terceros, imágenes y datos de clientes. Los originales autorizados usan nombres `*-original.pdf`, conservan sus datos de autoría y deben anunciarse como originales, no como ediciones sanitizadas. Ejecuta `pnpm documents:check` antes de incorporarlos.
 
-Las evidencias de publicaciones sociales son una excepción controlada: `public/documents/publi1.pdf` a `public/documents/publi4.pdf` conservan los nombres proporcionados para mantener sus rutas oficiales. Cada una debe conservar su miniatura, su enlace directo al PDF y su enlace exacto de Facebook en `src/lib/publications.ts`. No se deben añadir métricas, fechas ni resultados que no aparezcan en la pieza visual.
+Las evidencias de publicaciones sociales son una excepción controlada: `public/documents/publi1.pdf` a `public/documents/publi6.pdf` conservan los nombres proporcionados para mantener sus rutas. Cada una debe conservar su miniatura y su enlace directo al PDF; solo se añadirá un enlace individual de Facebook cuando exista una URL verificable. No se deben añadir métricas, fechas ni resultados que no aparezcan en la pieza visual.

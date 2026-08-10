@@ -12,7 +12,12 @@ Todos los cambios relevantes se registran aquí.
 
 ### Changed
 
-- Actividad 4 conserva `en-desarrollo` y ya no afirma una aplicación sin evidencia.
+- Actividad 4 pasa a `COMPLETADA` con fecha de publicación histórica 27/07/2026 y actualización de resultados del 09/08/2026.
+- Actividad 4 incorpora 16 respuestas diagnósticas, resultados agregados, evidencia PDF y publicación de presupuesto sin presentarlos como impacto.
+- Actividad 4 incorpora una reflexión académica sustentada en el diagnóstico y diferencia sus aprendizajes del impacto aún no medido.
+- La última página de la Actividad 4 enlaza blog, diagnóstico, instrumento, carrusel y plantilla editable, e incorpora fechas y alcance verificable.
+- El video de YouTube ocupa un reproductor 16:9 completo y `Pruebas.pdf` se consulta en un visor modal de lectura amplia.
+- Los documentos originales de las actividades 2 y 4 cargan de forma determinista al entrar directamente en la vista PDF y solo se declaran listos después de pintar contenido.
 - La cronología de portada usa una fuente canónica de semanas 2 a 7.
 - ODS y referencias muestran acciones, límites y fuentes diferenciadas.
 

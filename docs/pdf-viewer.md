@@ -4,9 +4,10 @@
 
 ## Funcionamiento
 
-- PDF.js se importa dinámicamente al activar “Documento original”.
+- PDF.js se importa dinámicamente al activar “Documento original” o al entrar directamente con `?vista=documento`.
 - El worker se resuelve mediante Vite y se sirve desde el mismo origen.
 - Solo se renderiza una página en canvas.
+- El visor se declara listo únicamente después de completar el primer render visible.
 - La tarea anterior se cancela antes de renderizar otra página.
 - El PDF conserva enlaces convencionales para abrir y descargar.
 - La versión web y el texto de la ficha siguen siendo la alternativa accesible principal.

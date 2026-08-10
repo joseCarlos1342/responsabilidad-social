@@ -9,4 +9,4 @@
 - Toda referencia externa conserva su atribución y se revisa antes de publicar.
 - El texto aclara que el contenido es educativo y no asesoría personalizada.
 - Los PDF públicos se reconstruyen sin ID universitario, nombres completos, firmas, historial, metadatos personales, logos no autorizados ni datos de terceros.
-- Los originales no se publican, no se versionan y permanecen fuera de `public/`.
+- Por autorización expresa del autor, `Pruebas.pdf` y `Decisiones que suman.xlsx` se publican como evidencias originales descargables. El MOV original se conserva fuera de `public/` y no forma parte del bundle web.

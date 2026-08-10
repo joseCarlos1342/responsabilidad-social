@@ -4,19 +4,19 @@ La ruta `/documentos/` reúne las tres entregas actualmente disponibles: plan, a
 
 ## Colección
 
-Cada entrada de `src/content/documents/` declara título, descripción, tipo, semana, estado, fechas, ruta web, número de páginas, versión, ODS, etiquetas, descarga, versión pública y revisión de privacidad. `src/lib/documents.ts` valida durante el build que:
+Cada entrada de `src/content/documents/` declara título, descripción, tipo, semana, estado, fechas, ruta web, número de páginas, versión, ODS, etiquetas, descarga, asset documental y revisión de privacidad. `src/lib/documents.ts` valida durante el build que:
 
 - el estado y la estructura provengan del esquema Zod;
 - la ruta web sea una página existente del proyecto;
-- el PDF público exista bajo `public/documents/`;
+  - el PDF documental exista bajo `public/documents/`;
 - la ruta no salga del directorio documental;
 - el original no se trate como asset público;
 - la privacidad esté confirmada.
 
-Los archivos originales viven en `docs/fuentes-academicas/` en el entorno local, permanecen ignorados por Git y no se copian al despliegue.
+Las actividades 2 y 4 y el plan enlazan ahora sus PDFs originales autorizados bajo `public/documents/`. Las fuentes académicas de trabajo permanecen en `docs/fuentes-academicas/` y siguen ignoradas por Git.
 
-## Versiones públicas
+## Verificación documental
 
-Se generan con `pnpm documents:generate` desde los PDF locales. El script reconstruye cada documento a partir de texto extraído, elimina ID, nombres completos y metadatos personales, añade la indicación “Versión pública para consulta web” y deja los archivos bajo los patrones permitidos por `.gitignore`.
+`pnpm documents:check` valida que los PDFs originales autorizados existan, sean válidos y conserven el número esperado de páginas. Las evidencias sociales (`publi1.pdf` a `publi4.pdf`) mantienen sus rutas independientes.
 
-`pnpm documents:check` extrae de nuevo el texto y verifica firma PDF, leyenda pública y ausencia de datos bloqueados. Requiere las herramientas locales `mutool`, `exiftool` y Chromium.
+Requiere la herramienta local `mutool`.

@@ -96,4 +96,4 @@ docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 
 ## Estado actual de la materia
 
-La actividad 2 está publicada como contexto y definición del proyecto. Durante las semanas 4 y 5 se incorporaron cuatro evidencias de publicaciones educativas en Facebook: diagnóstico rápido, presupuesto, gastos hormiga y fondo de emergencia. La actividad 4 y el plan de Humanidades Digitales continúan en desarrollo: los resultados del diagnóstico, la entrevista, el webinar y las publicaciones 5 y 6 siguen pendientes.
+La actividad 2 está publicada como contexto y definición del proyecto. Las seis publicaciones educativas tienen evidencia registrada: diagnóstico, presupuesto, gastos hormiga, fondo de emergencia, crédito responsable y prevención del fraude. El diagnóstico inicial cuenta con 16 respuestas. La entrevista está publicada en YouTube y dura 7:20 frente a la meta académica de 15 minutos. El webinar, la asistencia, el postest y la actividad académica de la semana 6 continúan pendientes o en preparación.

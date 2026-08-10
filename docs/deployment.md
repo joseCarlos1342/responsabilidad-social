@@ -31,7 +31,7 @@ Después de desplegar:
 - `/404/` o una ruta inexistente
 - `/rss.xml`, `/sitemap-index.xml`, `/robots.txt`
 
-Para el visor PDF se comprueba además el worker emitido por Astro, `Content-Type: application/pdf`, descargas, consola sin `fake worker`, ausencia de errores CSP y la presencia de `worker-src 'self'` sin debilitar `object-src 'none'` ni `frame-src 'none'`.
+Para el visor PDF se comprueba además el worker emitido por Astro, `Content-Type: application/pdf`, descargas, consola sin `fake worker`, ausencia de errores CSP y la presencia de `worker-src 'self'`. La CSP mantiene `object-src 'none'` y permite únicamente frames propios y `youtube-nocookie.com`, cargados bajo interacción.
 
 La URL definitiva y los resultados se registrarán al final de esta implementación.
 
