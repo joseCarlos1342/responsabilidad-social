@@ -65,7 +65,11 @@ const { data } = document;
             <span class="eyebrow-data">Documento relacionado</span>
             <a href={data.webRoute}>Leer la entrega web completa →</a>
             <a href={data.publicVersion} target="_blank" rel="noreferrer"
-              >Ver documento original ↗</a
+              >{
+                data.documentSource === 'original'
+                  ? 'Ver documento original ↗'
+                  : 'Ver versión pública ↗'
+              }</a
             >
             <a href={data.publicVersion} download>
               {

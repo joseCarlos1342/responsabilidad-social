@@ -32,7 +32,7 @@ const isOriginal = document.data.documentSource === 'original';
       data-tab="pdf"
       tabindex="-1"
     >
-      Documento original
+      {isOriginal ? 'Documento original' : 'Versión pública (PDF)'}
     </button>
   </div>
   <section

@@ -41,7 +41,7 @@ export function validateDocumentEntry(document: DocumentEntry, root = publicRoot
     errors.push(`archivo público fuera de public/documents: ${data.publicVersion}`);
   }
   if (!existsSync(assetPath) || !statSync(assetPath).isFile()) {
-    errors.push(`PDF público inexistente: ${data.publicVersion}`);
+    errors.push(`PDF documental inexistente: ${data.publicVersion}`);
   }
   if (data.originalFile?.startsWith('/public/')) {
     errors.push(`el original no puede publicarse como asset: ${data.originalFile}`);

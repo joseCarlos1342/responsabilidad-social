@@ -44,7 +44,7 @@ const documentTypeLabel = {
     <div class="document-card__actions">
       <a class="button button--small" href={data.webRoute}>Leer versión web</a>
       <a class="text-link" href={data.publicVersion} target="_blank" rel="noreferrer"
-        >Ver documento original ↗</a
+        >{isOriginal ? 'Ver documento original ↗' : 'Ver versión pública ↗'}</a
       >
       <a class="text-link" href={data.publicVersion} download
         >{isOriginal ? 'Descargar documento original' : 'Descargar versión pública'}</a
