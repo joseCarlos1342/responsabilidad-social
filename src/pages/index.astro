@@ -252,8 +252,10 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
           projectTimeline.map((item) => (
             <li>
               <>
-                <span class="timeline__week">{item.week}</span>
-                <StatusBadge status={weekStatuses.get(item.week) ?? 'pendiente'} />
+                <div class="timeline__meta">
+                  <span class="timeline__week">{item.week}</span>
+                  <StatusBadge status={weekStatuses.get(item.week) ?? 'pendiente'} />
+                </div>
                 <div>
                   <>
                     <h3>{item.title}</h3>
@@ -627,11 +629,22 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     font-size: 0.78rem;
     font-weight: 800;
   }
+  .timeline__meta {
+    display: flex;
+    min-height: 2.2rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
   .timeline .status {
-    margin-top: 0.75rem;
+    flex: 0 0 auto;
+    margin: 0;
   }
   .timeline h3 {
-    margin: 2.5rem 0 0.5rem;
+    margin: 0 0 0.5rem;
     font-size: 1.5rem;
   }
   .timeline p {
@@ -697,6 +710,11 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     .timeline li + li {
       padding-left: 0;
       border-left: 0;
+    }
+    .timeline__meta {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      row-gap: 0.5rem;
     }
   }
   @media (max-width: 560px) {
