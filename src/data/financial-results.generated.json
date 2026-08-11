@@ -1,0 +1,451 @@
+{
+  "sourceFile": "Decisiones que suman despues del webinar.xlsx",
+  "sourceHref": "/documents/Decisiones%20que%20suman%20despues%20del%20webinar.xlsx",
+  "totalResponseCount": 22,
+  "paired": false,
+  "methodology": "Diagnóstico inicial n=16 · Evaluación posterior n=6. Comparación descriptiva de grupos no emparejados.",
+  "initial": {
+    "responseCount": 16,
+    "application": "Diagnóstico inicial",
+    "sourceHref": "/documents/Decisiones%20que%20suman.xlsx",
+    "questions": [
+      {
+        "key": "budget",
+        "question": "¿Elaboras un presupuesto semanal o mensual?",
+        "options": [
+          {
+            "label": "Siempre",
+            "count": 8,
+            "percentage": 50
+          },
+          {
+            "label": "A veces",
+            "count": 7,
+            "percentage": 43.8
+          },
+          {
+            "label": "Nunca",
+            "count": 1,
+            "percentage": 6.3
+          }
+        ]
+      },
+      {
+        "key": "expense-tracking",
+        "question": "¿Registras tus gastos para compararlos con tus ingresos?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 6,
+            "percentage": 37.5
+          },
+          {
+            "label": "Algunas veces",
+            "count": 8,
+            "percentage": 50
+          },
+          {
+            "label": "Nunca",
+            "count": 2,
+            "percentage": 12.5
+          }
+        ]
+      },
+      {
+        "key": "savings-goal",
+        "question": "¿Tienes una meta de ahorro con valor y fecha?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 6,
+            "percentage": 37.5
+          },
+          {
+            "label": "Parcialmente",
+            "count": 6,
+            "percentage": 37.5
+          },
+          {
+            "label": "No",
+            "count": 4,
+            "percentage": 25
+          }
+        ]
+      },
+      {
+        "key": "unexpected-expense",
+        "question": "¿Podrías cubrir un imprevisto sin pedir un nuevo crédito?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 9,
+            "percentage": 56.3
+          },
+          {
+            "label": "Parcialmente",
+            "count": 4,
+            "percentage": 25
+          },
+          {
+            "label": "No",
+            "count": 3,
+            "percentage": 18.8
+          }
+        ]
+      },
+      {
+        "key": "credit-concepts",
+        "question": "¿Diferencias tasa, cuota, plazo y costo total?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 7,
+            "percentage": 43.8
+          },
+          {
+            "label": "Parcialmente",
+            "count": 7,
+            "percentage": 43.8
+          },
+          {
+            "label": "No",
+            "count": 2,
+            "percentage": 12.5
+          }
+        ]
+      },
+      {
+        "key": "compare-credit",
+        "question": "¿Comparas al menos dos opciones antes de aceptar un crédito?",
+        "options": [
+          {
+            "label": "Siempre",
+            "count": 13,
+            "percentage": 81.3
+          },
+          {
+            "label": "A veces",
+            "count": 2,
+            "percentage": 12.5
+          },
+          {
+            "label": "Algunos",
+            "count": 1,
+            "percentage": 6.3
+          }
+        ]
+      },
+      {
+        "key": "fraud-signals",
+        "question": "¿Reconoces dos señales de un falso prestamista o enlace fraudulento?",
+        "options": [
+          {
+            "label": "Frecuentemente",
+            "count": 13,
+            "percentage": 81.3
+          },
+          {
+            "label": "Algunas veces",
+            "count": 2,
+            "percentage": 12.5
+          },
+          {
+            "label": "Nunca",
+            "count": 1,
+            "percentage": 6.3
+          }
+        ]
+      },
+      {
+        "key": "official-channels",
+        "question": "¿Conoces un canal oficial para aprender o reclamar?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 8,
+            "percentage": 50
+          },
+          {
+            "label": "Creo conocer una",
+            "count": 6,
+            "percentage": 37.5
+          },
+          {
+            "label": "No",
+            "count": 2,
+            "percentage": 12.5
+          }
+        ]
+      }
+    ]
+  },
+  "posterior": {
+    "responseCount": 6,
+    "application": "Evaluación posterior",
+    "sourceHref": "/documents/Decisiones%20que%20suman%20despues%20del%20webinar.xlsx",
+    "questions": [
+      {
+        "key": "budget",
+        "question": "¿Elaboras un presupuesto semanal o mensual?",
+        "options": [
+          {
+            "label": "Siempre",
+            "count": 3,
+            "percentage": 50
+          },
+          {
+            "label": "A veces",
+            "count": 3,
+            "percentage": 50
+          },
+          {
+            "label": "Nunca",
+            "count": 0,
+            "percentage": 0
+          }
+        ]
+      },
+      {
+        "key": "expense-tracking",
+        "question": "¿Registras tus gastos para compararlos con tus ingresos?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 4,
+            "percentage": 66.7
+          },
+          {
+            "label": "Algunas veces",
+            "count": 2,
+            "percentage": 33.3
+          },
+          {
+            "label": "Nunca",
+            "count": 0,
+            "percentage": 0
+          }
+        ]
+      },
+      {
+        "key": "savings-goal",
+        "question": "¿Tienes una meta de ahorro con valor y fecha?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 3,
+            "percentage": 50
+          },
+          {
+            "label": "Parcialmente",
+            "count": 2,
+            "percentage": 33.3
+          },
+          {
+            "label": "No",
+            "count": 1,
+            "percentage": 16.7
+          }
+        ]
+      },
+      {
+        "key": "unexpected-expense",
+        "question": "¿Podrías cubrir un imprevisto sin pedir un nuevo crédito?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 5,
+            "percentage": 83.3
+          },
+          {
+            "label": "Parcialmente",
+            "count": 1,
+            "percentage": 16.7
+          },
+          {
+            "label": "No",
+            "count": 0,
+            "percentage": 0
+          }
+        ]
+      },
+      {
+        "key": "credit-concepts",
+        "question": "¿Diferencias tasa, cuota, plazo y costo total?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 4,
+            "percentage": 66.7
+          },
+          {
+            "label": "Parcialmente",
+            "count": 2,
+            "percentage": 33.3
+          },
+          {
+            "label": "No",
+            "count": 0,
+            "percentage": 0
+          }
+        ]
+      },
+      {
+        "key": "compare-credit",
+        "question": "¿Comparas al menos dos opciones antes de aceptar un crédito?",
+        "options": [
+          {
+            "label": "Siempre",
+            "count": 6,
+            "percentage": 100
+          },
+          {
+            "label": "A veces",
+            "count": 0,
+            "percentage": 0
+          },
+          {
+            "label": "Algunos",
+            "count": 0,
+            "percentage": 0
+          }
+        ]
+      },
+      {
+        "key": "fraud-signals",
+        "question": "¿Reconoces dos señales de un falso prestamista o enlace fraudulento?",
+        "options": [
+          {
+            "label": "Frecuentemente",
+            "count": 6,
+            "percentage": 100
+          },
+          {
+            "label": "Algunas veces",
+            "count": 0,
+            "percentage": 0
+          },
+          {
+            "label": "Nunca",
+            "count": 0,
+            "percentage": 0
+          }
+        ]
+      },
+      {
+        "key": "official-channels",
+        "question": "¿Conoces un canal oficial para aprender o reclamar?",
+        "options": [
+          {
+            "label": "Sí",
+            "count": 2,
+            "percentage": 33.3
+          },
+          {
+            "label": "Creo conocer una",
+            "count": 1,
+            "percentage": 16.7
+          },
+          {
+            "label": "No",
+            "count": 3,
+            "percentage": 50
+          }
+        ]
+      }
+    ],
+    "date": "2026-08-09"
+  },
+  "comparisons": [
+    {
+      "key": "budget",
+      "label": "Presupuesto habitual",
+      "initialCount": 8,
+      "initialPercentage": 50,
+      "posteriorCount": 3,
+      "posteriorPercentage": 50,
+      "differencePp": 0,
+      "featured": false
+    },
+    {
+      "key": "expense-tracking",
+      "label": "Registro habitual de gastos",
+      "initialCount": 6,
+      "initialPercentage": 37.5,
+      "posteriorCount": 4,
+      "posteriorPercentage": 66.7,
+      "differencePp": 29.2,
+      "featured": true
+    },
+    {
+      "key": "savings-goal",
+      "label": "Meta de ahorro",
+      "initialCount": 6,
+      "initialPercentage": 37.5,
+      "posteriorCount": 3,
+      "posteriorPercentage": 50,
+      "differencePp": 12.5,
+      "featured": false
+    },
+    {
+      "key": "unexpected-expense",
+      "label": "Capacidad para cubrir un imprevisto",
+      "initialCount": 9,
+      "initialPercentage": 56.3,
+      "posteriorCount": 5,
+      "posteriorPercentage": 83.3,
+      "differencePp": 27.1,
+      "featured": true
+    },
+    {
+      "key": "credit-concepts",
+      "label": "Comprensión de tasa, cuota, plazo y costo total",
+      "initialCount": 7,
+      "initialPercentage": 43.8,
+      "posteriorCount": 4,
+      "posteriorPercentage": 66.7,
+      "differencePp": 22.9,
+      "featured": true
+    },
+    {
+      "key": "compare-credit",
+      "label": "Comparación de opciones de crédito",
+      "initialCount": 13,
+      "initialPercentage": 81.3,
+      "posteriorCount": 6,
+      "posteriorPercentage": 100,
+      "differencePp": 18.8,
+      "featured": true
+    },
+    {
+      "key": "fraud-signals",
+      "label": "Reconocimiento de señales de fraude",
+      "initialCount": 13,
+      "initialPercentage": 81.3,
+      "posteriorCount": 6,
+      "posteriorPercentage": 100,
+      "differencePp": 18.8,
+      "featured": true
+    },
+    {
+      "key": "official-channels",
+      "label": "Conocimiento de canales oficiales",
+      "initialCount": 8,
+      "initialPercentage": 50,
+      "posteriorCount": 2,
+      "posteriorPercentage": 33.3,
+      "differencePp": -16.7,
+      "featured": false
+    }
+  ],
+  "global": {
+    "initialFavorableCount": 70,
+    "initialResponseSlots": 128,
+    "initialPercentage": 54.7,
+    "posteriorFavorableCount": 33,
+    "posteriorResponseSlots": 48,
+    "posteriorPercentage": 68.8,
+    "differencePp": 14.1,
+    "targetDifferencePp": 20,
+    "targetReached": false
+  }
+}

@@ -6,9 +6,11 @@ for (const path of [
   '/actividades/',
   '/actividades/actividad-2-decisiones-que-si-suman/',
   '/actividades/actividad-4-del-diagnostico-a-la-accion/',
+  '/actividades/actividad-6-de-la-informacion-a-la-accion/',
   '/plan-humanidades-digitales/',
   '/documentos/',
   '/documentos/actividad-4-publica/',
+  '/documentos/actividad-6-publica/',
 ]) {
   test(`sin violaciones axe en ${path}`, async ({ page }) => {
     await page.goto(path);

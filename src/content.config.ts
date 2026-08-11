@@ -24,6 +24,7 @@ const activity = defineCollection({
   loader: glob({ base: './src/content/actividades', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
     title: z.string(),
+    seoTitle: z.string().optional(),
     description: z.string(),
     activityNumber: z.number().int().positive(),
     week: z.string(),
@@ -95,7 +96,7 @@ const document = defineCollection({
     publicVersion: z
       .string()
       .regex(
-        /^\/documents\/(?:.*-(?:publico|publica|original)\.pdf|plan-responsabilidad-social-educacion-financiera\.pdf)$/u,
+        /^\/documents\/(?:.*-(?:publico|publica|original)\.pdf|Actividad%206%20Original\.pdf|plan-responsabilidad-social-educacion-financiera\.pdf)$/u,
       ),
     privacyReviewed: z.literal(true),
     documentSource: z.enum(['publica', 'original']),

@@ -22,6 +22,42 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
         ><span class="eyebrow-data">Territorio</span><strong>Neiva, Huila</strong>
       </div>
     </div>
+    <div class="site-shell author-links" aria-labelledby="author-links-title">
+      <div>
+        <span class="kicker">Presencia profesional</span>
+        <h2 id="author-links-title">Conoce también mi trabajo.</h2>
+        <p>
+          Estos espacios amplían la información sobre mi experiencia, proyectos y trayectoria
+          profesional.
+        </p>
+      </div>
+      <nav aria-label="Enlaces profesionales del autor" class="author-links__list">
+        <a
+          href="https://portafoliojosecarlos.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Portafolio profesional (abre en una pestaña nueva)"
+        >
+          <span>Portafolio profesional</span><span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href="https://github.com/joseCarlos1342/responsabilidad-social"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub del proyecto (abre en una pestaña nueva)"
+        >
+          <span>GitHub del proyecto</span><span aria-hidden="true">↗</span>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/josecarlos-gomez-ing/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Perfil de LinkedIn (abre en una pestaña nueva)"
+        >
+          <span>Perfil de LinkedIn</span><span aria-hidden="true">↗</span>
+        </a>
+      </nav>
+    </div>
   </section><section class="section section--tight">
     <div class="site-shell narrow-page prose">
       <h2>Desde la experiencia, con límites</h2><p>
@@ -59,6 +95,53 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 1.7rem;
   }
+  .author-links {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 3rem;
+    align-items: end;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .author-links h2 {
+    max-width: 12ch;
+    margin: 0.7rem 0;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+  }
+  .author-links p {
+    max-width: 42ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .author-links__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+  .author-links__list a {
+    display: flex;
+    min-height: 5.5rem;
+    align-items: end;
+    justify-content: space-between;
+    gap: 0.7rem;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    background: var(--white);
+    color: var(--petrol);
+    font-size: 0.88rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  .author-links__list a:hover,
+  .author-links__list a:focus-visible {
+    border-color: var(--terracotta);
+    background: var(--mist);
+    color: var(--terracotta);
+  }
+  .author-links__list a > span:first-child {
+    max-width: 10ch;
+  }
   .narrow-page {
     max-width: 920px;
   }
@@ -66,6 +149,15 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
     .author-layout {
       grid-template-columns: 1fr;
       gap: 2rem;
+    }
+    .author-links {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+  @media (max-width: 520px) {
+    .author-links__list {
+      grid-template-columns: 1fr;
     }
   }
 </style>

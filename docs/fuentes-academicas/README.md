@@ -6,5 +6,7 @@ Esta carpeta reúne los documentos originales usados para preparar el contenido 
 - `semana-4-decisiones-que-si-suman.pdf`
 - `plan-responsabilidad-social-educacion-financiera.pdf`
 - `ENTREVISTA EDUCACIÓN FINANCIERA.mov`
+- `Decisiones que suman.xlsx`
+- `Decisiones que suman despues del webinar.xlsx`
 
-Los archivos se mantienen fuera del repositorio mediante `.gitignore` porque pueden contener identificadores, metadatos de autoría u otra información académica privada. Por solicitud expresa del autor, el plan y las evidencias de publicaciones/formulario se sirven desde `public/documents/`; el MOV original permanece fuera de `public/` y no se carga en la página.
+Los archivos se mantienen fuera del repositorio mediante `.gitignore` porque pueden contener identificadores, metadatos de autoría o registros individuales. Por solicitud expresa del autor, el plan y las evidencias revisadas se sirven desde `public/documents/`. Los XLSX públicos son reportes agregados generados durante el build; los XLSX brutos y el MOV original permanecen fuera de `public/`.

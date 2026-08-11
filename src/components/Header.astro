@@ -26,6 +26,16 @@ const links = [
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Navegación principal">
       {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      <details class="video-nav" role="group" aria-label="Videos del proyecto">
+        <summary>Videos</summary>
+        <div class="video-nav__menu">
+          <a href="/#entrevista">Entrevista · 7:20</a>
+          <a href="/#webinar">Webinar · 69:01</a>
+          <a href="/actividades/actividad-6-de-la-informacion-a-la-accion/#video-reflexion"
+            >Voz en off · 8:00</a
+          >
+        </div>
+      </details>
       <a href="/sobre-el-autor/">Autor</a>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="Cambiar tema"
         >◐</button
@@ -92,6 +102,50 @@ const links = [
   .site-nav a {
     text-decoration: none;
   }
+  .video-nav {
+    position: relative;
+  }
+  .video-nav summary {
+    padding: 0.35rem 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  .video-nav summary::-webkit-details-marker {
+    display: none;
+  }
+  .video-nav summary::after {
+    display: inline-block;
+    margin-left: 0.35rem;
+    color: var(--terracotta);
+    content: '↓';
+    font-size: 0.72rem;
+  }
+  .video-nav[open] summary::after {
+    content: '↑';
+  }
+  .video-nav__menu {
+    position: absolute;
+    z-index: 3;
+    top: calc(100% + 0.75rem);
+    right: -0.75rem;
+    display: grid;
+    min-width: 15rem;
+    gap: 0;
+    padding: 0.45rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    box-shadow: var(--shadow);
+  }
+  .video-nav__menu a {
+    padding: 0.7rem 0.75rem;
+    color: var(--ink);
+    font-size: 0.8rem;
+  }
+  .video-nav__menu a:hover,
+  .video-nav__menu a:focus-visible {
+    background: var(--mist);
+    color: var(--terracotta);
+  }
   .theme-toggle,
   .menu-toggle {
     min-width: 42px;
@@ -142,6 +196,18 @@ const links = [
     }
     .site-nav a {
       padding: 0.8rem;
+    }
+    .video-nav summary {
+      padding: 0.8rem;
+    }
+    .video-nav__menu {
+      position: static;
+      min-width: 0;
+      margin: 0 0.8rem 0.5rem;
+      box-shadow: none;
+    }
+    .video-nav__menu a {
+      padding: 0.7rem;
     }
     .theme-toggle {
       align-self: flex-start;

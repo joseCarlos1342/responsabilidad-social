@@ -1,7 +1,7 @@
 export const projectStatus = {
-  currentWeek: 'Semana 6',
+  currentWeek: 'Semana 7',
   currentStage:
-    'Seis publicaciones y el diagnóstico están registrados; el webinar, el postest y la actividad académica de la semana 6 siguen en progreso.',
+    'La ejecución principal está completada; el proyecto se encuentra en cierre y consolidación de métricas de alcance y seguimiento.',
 } as const;
 
 export const projectWeeks = [
@@ -12,19 +12,21 @@ export const projectWeeks = [
   },
   {
     week: 'Semana 5',
-    status: 'en-progreso' as const,
+    status: 'completada' as const,
     summary:
-      'Publicaciones 3 y 4, interacción y entrevista publicada; duración objetivo no cumplida.',
+      'Publicaciones 3 y 4, interacción y entrevista publicada; la duración objetivo no se cumplió.',
   },
   {
     week: 'Semana 6',
-    status: 'en-progreso' as const,
-    summary: 'Publicaciones 5 y 6 registradas; webinar, asistencia y evaluación final pendientes.',
+    status: 'completada' as const,
+    summary:
+      'Publicaciones 5 y 6, webinar de 69 minutos y evaluación posterior; alcance por consolidar.',
   },
   {
     week: 'Semana 7',
-    status: 'pendiente' as const,
-    summary: 'Seguimiento, satisfacción, comparación y reflexión final pendientes.',
+    status: 'en-progreso' as const,
+    summary:
+      'Comparación descriptiva y reflexión final disponibles; métricas y seguimiento en cierre.',
   },
 ] as const;
 
@@ -48,16 +50,17 @@ export const projectTimeline = [
     week: 'Semana 5',
     title: 'Ahorro y entrevista',
     detail:
-      'Publicaciones 3 y 4, comentarios y entrevista publicada; la duración mínima no se cumplió.',
+      'Publicaciones 3 y 4, comentarios y entrevista publicada; la duración mínima prevista no se cumplió.',
   },
   {
     week: 'Semana 6',
     title: 'Crédito, fraude y webinar',
-    detail: 'Publicaciones 5 y 6 registradas; webinar, asistencia y postest siguen pendientes.',
+    detail: 'Publicaciones 5 y 6, webinar de 69 minutos y seis respuestas posteriores completadas.',
   },
   {
     week: 'Semana 7',
     title: 'Resultados, evaluación y reflexión',
-    detail: 'Revisar métricas, satisfacción, comparación pretest-postest y reflexión final.',
+    detail:
+      'Comparación descriptiva y video de reflexión disponibles; métricas de alcance en cierre.',
   },
 ] as const;

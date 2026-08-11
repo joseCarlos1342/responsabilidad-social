@@ -46,7 +46,7 @@ El estudiante trabaja como analista financiero y puede aprender de asesores, com
 - `docs/fuentes-academicas/semana-2-del-diagnostico-a-la-accion.pdf`: material titulado “Del diagnóstico a la acción”, con el desarrollo de la actividad de semana 4 y evidencias aún pendientes.
 - `docs/fuentes-academicas/semana-4-decisiones-que-si-suman.pdf`: material titulado “Decisiones Que Sí Suman”, con contexto, problemática y plan general.
 - `docs/fuentes-academicas/plan-responsabilidad-social-educacion-financiera.pdf`: documento de diagnóstico y plan de trabajo. Contiene información académica y metadatos privados; no se publica directamente.
-- Hay un diagnóstico inicial agregado de 16 respuestas, seis publicaciones con evidencia visual y una entrevista publicada en YouTube. No hay postest, comparación de aprendizaje, asistencia o webinar ejecutado verificables.
+- Hay un diagnóstico inicial de 16 respuestas, seis publicaciones, una entrevista, un webinar de 69:01, seis respuestas posteriores y un video final con voz en off. La comparación es descriptiva y no emparejada. Asistencia, visualizaciones, satisfacción y seguimiento no están consolidados.
 
 ## Product Principles
 

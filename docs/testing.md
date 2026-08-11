@@ -20,7 +20,7 @@ pnpm test:e2e
 
 El workflow instala Chromium en CI. Firefox y WebKit pueden añadirse después si el entorno dispone de los binarios.
 
-La suite documental cubre `/documentos/`, las tres fichas, pestañas, entrada directa con `?vista=documento`, píxeles visibles en el canvas, primera página, navegación, zoom, descarga, teclado, móvil, errores de carga y ausencia del ID universitario. La portada comprueba seis publicaciones y que YouTube/Pruebas.pdf no creen iframes antes de interacción. Axe también revisa la biblioteca y el visor.
+La suite documental cubre `/documentos/`, las cuatro fichas, pestañas, entrada directa con `?vista=documento`, píxeles visibles en el canvas, primera página, navegación, zoom, descarga, teclado, móvil, errores de carga y ausencia del ID universitario. La portada comprueba seis publicaciones y que YouTube/Pruebas.pdf no creen iframes antes de interacción. Actividad 6 valida video, presentación, comparación y metodología. Axe también revisa la biblioteca y el visor.
 
 ## Cobertura
 

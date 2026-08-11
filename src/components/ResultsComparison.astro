@@ -1,0 +1,255 @@
+---
+import { financialResults } from '../data/diagnostic';
+
+const featured = financialResults.comparisons.filter((item) => item.featured);
+const advances = financialResults.comparisons.filter((item) =>
+  ['expense-tracking', 'unexpected-expense', 'credit-concepts'].includes(item.key),
+);
+const officialChannels = financialResults.comparisons.find(
+  (item) => item.key === 'official-channels',
+);
+const formatPercentage = (value: number) => `${value.toLocaleString('es-CO')} %`;
+const formatDifference = (value: number) =>
+  `${value > 0 ? '+' : ''}${value.toLocaleString('es-CO')} pp`;
+---
+
+<section class="results-comparison" aria-labelledby="results-comparison-title">
+  <div class="section-heading">
+    <span class="kicker">Evaluación posterior</span>
+    <h2 id="results-comparison-title">¿Qué observamos después del webinar?</h2>
+    <p>
+      La comparación muestra tendencias entre dos grupos de respuestas de distinto tamaño. No mide
+      cambios persona a persona ni permite atribuir causalidad al proyecto.
+    </p>
+  </div>
+
+  <div class="comparison-list" aria-label="Comparación de cinco indicadores principales">
+    {
+      featured.map((item) => (
+        <article class="comparison-row">
+          <div class="comparison-row__heading">
+            <h3>{item.label}</h3>
+            <strong>{formatDifference(item.differencePp)}</strong>
+          </div>
+          <div class="comparison-bars">
+            <div>
+              <span>Antes · {formatPercentage(item.initialPercentage)}</span>
+              <div class="comparison-track" aria-hidden="true">
+                <span
+                  class="comparison-bar comparison-bar--before"
+                  style={`width:${item.initialPercentage}%`}
+                />
+              </div>
+            </div>
+            <div>
+              <span>Después · {formatPercentage(item.posteriorPercentage)}</span>
+              <div class="comparison-track" aria-hidden="true">
+                <span
+                  class="comparison-bar comparison-bar--after"
+                  style={`width:${item.posteriorPercentage}%`}
+                />
+              </div>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="results-observations">
+    <section aria-labelledby="advances-title">
+      <span class="eyebrow-data">Avances observados</span>
+      <h3 id="advances-title">Tres variaciones superiores a 20 pp.</h3>
+      <ul>
+        {
+          advances.map((item) => (
+            <li>
+              <>
+                <span>{item.label}</span>
+                <strong>{formatDifference(item.differencePp)}</strong>
+              </>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+    {
+      officialChannels && (
+        <section class="opportunity" aria-labelledby="opportunity-title">
+          <span class="eyebrow-data">Oportunidad de mejora</span>
+          <h3 id="opportunity-title">Reforzar los canales oficiales.</h3>
+          <p>
+            Conocimiento declarado: {formatPercentage(officialChannels.initialPercentage)} →{' '}
+            {formatPercentage(officialChannels.posteriorPercentage)}.
+          </p>
+        </section>
+      )
+    }
+  </div>
+
+  <div class="global-result">
+    <strong>
+      {formatPercentage(financialResults.global.initialPercentage)} → {
+        formatPercentage(financialResults.global.posteriorPercentage)
+      }
+    </strong>
+    <p>
+      La proporción global de respuestas plenamente favorables fue {
+        financialResults.global.initialFavorableCount
+      }/{financialResults.global.initialResponseSlots} al inicio y {
+        financialResults.global.posteriorFavorableCount
+      }/{financialResults.global.posteriorResponseSlots} después. La diferencia aproximada fue de +14,1
+      puntos porcentuales. La meta global de +20 pp no se alcanzó, aunque algunos indicadores específicos
+      presentaron aumentos superiores a 20 pp.
+    </p>
+  </div>
+  <p class="methodology-note">{financialResults.methodology}</p>
+</section>
+
+<style>
+  .results-comparison {
+    padding: clamp(1.25rem, 4vw, 3rem);
+    border: 1px solid var(--line);
+    background: var(--white);
+  }
+  .results-comparison .section-heading h2 {
+    max-width: 17ch;
+  }
+  .comparison-list {
+    border-top: 1px solid var(--line);
+  }
+  .comparison-row {
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.75fr) minmax(18rem, 1.25fr);
+    gap: 1.5rem;
+    padding-block: 1.2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .comparison-row__heading {
+    display: flex;
+    gap: 1rem;
+    align-items: start;
+    justify-content: space-between;
+  }
+  .comparison-row h3 {
+    margin: 0;
+    color: var(--petrol);
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 0;
+    line-height: 1.35;
+  }
+  .comparison-row__heading strong {
+    flex: 0 0 auto;
+    color: var(--terracotta);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .comparison-bars {
+    display: grid;
+    gap: 0.7rem;
+  }
+  .comparison-bars > div {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .comparison-bars span {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .comparison-track {
+    height: 0.65rem;
+    overflow: hidden;
+    background: var(--mist);
+  }
+  .comparison-bar {
+    display: block;
+    height: 100%;
+  }
+  .comparison-bar--before {
+    background: var(--gold);
+  }
+  .comparison-bar--after {
+    background: var(--petrol);
+  }
+  .results-observations {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+  .results-observations section {
+    padding: 1.25rem;
+    background: var(--paper-deep);
+  }
+  .results-observations h3 {
+    margin: 0.55rem 0 1rem;
+    color: var(--petrol);
+    font-size: 1.65rem;
+  }
+  .results-observations ul {
+    display: grid;
+    gap: 0.55rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+  .results-observations li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid var(--line);
+  }
+  .results-observations li strong {
+    color: var(--petrol);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  .opportunity {
+    border-top: 3px solid var(--terracotta);
+  }
+  .global-result {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1rem;
+    padding: 1.25rem;
+    background: var(--petrol);
+    color: var(--paper);
+  }
+  .global-result strong {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.7rem, 4vw, 2.8rem);
+    white-space: nowrap;
+  }
+  .global-result p,
+  .methodology-note {
+    margin: 0;
+  }
+  .methodology-note {
+    padding-top: 1rem;
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.75rem;
+  }
+  @media (max-width: 700px) {
+    .comparison-row,
+    .results-observations,
+    .global-result {
+      grid-template-columns: 1fr;
+    }
+    .comparison-bars > div {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+    }
+    .global-result strong {
+      white-space: normal;
+    }
+  }
+</style>

@@ -1,5 +1,5 @@
 ---
-import { diagnosticSummary } from '../data/diagnostic';
+import { diagnosticSummary, financialResults } from '../data/diagnostic';
 
 const formatPercentage = (percentage: number) => `${percentage.toLocaleString('es-CO')}%`;
 ---
@@ -9,13 +9,15 @@ const formatPercentage = (percentage: number) => `${percentage.toLocaleString('e
     <span class="kicker">Diagnóstico inicial</span>
     <h2 id="diagnostic-summary-title">16 respuestas para orientar el proyecto.</h2>
     <p>
-      Consolidado agregado de una sola aplicación del cuestionario de ocho preguntas. No representa
-      una evaluación final ni permite calcular una mejora.
+      Consolidado agregado de la aplicación inicial del cuestionario de ocho preguntas. La
+      evaluación posterior se presenta por separado y no corresponde a un seguimiento emparejado.
     </p>
   </div>
   <div class="diagnostic-summary__head">
     <strong>{diagnosticSummary.responseCount} respuestas</strong>
-    <span class="eyebrow-data">Estado: diagnóstico completado · postest pendiente</span>
+    <span class="eyebrow-data"
+      >Estado: diagnóstico completado · evaluación posterior disponible</span
+    >
   </div>
   <div class="diagnostic-summary__grid">
     {
@@ -42,9 +44,12 @@ const formatPercentage = (percentage: number) => `${percentage.toLocaleString('e
   </div>
   <div class="diagnostic-summary__actions">
     <a class="button button--small" href={diagnosticSummary.sourceHref} download>
-      Descargar reporte XLSX
+      Descargar diagnóstico XLSX
     </a>
-    <span>El archivo conserva la fuente de respuestas y no contiene un segundo levantamiento.</span>
+    <a class="text-link" href={financialResults.sourceHref} download>
+      Descargar comparación agregada
+    </a>
+    <span>Los gráficos de esta sección corresponden únicamente a las 16 respuestas iniciales.</span>
   </div>
 </section>
 
@@ -136,6 +141,10 @@ const formatPercentage = (percentage: number) => `${percentage.toLocaleString('e
     margin-top: 1.5rem;
     color: var(--ink-soft);
     font-size: 0.85rem;
+  }
+  .diagnostic-summary__actions .text-link {
+    color: var(--petrol);
+    font-weight: 800;
   }
   @media (max-width: 700px) {
     .diagnostic-summary__grid {

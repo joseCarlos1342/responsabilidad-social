@@ -23,6 +23,9 @@ const {
   image = '/social-card.svg',
 } = Astro.props;
 const imageUrl = new URL(image, Astro.site ?? Astro.url).href;
+const documentTitle = title.includes('Decisiones que sí suman')
+  ? title
+  : `${title} · Decisiones que sí suman`;
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': type === 'article' ? 'Article' : 'WebSite',
@@ -48,6 +51,7 @@ const jsonLd = {
     <meta name="viewport" content="width=device-width" />
     <meta name="theme-color" content="#164B4A" />
     <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Actividades" href="/rss.xml" />
@@ -58,17 +62,25 @@ const jsonLd = {
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Decisiones que sí suman" />
     <meta property="og:image" content={imageUrl} />
+    <meta
+      property="og:image:alt"
+      content="Decisiones que sí suman, proyecto de educación financiera"
+    />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
+    <meta
+      name="twitter:image:alt"
+      content="Decisiones que sí suman, proyecto de educación financiera"
+    />
     {
       publishedDate && (
         <meta property="article:published_time" content={publishedDate.toISOString()} />
       )
     }
     {updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
-    <title>{title} · Decisiones que sí suman</title>
+    <title>{documentTitle}</title>
     <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>

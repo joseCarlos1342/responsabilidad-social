@@ -4,7 +4,7 @@ description: 'Contexto, problemática y propósito del proyecto de Humanidades D
 activityNumber: 2
 week: 'Semana 2'
 date: 2026-07-07
-updatedDate: 2026-07-27
+updatedDate: 2026-08-10
 status: ejecutada
 category: diagnóstico
 contentType: actividad
@@ -27,7 +27,7 @@ evidence:
     status: disponible
     href: '/actividades/actividad-2-decisiones-que-si-suman/'
 draft: false
-featured: true
+featured: false
 order: 1
 references:
   - label: 'Pacheco Duarte et al. (2022), Ruta de Innovación Social'
@@ -38,6 +38,8 @@ documentSlug: actividad-2-publica
 ---
 
 > **Entrada de actividad 2.** Esta publicación distingue entre lo que nace de la observación y experiencia del estudiante, lo que proviene de fuentes externas y lo que todavía debe comprobarse con un diagnóstico local.
+
+> **Actualización de cierre:** el plan general que aparece más adelante se conserva como registro de la fase inicial. El diagnóstico, las seis publicaciones, la entrevista, el webinar, la evaluación posterior y la reflexión final pueden consultarse en la [Actividad 6](/actividades/actividad-6-de-la-informacion-a-la-accion/).
 
 ## El punto de partida
 

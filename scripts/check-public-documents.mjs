@@ -3,9 +3,14 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const originalDocuments = [
-  { name: 'actividad-2-original.pdf', pages: 3 },
-  { name: 'actividad-4-original.pdf', pages: 5 },
-  { name: 'plan-responsabilidad-social-educacion-financiera.pdf', pages: 24 },
+  { name: 'actividad-2-original.pdf', pages: 3, inspectRestrictedContent: false },
+  { name: 'actividad-4-original.pdf', pages: 5, inspectRestrictedContent: false },
+  { name: 'Actividad 6 Original.pdf', pages: 13, inspectRestrictedContent: true },
+  {
+    name: 'plan-responsabilidad-social-educacion-financiera.pdf',
+    pages: 24,
+    inspectRestrictedContent: false,
+  },
 ];
 const publishedEvidence = [
   { name: 'publi5.pdf', pages: 4 },
@@ -35,8 +40,8 @@ const verifyPdf = (name, pages, label, inspectRestrictedContent = false) => {
   });
 };
 
-for (const { name, pages } of originalDocuments) {
-  await verifyPdf(name, pages, 'PDF original académico');
+for (const { name, pages, inspectRestrictedContent } of originalDocuments) {
+  await verifyPdf(name, pages, 'PDF original académico', inspectRestrictedContent);
 }
 
 const activityFourPath = join('public', 'documents', 'actividad-4-original.pdf');
@@ -81,15 +86,45 @@ for (const { name, pages } of publishedEvidence) {
   await verifyPdf(name, pages, 'evidencia visual autorizada', true);
 }
 
-const spreadsheetPath = join('public', 'documents', 'Decisiones que suman.xlsx');
-const spreadsheetXml = execFileSync('unzip', ['-p', spreadsheetPath, 'xl/worksheets/sheet1.xml'], {
-  encoding: 'utf8',
-});
-if ((spreadsheetXml.match(/<row\b/gu) ?? []).length !== 17)
-  throw new Error('Decisiones que suman.xlsx: se esperaba encabezado y 16 respuestas');
-if (forbidden.some((pattern) => pattern.test(spreadsheetXml)))
-  throw new Error('Decisiones que suman.xlsx: contiene un identificador o texto bloqueado');
-console.log('Decisiones que suman.xlsx: estructura de diagnóstico verificada (16 respuestas)');
+const inspectAggregateSpreadsheet = (name, expectedRows, requiredHeaders) => {
+  const path = join('public', 'documents', name);
+  const entries = execFileSync('unzip', ['-Z1', path], { encoding: 'utf8' })
+    .split('\n')
+    .filter((entry) => entry.endsWith('.xml') && !entry.startsWith('['));
+  const xml = entries
+    .map((entry) => execFileSync('unzip', ['-p', path, entry], { encoding: 'utf8' }))
+    .join('\n');
+  const sheetXml = execFileSync('unzip', ['-p', path, 'xl/worksheets/sheet1.xml'], {
+    encoding: 'utf8',
+  });
+  if ((sheetXml.match(/<row\b/gu) ?? []).length !== expectedRows)
+    throw new Error(`${name}: número inesperado de filas agregadas`);
+  const disallowed = [
+    ...forbidden,
+    /Marca temporal/iu,
+    /rango de edad/iu,
+    /18[–-]25|26[–-]35|36[–-]45|46[–-]60/iu,
+  ];
+  if (disallowed.some((pattern) => pattern.test(xml)))
+    throw new Error(`${name}: contiene filas individuales o información no permitida`);
+  for (const header of requiredHeaders) {
+    if (!xml.includes(header)) throw new Error(`${name}: falta encabezado agregado: ${header}`);
+  }
+  console.log(`${name}: reporte agregado sin filas individuales verificado`);
+};
+
+inspectAggregateSpreadsheet('Decisiones que suman.xlsx', 25, [
+  'Pregunta',
+  'Opción',
+  'Respuestas',
+  'Porcentaje',
+]);
+inspectAggregateSpreadsheet('Decisiones que suman despues del webinar.xlsx', 10, [
+  'Indicador',
+  'Inicial n',
+  'Posterior n',
+  'Diferencia pp',
+]);
 
 const publicFiles = await readdir('public', { recursive: true });
 if (publicFiles.some((file) => file.toLowerCase().endsWith('.mov')))

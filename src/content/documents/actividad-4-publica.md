@@ -7,7 +7,7 @@ activityNumber: 4
 week: 'Semana 4'
 status: finalizado
 publishedAt: 2026-07-27
-updatedAt: 2026-08-09
+updatedAt: 2026-08-10
 originalFile: docs/fuentes-academicas/semana-2-del-diagnostico-a-la-accion.pdf
 webRoute: /actividades/actividad-4-del-diagnostico-a-la-accion/
 pageCount: 5
@@ -23,4 +23,4 @@ evidenceStatus: disponible
 
 Esta ficha enlaza el documento académico original autorizado por el autor. Conserva sus datos de autoría, identificación académica y diseño institucional; la última página incorpora los enlaces, las fechas y el alcance verificable de la actividad.
 
-La [versión web de la actividad 4](/actividades/actividad-4-del-diagnostico-a-la-accion/) es la lectura principal y refleja el estado actual `COMPLETADA`. El diagnóstico registra 16 respuestas y no cuenta con postest.
+La [versión web de la actividad 4](/actividades/actividad-4-del-diagnostico-a-la-accion/) es la lectura principal y refleja el estado actual `COMPLETADA`. El diagnóstico registra 16 respuestas iniciales y enlaza la evaluación posterior de seis respuestas como comparación descriptiva no emparejada.

@@ -1,6 +1,6 @@
 # Documentos y entregas
 
-La ruta `/documentos/` reúne las tres entregas actualmente disponibles: plan, actividad 2 y actividad 4.
+La ruta `/documentos/` reúne cuatro entregas: plan y actividades 2, 4 y 6.
 
 ## Colección
 

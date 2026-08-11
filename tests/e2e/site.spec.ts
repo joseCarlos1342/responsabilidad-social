@@ -8,6 +8,43 @@ test('carga la portada con su propuesta y navegación principal', async ({ page 
   await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
 });
 
+test('muestra los enlaces profesionales del autor', async ({ page }) => {
+  await page.goto('/sobre-el-autor/');
+  const links = [
+    ['Portafolio profesional', 'https://portafoliojosecarlos.com/'],
+    ['GitHub del proyecto', 'https://github.com/joseCarlos1342/responsabilidad-social'],
+    ['Perfil de LinkedIn', 'https://www.linkedin.com/in/josecarlos-gomez-ing/'],
+  ] as const;
+  for (const [name, href] of links) {
+    const link = page.getByRole('link', { name: new RegExp(name) });
+    await expect(link).toHaveAttribute('href', href);
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', 'noopener noreferrer');
+  }
+});
+
+test('ofrece acceso directo a los tres videos desde la navegación', async ({ page }) => {
+  await page.goto('/');
+  const videoMenu = page.getByRole('group', { name: 'Videos del proyecto' });
+  await expect(videoMenu).toBeVisible();
+  await videoMenu.getByText('Videos', { exact: true }).click();
+  await expect(videoMenu.getByRole('link', { name: /Entrevista/ })).toHaveAttribute(
+    'href',
+    '/#entrevista',
+  );
+  await expect(videoMenu.getByRole('link', { name: /Webinar/ })).toHaveAttribute(
+    'href',
+    '/#webinar',
+  );
+  await expect(videoMenu.getByRole('link', { name: /Voz en off/ })).toHaveAttribute(
+    'href',
+    '/actividades/actividad-6-de-la-informacion-a-la-accion/#video-reflexion',
+  );
+  await videoMenu.getByRole('link', { name: /Voz en off/ }).click();
+  await expect(page).toHaveURL(/actividad-6-de-la-informacion-a-la-accion\/#video-reflexion/);
+  await expect(page.locator('#video-reflexion')).toBeVisible();
+});
+
 test('muestra las seis evidencias de publicaciones de las semanas 4 a 6', async ({
   page,
   request,
@@ -83,7 +120,7 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   await page.goto('/actividades/actividad-4-del-diagnostico-a-la-accion/');
   await expect(page.getByText('COMPLETADA', { exact: true }).first()).toBeVisible();
   await expect(page.getByText('Publicado: 27/7/2026')).toBeVisible();
-  await expect(page.getByText('Actualizado: 9/8/2026')).toBeVisible();
+  await expect(page.getByText('Actualizado: 10/8/2026')).toBeVisible();
   await expect(page.getByText('16 respuestas diagnósticas').first()).toBeVisible();
   await expect(
     page.getByRole('heading', { name: '16 respuestas para orientar el proyecto.' }),
@@ -100,9 +137,9 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
     page.getByRole('heading', { name: 'Reflexión académica de la Actividad 4' }),
   ).toBeVisible();
   await expect(
-    page.getByText('Sin un postest válido no es responsable afirmar impacto'),
+    page.getByText(/seis respuestas posteriores permiten observar tendencias/),
   ).toBeVisible();
-  const reportLink = page.getByRole('link', { name: 'Descargar reporte XLSX' });
+  const reportLink = page.getByRole('link', { name: 'Descargar diagnóstico XLSX' });
   await expect(reportLink).toBeVisible();
   await expect(reportLink).toHaveAttribute('download', '');
   const reportColors = await reportLink.evaluate((element) => {
@@ -128,20 +165,37 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
 });
 
 test('difiere los medios pesados hasta interacción', async ({ page }) => {
+  const externalVideoRequests: string[] = [];
+  page.on('request', (request) => {
+    if (/youtube|ytimg|googlevideo/iu.test(request.url()))
+      externalVideoRequests.push(request.url());
+  });
   await page.goto('/');
   await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(0);
+  await expect(page.locator('[data-youtube-lite]')).toHaveCount(2);
   await expect(page.locator('[data-evidence-pdf] iframe')).toHaveCount(0);
-  await page.getByRole('button', { name: /Reproducir entrevista/ }).click();
+  expect(externalVideoRequests).toEqual([]);
+  await page.getByRole('button', { name: /Cargar reproductor de la entrevista/ }).click();
   await expect(page.locator('[data-youtube-lite] iframe')).toHaveAttribute(
     'src',
     'https://www.youtube-nocookie.com/embed/mLFCR_STZ2Q?rel=0',
   );
-  const videoFrame = await page.locator('[data-youtube-frame]').evaluate((element) => {
-    const rect = element.getBoundingClientRect();
-    return { width: rect.width, ratio: rect.width / rect.height };
-  });
+  await expect(page.getByText('Reproductor cargado. Usa los controles de YouTube.')).toBeVisible();
+  const videoFrame = await page
+    .locator('[data-youtube-frame]')
+    .first()
+    .evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      return { width: rect.width, ratio: rect.width / rect.height };
+    });
   expect(videoFrame.width).toBeGreaterThan(600);
   expect(videoFrame.ratio).toBeCloseTo(16 / 9, 1);
+  await page.getByRole('button', { name: /Cargar reproductor del webinar/ }).click();
+  await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(2);
+  await expect(page.locator('[data-youtube-lite] iframe').nth(1)).toHaveAttribute(
+    'src',
+    'https://www.youtube-nocookie.com/embed/StYZ2l1TA3U?rel=0',
+  );
   await page.getByRole('button', { name: 'Ver evidencia' }).click();
   await expect(page.locator('[data-evidence-pdf] iframe')).toHaveAttribute(
     'src',
@@ -155,10 +209,10 @@ test('difiere los medios pesados hasta interacción', async ({ page }) => {
 
 test('filtra actividades progresivamente', async ({ page }) => {
   await page.goto('/actividades/');
-  await expect(page.locator('.activity-item')).toHaveCount(2);
+  await expect(page.locator('.activity-item')).toHaveCount(3);
   await page.locator('select[name="status"]').selectOption('finalizada');
-  await expect(page.locator('.activity-item:not([data-hidden="true"])')).toHaveCount(1);
-  await expect(page.getByText('1 entrada visible')).toBeVisible();
+  await expect(page.locator('.activity-item:not([data-hidden="true"])')).toHaveCount(2);
+  await expect(page.getByText('2 entradas visibles')).toBeVisible();
   await expect(page).toHaveURL(/status=finalizada/);
 });
 
@@ -196,16 +250,70 @@ test('publica metadatos, RSS y sitemap', async ({ page, request }) => {
   expect((await request.get('/sitemap-index.xml')).ok()).toBeTruthy();
 });
 
-test('muestra la biblioteca y las tres entregas', async ({ page }) => {
+test('muestra la biblioteca y las cuatro entregas', async ({ page }) => {
   await page.goto('/documentos/');
   await expect(page.getByRole('heading', { name: 'Documentos y entregas' })).toBeVisible();
-  await expect(page.locator('.document-card')).toHaveCount(3);
+  await expect(page.locator('.document-card')).toHaveCount(4);
   await expect(page.getByText('Actividad 2 · Decisiones que sí suman')).toBeVisible();
   await expect(page.getByText('Actividad 4 · Del diagnóstico a la acción')).toBeVisible();
+  await expect(page.getByText('Actividad 6 · De la información a la acción')).toBeVisible();
   await expect(page.getByText('Plan de Humanidades Digitales').first()).toBeVisible();
   await expect(page.locator('body')).not.toContainText('967350');
   await expect(page.getByRole('link', { name: /Ver versión pública/ })).toHaveCount(0);
-  await expect(page.getByRole('link', { name: /Ver documento original/ })).toHaveCount(3);
+  await expect(page.getByRole('link', { name: /Ver documento original/ })).toHaveCount(4);
+});
+
+test('publica Actividad 6 con video, resultados y material diferido', async ({ page, request }) => {
+  await page.goto('/actividades/actividad-6-de-la-informacion-a-la-accion/');
+  await expect(page).toHaveTitle(
+    'Decisiones que sí suman: de la información a la acción | Experiencia como agente social',
+  );
+  await expect(
+    page.getByRole('heading', { name: 'Decisiones que sí suman: de la información a la acción' }),
+  ).toBeVisible();
+  await expect(page.getByText('Publicado: 10/8/2026')).toBeVisible();
+  await expect(page.getByText('COMPLETADA', { exact: true }).first()).toBeVisible();
+  await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(0);
+  await expect(page.getByText('Diagnóstico inicial n=16 · Evaluación posterior n=6')).toBeVisible();
+  await expect(page.getByText(/54,7 % → 68,8 %/)).toBeVisible();
+  await expect(page.getByText(/meta global de \+20 pp no se alcanzó/).first()).toBeVisible();
+  await expect(page.getByText(/Conocimiento declarado: 50 % → 33,3 %/)).toBeVisible();
+  await expect(page.getByRole('link', { name: 'verse bajo demanda' })).toHaveAttribute(
+    'href',
+    '/documents/Actividad%206%20Original.pdf',
+  );
+  await page.getByRole('button', { name: /Cargar reproductor de la reflexión/ }).click();
+  await expect(page.locator('[data-youtube-lite] iframe')).toHaveAttribute(
+    'src',
+    'https://www.youtube-nocookie.com/embed/YL1LWZWOzAk?rel=0',
+  );
+  expect((await request.get('/documents/Actividad%206%20Original.pdf')).ok()).toBeTruthy();
+});
+
+test('Actividad 6 es legible en móvil y no desborda', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/actividades/actividad-6-de-la-informacion-a-la-accion/');
+  await expect(page.locator('body')).toHaveJSProperty('scrollWidth', 390);
+  await expect(
+    page.getByRole('button', { name: /Cargar reproductor de la reflexión/ }),
+  ).toBeVisible();
+  await expect(page.getByText(/grupos no emparejados/).first()).toBeVisible();
+});
+
+test('rutas principales no producen errores de consola', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => {
+    if (message.type() === 'error') errors.push(message.text());
+  });
+  for (const route of [
+    '/',
+    '/actividades/actividad-4-del-diagnostico-a-la-accion/',
+    '/actividades/actividad-6-de-la-informacion-a-la-accion/',
+  ]) {
+    await page.goto(route);
+  }
+  expect(errors).toEqual([]);
 });
 
 test('navega entre versión web y PDF, renderiza páginas y conserva controles', async ({ page }) => {
@@ -298,6 +406,7 @@ test('carga directamente los PDF originales con contenido visible', async ({
   const documents = [
     { route: '/documentos/actividad-2-publica/?vista=documento', pages: 3 },
     { route: '/documentos/actividad-4-publica/?vista=documento', pages: 5 },
+    { route: '/documentos/actividad-6-publica/?vista=documento', pages: 13 },
   ];
 
   for (const document of documents) {

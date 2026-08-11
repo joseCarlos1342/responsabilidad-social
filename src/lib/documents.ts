@@ -8,6 +8,7 @@ const publicRoot = resolve(process.cwd(), 'public');
 const allowedWebRoutes = new Set([
   '/actividades/actividad-2-decisiones-que-si-suman/',
   '/actividades/actividad-4-del-diagnostico-a-la-accion/',
+  '/actividades/actividad-6-de-la-informacion-a-la-accion/',
   '/plan-humanidades-digitales/',
 ]);
 
@@ -20,7 +21,7 @@ export function getDocumentRoute(document: DocumentEntry): string {
 }
 
 export function getDocumentAssetPath(document: DocumentEntry, root = publicRoot): string {
-  const relativePath = document.data.publicVersion.replace(/^\//u, '');
+  const relativePath = decodeURIComponent(document.data.publicVersion.replace(/^\//u, ''));
   return resolve(root, relativePath);
 }
 

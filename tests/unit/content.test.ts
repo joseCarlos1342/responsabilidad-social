@@ -22,8 +22,8 @@ import {
   publications,
   type Publication,
 } from '../../src/lib/publications';
-import { projectTimeline } from '../../src/lib/project';
-import { diagnosticSummary } from '../../src/data/diagnostic';
+import { projectStatus, projectTimeline, projectWeeks } from '../../src/lib/project';
+import { diagnosticSummary, financialResults } from '../../src/data/diagnostic';
 
 const activity = (
   id: string,
@@ -37,6 +37,7 @@ const activity = (
   collection: 'activity',
   data: {
     title: id,
+    seoTitle: undefined,
     description: '',
     activityNumber: order,
     week,
@@ -218,26 +219,26 @@ describe('content utilities', () => {
     ).toEqual([
       {
         title: '¿Cómo manejas tu dinero?',
-        theme: 'Diagnóstico rápido',
+        theme: 'Diagnóstico financiero',
         format: 'Carrusel educativo',
         callToAction:
           'Desliza y haz tu autoevaluación → En comentarios, escribe una palabra: presupuesto, ahorro, crédito o fraude.',
       },
       {
         title: 'Presupuesto sin enredos',
-        theme: 'Organiza lo que entra y lo que sale',
+        theme: 'Organización del dinero / presupuesto',
         format: 'Carrusel educativo',
         callToAction: 'Desliza para construir uno en 3 pasos → Pruébala durante 7 días.',
       },
       {
         title: 'Pequeños gastos, gran diferencia',
-        theme: 'Gastos hormiga',
+        theme: 'Gastos pequeños / gastos hormiga',
         format: 'Carrusel educativo',
         callToAction: 'Acepta el reto de 7 días → ¿Qué meta financiarías con ese dinero?',
       },
       {
         title: 'Tu fondo de emergencia',
-        theme: 'Ahorro para imprevistos',
+        theme: 'Fondo de emergencia',
         format: 'Carrusel educativo',
         callToAction:
           'Desliza para construirlo por etapas → Adapta el monto a tu realidad, no a la de otra persona.',
@@ -268,9 +269,62 @@ describe('content utilities', () => {
   it('mantiene el consolidado diagnóstico en ocho preguntas y 16 respuestas', () => {
     expect(diagnosticSummary.responseCount).toBe(16);
     expect(diagnosticSummary.questions).toHaveLength(8);
-    expect(diagnosticSummary.hasPosttest).toBe(false);
+    expect(diagnosticSummary.hasPosteriorEvaluation).toBe(true);
+    expect(diagnosticSummary.paired).toBe(false);
     diagnosticSummary.questions.forEach((question) => {
       expect(question.options.reduce((total, option) => total + option.count, 0)).toBe(16);
     });
+  });
+
+  it('publica una comparación descriptiva derivada de 22 respuestas', () => {
+    expect(financialResults.totalResponseCount).toBe(22);
+    expect(financialResults.initial.responseCount).toBe(16);
+    expect(financialResults.posterior.responseCount).toBe(6);
+    expect(financialResults.posterior.date).toBe('2026-08-09');
+    expect(financialResults.paired).toBe(false);
+    expect(financialResults.methodology).toContain('grupos no emparejados');
+
+    const byKey = new Map(financialResults.comparisons.map((item) => [item.key, item]));
+    expect(byKey.get('expense-tracking')).toMatchObject({
+      initialPercentage: 37.5,
+      posteriorPercentage: 66.7,
+      differencePp: 29.2,
+    });
+    expect(byKey.get('unexpected-expense')).toMatchObject({
+      initialPercentage: 56.3,
+      posteriorPercentage: 83.3,
+      differencePp: 27.1,
+    });
+    expect(byKey.get('credit-concepts')).toMatchObject({
+      initialPercentage: 43.8,
+      posteriorPercentage: 66.7,
+      differencePp: 22.9,
+    });
+    expect(byKey.get('official-channels')).toMatchObject({
+      initialPercentage: 50,
+      posteriorPercentage: 33.3,
+      differencePp: -16.7,
+    });
+    expect(financialResults.global).toMatchObject({
+      initialFavorableCount: 70,
+      initialResponseSlots: 128,
+      initialPercentage: 54.7,
+      posteriorFavorableCount: 33,
+      posteriorResponseSlots: 48,
+      posteriorPercentage: 68.8,
+      differencePp: 14.1,
+      targetDifferencePp: 20,
+      targetReached: false,
+    });
+  });
+
+  it('refleja el cierre verificable de las semanas 4 a 7', () => {
+    expect(projectStatus.currentWeek).toBe('Semana 7');
+    expect(projectWeeks.map(({ week, status }) => ({ week, status }))).toEqual([
+      { week: 'Semana 4', status: 'completada' },
+      { week: 'Semana 5', status: 'completada' },
+      { week: 'Semana 6', status: 'completada' },
+      { week: 'Semana 7', status: 'en-progreso' },
+    ]);
   });
 });

@@ -6,12 +6,19 @@ Todos los cambios relevantes se registran aquí.
 
 ### Added
 
+- Actividad 6 con video de voz en off, presentación original, teoría del cambio y reflexión profesional.
+- Webinar publicado con reproductor diferido y evaluación posterior de seis respuestas.
+- Generación build-time de resultados agregados desde el XLSX consolidado de 22 respuestas.
+- Comparación visual antes/después con nota metodológica para grupos no emparejados.
 - Biblioteca `/documentos/` con colección tipada, fichas, relaciones web y versiones públicas sanitizadas.
 - Visor PDF.js local con canvas, carga diferida, controles accesibles y worker same-origin.
 - Auditoría de contenido académico, ADR documental y reevaluación de comentarios.
 
 ### Changed
 
+- Portada, plan y cronología reflejan semanas 4–6 completadas y semana 7 en cierre.
+- Actividad 4 conserva su publicación histórica y enlaza la evaluación posterior incorporada el 10/08/2026.
+- Los reproductores de entrevista, webinar y voz en off crean el iframe únicamente tras interacción.
 - Actividad 4 pasa a `COMPLETADA` con fecha de publicación histórica 27/07/2026 y actualización de resultados del 09/08/2026.
 - Actividad 4 incorpora 16 respuestas diagnósticas, resultados agregados, evidencia PDF y publicación de presupuesto sin presentarlos como impacto.
 - Actividad 4 incorpora una reflexión académica sustentada en el diagnóstico y diferencia sus aprendizajes del impacto aún no medido.
@@ -35,4 +42,4 @@ Todos los cambios relevantes se registran aquí.
 
 ### Pending
 
-- Postest, webinar y evaluación final.
+- Consolidación de asistentes, visualizaciones, satisfacción y seguimiento final.

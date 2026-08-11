@@ -18,7 +18,7 @@ export const publications: readonly Publication[] = [
     number: 1,
     week: 'Semana 4',
     title: '¿Cómo manejas tu dinero?',
-    theme: 'Diagnóstico rápido',
+    theme: 'Diagnóstico financiero',
     summary:
       'Presenta ocho preguntas sobre presupuesto, ahorro, crédito y seguridad financiera para reconocer hábitos y decisiones cotidianas. Invita a responder con honestidad y aclara que el formulario es anónimo y no solicita datos sensibles.',
     format: 'Carrusel educativo',
@@ -35,7 +35,7 @@ export const publications: readonly Publication[] = [
     number: 2,
     week: 'Semana 4',
     title: 'Presupuesto sin enredos',
-    theme: 'Organiza lo que entra y lo que sale',
+    theme: 'Organización del dinero / presupuesto',
     summary:
       'Explica el presupuesto como una forma de ver qué decisiones se pueden controlar mediante la relación entre ingresos, gastos y saldo. Propone clasificar los gastos, registrar y comparar los valores, y elegir un ajuste pequeño con una meta concreta.',
     format: 'Carrusel educativo',
@@ -51,7 +51,7 @@ export const publications: readonly Publication[] = [
     number: 3,
     week: 'Semana 5',
     title: 'Pequeños gastos, gran diferencia',
-    theme: 'Gastos hormiga',
+    theme: 'Gastos pequeños / gastos hormiga',
     summary:
       'Invita a observar gastos repetidos como domicilios, snacks, suscripciones, transportes evitables y compras por impulso. Propone registrarlos durante siete días, distinguir necesidad o deseo y convertir una parte del gasto en una meta.',
     format: 'Carrusel educativo',
@@ -67,7 +67,7 @@ export const publications: readonly Publication[] = [
     number: 4,
     week: 'Semana 5',
     title: 'Tu fondo de emergencia',
-    theme: 'Ahorro para imprevistos',
+    theme: 'Fondo de emergencia',
     summary:
       'Explica que un fondo de emergencia puede ayudar a afrontar salud inesperada, reparaciones urgentes, reducción temporal de ingresos o una necesidad familiar prioritaria sin convertir cada imprevisto en una nueva deuda. Propone construirlo por etapas y adaptar el monto a la realidad de cada persona.',
     format: 'Carrusel educativo',

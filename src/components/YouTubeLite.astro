@@ -3,50 +3,78 @@ interface Props {
   videoId: string;
   title: string;
   thumbnail: string;
+  thumbnailAlt: string;
   youtubeHref: string;
+  description: string;
+  duration?: string;
+  playLabel?: string;
+  label?: string;
+  id?: string;
 }
 
-const { videoId, title, thumbnail, youtubeHref } = Astro.props;
-const titleId = `interview-title-${videoId}`;
+const {
+  videoId,
+  title,
+  thumbnail,
+  thumbnailAlt,
+  youtubeHref,
+  description,
+  duration,
+  playLabel = 'Cargar reproductor',
+  label = 'Evidencia audiovisual',
+  id,
+} = Astro.props;
+const titleId = `video-title-${videoId}`;
+const statusId = `video-status-${videoId}`;
 ---
 
-<section class="youtube-lite" aria-labelledby={titleId} data-youtube-lite data-video-id={videoId}>
+<section
+  class="youtube-lite"
+  id={id}
+  aria-labelledby={titleId}
+  data-youtube-lite
+  data-video-id={videoId}
+  data-video-title={title}
+>
   <div class="youtube-lite__header">
     <div>
-      <span class="kicker">Evidencia audiovisual</span>
+      <span class="kicker">{label}</span>
       <h2 id={titleId}>{title}</h2>
     </div>
-    <span class="eyebrow-data">Reproducción principal · YouTube</span>
+    <span class="eyebrow-data">
+      Reproducción bajo interacción{duration ? ` · ${duration}` : ''}
+    </span>
   </div>
   <div class="youtube-lite__frame" data-youtube-frame>
     <img
       src={thumbnail}
-      alt="Miniatura de la entrevista sobre educación financiera"
+      alt={thumbnailAlt}
       width="480"
       height="360"
       loading="lazy"
+      decoding="async"
     />
     <button
       type="button"
       class="youtube-lite__play"
       data-youtube-play
-      aria-label={`Reproducir entrevista: ${title}`}
+      aria-label={`${playLabel}: ${title}`}
     >
       <span aria-hidden="true">▶</span>
-      <span>Reproducir entrevista</span>
+      <span>{playLabel}</span>
     </button>
     <noscript>
       <p class="youtube-lite__noscript">
-        JavaScript está desactivado. <a href={youtubeHref}>Abrir entrevista en YouTube ↗</a>
+        JavaScript está desactivado. <a href={youtubeHref}>Abrir video en YouTube ↗</a>
       </p>
     </noscript>
   </div>
-  <p class="youtube-lite__caption">
-    Entrevista publicada en YouTube. El archivo local original se conserva fuera del bundle web; su
-    duración verificada es de 7:20, por debajo de la meta académica de 15 minutos.
+  <p class="youtube-lite__status" id={statusId} data-youtube-status aria-live="polite">
+    El reproductor se cargará al activar este video. También puedes abrirlo directamente en YouTube.
   </p>
+  <p class="youtube-lite__caption">{description}</p>
   <a class="text-link" href={youtubeHref} target="_blank" rel="noopener noreferrer">
-    Ver entrevista en YouTube ↗
+    Abrir en YouTube ↗
   </a>
 </section>
 
@@ -113,6 +141,11 @@ const titleId = `interview-title-${videoId}`;
     color: var(--ink-soft);
     font-size: 0.9rem;
   }
+  .youtube-lite__status {
+    margin: 0.8rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+  }
   .youtube-lite .text-link {
     color: var(--petrol);
     font-weight: 800;
@@ -138,24 +171,28 @@ const titleId = `interview-title-${videoId}`;
   youtubeCards.forEach((card) => {
     const play = card.querySelector<HTMLButtonElement>('[data-youtube-play]');
     const frame = card.querySelector<HTMLElement>('[data-youtube-frame]');
+    const status = card.querySelector<HTMLElement>('[data-youtube-status]');
     if (!play || !frame) return;
     play.addEventListener(
       'click',
       () => {
         const iframe = document.createElement('iframe');
         const videoId = card.dataset.videoId;
+        const videoTitle = card.dataset.videoTitle;
         if (!videoId) return;
         iframe.className = 'youtube-lite__iframe';
         iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0`;
-        iframe.title = 'Educación financiera para tomar mejores decisiones | Entrevista';
+        iframe.title = videoTitle ?? 'Video del proyecto Decisiones que sí suman';
+        if (status?.id) iframe.setAttribute('aria-describedby', status.id);
         iframe.loading = 'lazy';
         iframe.allowFullscreen = true;
+        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
         iframe.setAttribute(
           'allow',
           'accelerometer; encrypted-media; gyroscope; picture-in-picture; web-share',
         );
         frame.replaceChildren(iframe);
-        play.remove();
+        if (status) status.textContent = 'Reproductor cargado. Usa los controles de YouTube.';
       },
       { once: true },
     );

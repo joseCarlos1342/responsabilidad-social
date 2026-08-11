@@ -8,10 +8,12 @@ import PublicationCard from '../components/PublicationCard.astro';
 import DiagnosticSummary from '../components/DiagnosticSummary.astro';
 import YouTubeLite from '../components/YouTubeLite.astro';
 import EvidencePdfCard from '../components/EvidencePdfCard.astro';
+import ResultsComparison from '../components/ResultsComparison.astro';
 import { sortActivities } from '../lib/content';
 import { projectStatus, projectTimeline, projectWeeks } from '../lib/project';
 import { sortDocuments, validateDocuments } from '../lib/documents';
 import { getPublicationProgress, publications } from '../lib/publications';
+import { financialResults } from '../data/diagnostic';
 
 const activities = sortActivities(await getCollection('activity', ({ data }) => !data.draft));
 const featured = activities.find((activity) => activity.data.featured) ?? activities[0];
@@ -21,11 +23,21 @@ const publicationProgress = getPublicationProgress(publications);
 const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
   projectWeeks.map((item) => [item.week, item.status]),
 );
+const projectIndicators = [
+  { value: '6', label: 'Publicaciones' },
+  { value: '16', label: 'Respuestas diagnósticas' },
+  { value: '6', label: 'Respuestas posteriores' },
+  { value: String(financialResults.totalResponseCount), label: 'Respuestas registradas en total' },
+  { value: '1', label: 'Entrevista' },
+  { value: '1', label: 'Webinar' },
+  { value: '≈69 min', label: 'Duración del webinar' },
+  { value: '1', label: 'Video de reflexión / voz en off' },
+] as const;
 ---
 
 <BaseLayout
-  title="Educación financiera para decidir mejor"
-  description="Blog académico de José Carlos Gómez sobre educación financiera, responsabilidad social y Humanidades Digitales en Neiva."
+  title="Decisiones que sí suman | Educación financiera y responsabilidad social"
+  description="Proyecto de Humanidades Digitales desarrollado en Práctica en Responsabilidad Social de UNIMINUTO sobre presupuesto, ahorro, crédito responsable y prevención del fraude."
 >
   <section class="home-hero section">
     <div class="site-shell home-hero__grid">
@@ -78,6 +90,33 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     </div>
   </section>
 
+  <section class="section journey-section" id="recorrido">
+    <div class="site-shell">
+      <div class="section-heading section-heading--split">
+        <div>
+          <span class="kicker">Del diagnóstico a la acción</span>
+          <h2>Un recorrido ejecutado y documentado.</h2>
+        </div>
+        <a class="button" href="/actividades/actividad-6-de-la-informacion-a-la-accion/">
+          Ver recorrido del proyecto →
+        </a>
+      </div>
+      <dl class="journey-metrics" aria-label="Indicadores generales del proyecto">
+        {
+          projectIndicators.map((indicator) => (
+            <div>
+              <dd>{indicator.value}</dd>
+              <dt>{indicator.label}</dt>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="journey-sequence">
+        Planificación → diagnóstico → ejecución → intervención → evaluación → reflexión
+      </p>
+    </div>
+  </section>
+
   <section class="section project-state">
     <div class="site-shell">
       <div class="section-heading">
@@ -96,8 +135,8 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
         </div>
         <div class="state-card">
           <span class="eyebrow-data">Proyecto</span><strong>Humanidades Digitales</strong><p>
-            Seis publicaciones, una entrevista publicada y un webinar todavía pendiente como ruta de
-            aprendizaje.
+            Seis publicaciones, una entrevista, un webinar, evaluación posterior y reflexión final
+            publicados como ruta de aprendizaje.
           </p>
         </div>
         <div class="state-card">
@@ -131,8 +170,7 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
             max={publicationProgress.total}
             aria-label="Progreso del componente de publicaciones"></progress>
           <span class="execution-progress__note"
-            >Las seis publicaciones están registradas; el webinar y la evaluación final siguen
-            pendientes.</span
+            >Las seis publicaciones y sus evidencias están registradas.</span
           >
         </div>
       </div>
@@ -142,7 +180,7 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
       <div class="execution-footer">
         <p>
           Las publicaciones 5 y 6 cuentan con evidencia visual en sus PDF y en el consolidado de
-          pruebas. El webinar, la asistencia en vivo y el postest no se presentan como realizados.
+          pruebas. El componente de publicaciones está completado: 6 de 6.
         </p>
         <a
           class="button"
@@ -164,17 +202,22 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     <div class="site-shell evidence-section__grid">
       <YouTubeLite
         videoId="mLFCR_STZ2Q"
-        title="Educación financiera para tomar mejores decisiones"
+        title="Educación financiera para tomar mejores decisiones | Entrevista"
         thumbnail="/assets/entrevista-youtube.jpg"
+        thumbnailAlt="Miniatura de la entrevista sobre educación financiera y mejores decisiones."
         youtubeHref="https://youtu.be/mLFCR_STZ2Q"
+        description="Entrevista publicada para incorporar una perspectiva basada en experiencia sobre crédito responsable y prevención del sobreendeudamiento. Su duración verificada es 7:20, por debajo de la meta original de 15 minutos."
+        duration="7:20"
+        playLabel="Cargar reproductor de la entrevista"
+        label="Semana 5 · Entrevista"
       />
       <div class="evidence-column">
         <div class="section-heading">
           <span class="kicker">Sección de evidencias</span>
           <h2>Lo realizado, sin confundir alcance con impacto.</h2>
           <p>
-            Las publicaciones, respuestas e interacciones muestran alcance. El impacto o aprendizaje
-            requiere una segunda aplicación del cuestionario.
+            Las evidencias permiten describir la ejecución y observar tendencias. No permiten
+            atribuir causalidad ni generalizar los resultados a toda la población.
           </p>
         </div>
         <EvidencePdfCard
@@ -185,34 +228,83 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
           thumbnail="/assets/pruebas-evidencia.png"
         />
         <div class="evidence-status-list" aria-label="Estado de evidencias principales">
-          <div><span>Diagnóstico</span><strong>COMPLETADA · 16 respuestas</strong></div>
+          <div><span>Plan</span><strong>DISPONIBLE</strong></div>
+          <div><span>Diagnóstico</span><strong>COMPLETADO · 16 respuestas</strong></div>
           <div><span>Publicaciones educativas</span><strong>COMPLETADA · 6 de 6</strong></div>
-          <div><span>Entrevista</span><strong>EVIDENCIA REGISTRADA · YouTube</strong></div>
-          <div><span>Webinar</span><strong>PENDIENTE</strong></div>
-          <div><span>Evaluación final</span><strong>PENDIENTE · no hay postest</strong></div>
+          <div><span>Entrevista</span><strong>COMPLETADA · YouTube</strong></div>
+          <div><span>Webinar</span><strong>COMPLETADO · YouTube</strong></div>
+          <div><span>Evaluación posterior</span><strong>COMPLETADA · 6 respuestas</strong></div>
+          <div><span>Video voz en off</span><strong>COMPLETADO · YouTube</strong></div>
+          <div><span>Seguimiento final</span><strong>EN PROGRESO · CIERRE</strong></div>
         </div>
       </div>
     </div>
   </section>
 
+  <section class="section webinar-section" id="webinar">
+    <div class="site-shell">
+      <YouTubeLite
+        videoId="StYZ2l1TA3U"
+        title="Webinar: Decisiones que sí suman"
+        thumbnail="/assets/webinar-youtube.webp"
+        thumbnailAlt="Miniatura del webinar Decisiones que sí suman sobre educación financiera."
+        youtubeHref="https://youtu.be/StYZ2l1TA3U"
+        description="Encuentro educativo sobre decisiones financieras responsables en el que se abordaron presupuesto, ahorro, crédito, capacidad de pago y prevención del fraude mediante ejemplos y ejercicios prácticos."
+        duration="69:01"
+        playLabel="Cargar reproductor del webinar"
+        label="Semana 6 · 9 de agosto de 2026"
+      />
+      <div class="webinar-context">
+        <div>
+          <span class="eyebrow-data">Temas desarrollados</span>
+          <p>
+            Presupuesto, registro de gastos, gastos pequeños, ahorro, fondo de emergencia, crédito
+            responsable, tasa, cuota, plazo, costo total, capacidad de pago, señales de
+            sobreendeudamiento y prevención del fraude.
+          </p>
+        </div>
+        <div>
+          <span class="eyebrow-data">Relación con el plan</span>
+          <p>
+            La duración de 69:01 está dentro del rango previsto de 60 a 75 minutos. La evaluación
+            posterior cuenta con seis respuestas.
+          </p>
+        </div>
+        <div class="webinar-context__pending">
+          <span class="eyebrow-data">Alcance</span>
+          <p><strong>Dato de alcance pendiente de consolidación.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section results-section" id="resultados">
+    <div class="site-shell"><ResultsComparison /></div>
+  </section>
+
   <section class="section academic-week-section" id="actividad-semana-6">
     <div class="site-shell">
       <div class="section-heading">
-        <span class="kicker">Actividad académica · Semana 6</span>
-        <h2>La cuarta entrada todavía está en preparación.</h2>
+        <span class="kicker">Actividad académica 6</span>
+        <h2>De la información a la acción.</h2>
         <p>
-          Ya existen seis publicaciones, diagnóstico, entrevista, interacción y evidencias. Aún
-          falta producir y publicar el video con voz en off de 5 a 8 minutos y enlazar la entrada
-          definitiva.
+          La cuarta entrada y el video con voz en off documentan la experiencia social, los
+          resultados descriptivos, las fortalezas y los aspectos por mejorar.
         </p>
       </div>
       <div class="academic-week-card">
-        <StatusBadge status="en-preparacion" />
+        <StatusBadge status="completada" />
         <ul>
-          <li>Video final con voz en off de 5–8 minutos: pendiente.</li>
-          <li>Cuarta entrada del blog: pendiente.</li>
-          <li>Enlace definitivo en YouTube y blog: pendiente.</li>
+          <li>Video final con voz en off: publicado, duración 8:00.</li>
+          <li>Cuarta entrada del blog: publicada.</li>
+          <li>Presentación original: disponible bajo demanda.</li>
         </ul>
+        <a
+          class="button button--small"
+          href="/actividades/actividad-6-de-la-informacion-a-la-accion/"
+        >
+          Ver Actividad 6 →
+        </a>
       </div>
     </div>
   </section>
@@ -294,6 +386,10 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
         class="big-link big-link--warm"
         ><span class="eyebrow-data">Actividad 4</span><strong>Del diagnóstico a la acción.</strong
         ><span>Dos herramientas para decidir mejor →</span></a
+      >
+      <a href="/actividades/actividad-6-de-la-informacion-a-la-accion/" class="big-link"
+        ><span class="eyebrow-data">Actividad 6</span><strong>De la información a la acción.</strong
+        ><span>Video, resultados y reflexión profesional →</span></a
       >
     </div>
   </section>
@@ -444,6 +540,50 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     grid-template-columns: 1.1fr 1.1fr 0.8fr;
     gap: 1rem;
   }
+  .journey-section {
+    border-block: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+  .journey-section .section-heading h2 {
+    max-width: 15ch;
+  }
+  .journey-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+  .journey-metrics div {
+    display: grid;
+    align-content: start;
+    gap: 0.35rem;
+    min-height: 8.5rem;
+    padding: 1rem;
+  }
+  .journey-metrics div + div {
+    border-left: 1px solid var(--line);
+  }
+  .journey-metrics dd {
+    margin: 0;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .journey-metrics dt,
+  .journey-sequence {
+    color: var(--ink-soft);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
+  .journey-sequence {
+    margin: 1rem 0 0;
+    color: var(--terracotta);
+    font-weight: 800;
+  }
   .state-card {
     min-height: 12rem;
     padding: 1.3rem;
@@ -553,6 +693,30 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     border: 1px solid var(--line);
     background: var(--white);
   }
+  .academic-week-card .button {
+    width: fit-content;
+  }
+  .webinar-section {
+    background: var(--paper-deep);
+  }
+  .webinar-context {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    margin-top: 1rem;
+    background: var(--line);
+  }
+  .webinar-context > div {
+    padding: 1.25rem;
+    background: var(--white);
+  }
+  .webinar-context p {
+    margin: 0.65rem 0 0;
+    color: var(--ink-soft);
+  }
+  .webinar-context__pending {
+    border-top: 3px solid var(--gold);
+  }
   .academic-week-card ul {
     display: grid;
     gap: 0.55rem;
@@ -654,7 +818,7 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
   }
   .home-links__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
   }
   .deliveries-grid {
@@ -699,6 +863,15 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     .publications-grid {
       grid-template-columns: 1fr;
     }
+    .journey-metrics,
+    .webinar-context,
+    .home-links__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .journey-metrics div:nth-child(odd),
+    .webinar-context > div:nth-child(odd) {
+      border-left: 0;
+    }
     .decision-board {
       max-width: 34rem;
       margin-inline: auto;
@@ -718,8 +891,16 @@ const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
     }
   }
   @media (max-width: 560px) {
-    .home-links__grid {
+    .home-links__grid,
+    .journey-metrics,
+    .webinar-context,
+    .timeline {
       grid-template-columns: 1fr;
+    }
+    .journey-metrics div + div,
+    .webinar-context > div + div {
+      border-top: 1px solid var(--line);
+      border-left: 0;
     }
     .section-heading--split {
       display: grid;

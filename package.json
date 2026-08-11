@@ -6,7 +6,8 @@
   "description": "Blog académico sobre educación financiera, responsabilidad social y Humanidades Digitales.",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "data:generate": "node scripts/generate-results-data.mjs",
+    "build": "pnpm data:generate && astro build",
     "preview": "astro preview",
     "check": "astro check",
     "lint": "eslint .",
@@ -19,7 +20,7 @@
     "test:links": "node scripts/check-links.mjs dist",
     "documents:generate": "node scripts/generate-public-documents.mjs",
     "documents:check": "node scripts/check-public-documents.mjs",
-    "validate": "pnpm format:check && pnpm lint && pnpm check && pnpm documents:check && pnpm test:unit && pnpm build && pnpm test:links && pnpm test:a11y && pnpm test:e2e",
+    "validate": "pnpm data:generate && pnpm format:check && pnpm lint && pnpm check && pnpm documents:check && pnpm test:unit && pnpm build && pnpm test:links && pnpm test:a11y && pnpm test:e2e",
     "deploy": "node scripts/deploy-production.mjs"
   },
   "dependencies": {

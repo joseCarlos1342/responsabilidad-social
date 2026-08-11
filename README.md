@@ -5,7 +5,7 @@ Blog académico sobre educación financiera, responsabilidad social y Humanidade
 - **Autor:** José Carlos Gómez
 - **Asignatura:** Práctica en Responsabilidad Social
 - **Territorio:** Neiva, Huila, Colombia
-- **Estado:** en desarrollo
+- **Estado:** ejecución principal completada; cierre y seguimiento en progreso
 
 ## Propósito
 
@@ -43,21 +43,22 @@ Abre `http://localhost:4321/`.
 
 ## Comandos
 
-| Comando             | Uso                                                   |
-| ------------------- | ----------------------------------------------------- |
-| `pnpm dev`          | Desarrollo local                                      |
-| `pnpm build`        | Build estático en `dist/`                             |
-| `pnpm preview`      | Previsualización de producción                        |
-| `pnpm check`        | Astro check                                           |
-| `pnpm lint`         | ESLint                                                |
-| `pnpm format`       | Formatear                                             |
-| `pnpm format:check` | Verificar formato                                     |
-| `pnpm test:unit`    | Vitest y cobertura                                    |
-| `pnpm test:e2e`     | Playwright en Chromium                                |
-| `pnpm test:a11y`    | Playwright + axe                                      |
-| `pnpm test:links`   | Comprobación de enlaces internos generados            |
-| `pnpm validate`     | Formato, lint, tipos, unitarias, build, enlaces y E2E |
-| `pnpm deploy`       | Build y despliegue directo a Pages                    |
+| Comando              | Uso                                                   |
+| -------------------- | ----------------------------------------------------- |
+| `pnpm dev`           | Desarrollo local                                      |
+| `pnpm data:generate` | Generar agregados desde el XLSX consolidado           |
+| `pnpm build`         | Build estático en `dist/`                             |
+| `pnpm preview`       | Previsualización de producción                        |
+| `pnpm check`         | Astro check                                           |
+| `pnpm lint`          | ESLint                                                |
+| `pnpm format`        | Formatear                                             |
+| `pnpm format:check`  | Verificar formato                                     |
+| `pnpm test:unit`     | Vitest y cobertura                                    |
+| `pnpm test:e2e`      | Playwright en Chromium                                |
+| `pnpm test:a11y`     | Playwright + axe                                      |
+| `pnpm test:links`    | Comprobación de enlaces internos generados            |
+| `pnpm validate`      | Formato, lint, tipos, unitarias, build, enlaces y E2E |
+| `pnpm deploy`        | Build y despliegue directo a Pages                    |
 
 ## Comentarios
 
@@ -65,7 +66,7 @@ No se habilitan comentarios ni cuentas de usuario en esta versión temporal. La 
 
 ## Documentos y entregas
 
-La biblioteca pública está disponible en [`/documentos/`](https://decisiones-que-si-suman.pages.dev/documentos/). Publica reconstrucciones sanitizadas de las actividades 2 y 4, y enlaza el PDF original académico del plan a solicitud del autor.
+La biblioteca pública está disponible en [`/documentos/`](https://decisiones-que-si-suman.pages.dev/documentos/). Reúne los documentos académicos autorizados de las actividades 2, 4 y 6 y el plan original.
 
 Para generar y revisar las versiones públicas localmente:
 
@@ -96,4 +97,4 @@ docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 
 ## Estado actual de la materia
 
-La actividad 2 está publicada como contexto y definición del proyecto. Las seis publicaciones educativas tienen evidencia registrada: diagnóstico, presupuesto, gastos hormiga, fondo de emergencia, crédito responsable y prevención del fraude. El diagnóstico inicial cuenta con 16 respuestas. La entrevista está publicada en YouTube y dura 7:20 frente a la meta académica de 15 minutos. El webinar, la asistencia, el postest y la actividad académica de la semana 6 continúan pendientes o en preparación.
+La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra el recorrido con video, webinar y comparación descriptiva. Las seis publicaciones, la entrevista de 7:20, el webinar de 69:01, seis respuestas posteriores y el video de voz en off de 8:00 tienen evidencia disponible. Asistentes, visualizaciones, satisfacción y seguimiento continúan pendientes de consolidación.

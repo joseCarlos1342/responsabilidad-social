@@ -26,7 +26,7 @@ export const statusLabels: Record<ContentStatus, string> = {
   completada: 'COMPLETADA',
   'en-progreso': 'EN PROGRESO',
   pendiente: 'PENDIENTE',
-  'evidencia-registrada': 'EVIDENCIA REGISTRADA',
+  'evidencia-registrada': 'EVIDENCIA DISPONIBLE',
   'en-preparacion': 'EN PREPARACIÓN',
 };
 
@@ -139,9 +139,10 @@ export const odsData = [
     explanation:
       'El plan proyecta colaboración con una experta y actores cercanos para convertir conocimientos técnicos en recursos públicos.',
     action:
-      'La actividad 2 define una entrevista y un webinar como acciones futuras sujetas a autorización y evidencia.',
-    scope: 'Alianza académica y comunitaria proyectada.',
-    limitation: 'La entrevista y el webinar todavía no tienen evidencia de ejecución publicada.',
+      'La entrevista y el webinar publicados incorporan experiencia, preguntas y participación al recorrido educativo.',
+    scope: 'Alianza académica y comunitaria documentada.',
+    limitation:
+      'La existencia de estos recursos no demuestra por sí sola impacto ni sustituye el seguimiento.',
   },
 ] as const;
 

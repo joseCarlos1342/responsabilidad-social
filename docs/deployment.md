@@ -26,8 +26,9 @@ Después de desplegar:
 - `/`
 - `/actividades/actividad-2-decisiones-que-si-suman/`
 - `/actividades/actividad-4-del-diagnostico-a-la-accion/`
+- `/actividades/actividad-6-de-la-informacion-a-la-accion/`
 - `/plan-humanidades-digitales/`
-- `/documentos/` y las tres fichas documentales
+- `/documentos/` y las cuatro fichas documentales
 - `/404/` o una ruta inexistente
 - `/rss.xml`, `/sitemap-index.xml`, `/robots.txt`
 

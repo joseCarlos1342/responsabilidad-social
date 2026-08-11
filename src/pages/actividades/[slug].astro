@@ -35,7 +35,7 @@ const evidenceLabels = {
 ---
 
 <BaseLayout
-  title={activity.data.title}
+  title={activity.data.seoTitle ?? activity.data.title}
   description={activity.data.description}
   type="article"
   publishedDate={activity.data.date}
