@@ -1,0 +1,434 @@
+---
+import { financialResults } from '../data/diagnostic';
+import { digitalImpact, publicationImpactTotals, publicationMetrics } from '../data/digital-impact';
+
+const formatNumber = (value: number) => value.toLocaleString('es-CO');
+const executionMetrics = [
+  ['6/6', 'publicaciones'],
+  ['16', 'respuestas iniciales'],
+  ['6', 'respuestas posteriores'],
+  ['22', 'registros del instrumento'],
+  ['1', 'entrevista'],
+  ['1', 'webinar · 69:01'],
+  ['1', 'video de reflexión'],
+] as const;
+---
+
+<section class="project-results" aria-labelledby="project-results-title">
+  <header class="project-results__header">
+    <div>
+      <span class="kicker">Resultados del proyecto</span>
+      <h2 id="project-results-title">Lo ejecutado, lo observado y sus límites.</h2>
+    </div>
+    <p>
+      Las cifras describen ejecución, alcance digital e interacción. No demuestran por sí solas un
+      cambio de comportamiento o impacto social causal.
+    </p>
+  </header>
+
+  <section class="result-ledger" aria-labelledby="execution-title">
+    <div class="result-ledger__heading">
+      <span class="result-ledger__index">01</span>
+      <div>
+        <span class="eyebrow-data">Ejecución</span><h3 id="execution-title">Ruta realizada</h3>
+      </div>
+    </div>
+    <dl class="execution-ledger">
+      {
+        executionMetrics.map(([value, label]) => (
+          <div>
+            <>
+              <dd>{value}</dd>
+              <dt>{label}</dt>
+            </>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="result-ledger" aria-labelledby="reach-title">
+    <div class="result-ledger__heading">
+      <span class="result-ledger__index">02</span>
+      <div>
+        <span class="eyebrow-data">Alcance e interacción digital</span>
+        <h3 id="reach-title">La meta de visualizaciones fue superada.</h3>
+      </div>
+    </div>
+    <div class="reach-layout">
+      <div class="reach-primary">
+        <strong>{digitalImpact.fanPage.viewsLabel}</strong>
+        <span>visualizaciones generales de la Fan Page</span>
+        <p>{digitalImpact.period}</p>
+      </div>
+      <dl class="reach-details">
+        <div><dd>{formatNumber(digitalImpact.fanPage.viewers)}</dd><dt>espectadores</dt></div>
+        <div><dd>{formatNumber(digitalImpact.fanPage.visits)}</dd><dt>visitas</dt></div>
+        <div><dd>{formatNumber(digitalImpact.fanPage.interactions)}</dd><dt>interacciones</dt></div>
+        <div><dd>{formatNumber(digitalImpact.fanPage.followers)}</dd><dt>seguidores</dt></div>
+        <div>
+          <dd>{formatNumber(digitalImpact.fanPage.threeSecondVideoViews)}</dd>
+          <dt>reproducciones de al menos 3 segundos</dt>
+        </div>
+      </dl>
+    </div>
+
+    <div class="publication-summary">
+      <div>
+        <span class="eyebrow-data">Seis publicaciones educativas</span>
+        <strong>{formatNumber(publicationImpactTotals.views)}</strong>
+        <p>visualizaciones acumuladas en los seis registros visibles</p>
+      </div>
+      <dl>
+        <div><dd>{publicationImpactTotals.interactions}</dd><dt>interacciones</dt></div>
+        <div><dd>{publicationImpactTotals.reactions}</dd><dt>reacciones</dt></div>
+        <div><dd>{publicationImpactTotals.comments}</dd><dt>comentarios</dt></div>
+        <div><dd>{publicationImpactTotals.shares}</dd><dt>compartidos</dt></div>
+      </dl>
+    </div>
+
+    <div
+      class="publication-table-wrap"
+      tabindex="0"
+      role="region"
+      aria-label="Rendimiento de las seis publicaciones"
+    >
+      <table>
+        <thead
+          ><tr
+            ><th>Publicación</th><th>Visualizaciones</th><th>Alcance</th><th>Interacciones</th></tr
+          ></thead
+        >
+        <tbody>
+          {
+            publicationMetrics.map((item) => (
+              <tr>
+                <th scope="row">
+                  {item.number}. {item.title}
+                </th>
+                <>
+                  <td>{item.views}</td>
+                  <td>{item.reach}</td>
+                  <td>{item.interactions}</td>
+                </>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="webinar-reach">
+      <p>
+        <span class="eyebrow-data">Webinar</span><strong
+          >{digitalImpact.webinar.views} visualizaciones</strong
+        >
+      </p>
+      <p>
+        Alcance {digitalImpact.webinar.reach} · {digitalImpact.webinar.interactions} interacciones · {
+          digitalImpact.webinar.shares
+        } compartidos. La meta de más de 20 visualizaciones quedó cumplida incluso considerando solo esta
+        publicación.
+      </p>
+    </div>
+  </section>
+
+  <section class="result-ledger" aria-labelledby="learning-title">
+    <div class="result-ledger__heading">
+      <span class="result-ledger__index">03</span>
+      <div>
+        <span class="eyebrow-data">Aprendizaje</span><h3 id="learning-title">
+          Meta global evaluada, no alcanzada.
+        </h3>
+      </div>
+    </div>
+    <div class="learning-balance">
+      <strong>
+        {financialResults.global.initialPercentage.toLocaleString('es-CO')} % → {
+          financialResults.global.posteriorPercentage.toLocaleString('es-CO')
+        } %
+      </strong>
+      <p>
+        Diferencia agregada de +{financialResults.global.differencePp.toLocaleString('es-CO')} pp frente
+        a la meta de +{financialResults.global.targetDifferencePp} pp. Tres indicadores específicos sí
+        aumentaron más de 20 puntos porcentuales.
+      </p>
+    </div>
+  </section>
+
+  <section class="impact-evidence" aria-labelledby="impact-evidence-title">
+    <div class="impact-evidence__heading">
+      <span class="eyebrow-data">Evidencia visual</span>
+      <h3 id="impact-evidence-title">Capturas agregadas de Meta/Facebook</h3>
+      <p>Los paneles comerciales no se utilizan como indicadores académicos.</p>
+    </div>
+    <div class="impact-evidence__grid">
+      <figure>
+        <div class="impact-evidence__crop">
+          <img
+            src={digitalImpact.evidence.overview}
+            alt="Resumen de Meta con 1,5 mil visualizaciones, 524 espectadores, 258 visitas y 248 interacciones."
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <figcaption>
+          Rendimiento general de la Fan Page, 17 de julio–13 de agosto de 2026.
+        </figcaption>
+      </figure>
+      <figure>
+        <a href={digitalImpact.evidence.content} target="_blank" rel="noreferrer">
+          <img
+            src={digitalImpact.evidence.content}
+            alt="Tabla de Meta con el rendimiento individual del webinar y las seis publicaciones educativas."
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+        <figcaption>
+          Rendimiento individual. Abrir la imagen permite revisar las cifras ampliadas.
+        </figcaption>
+      </figure>
+    </div>
+    <p class="impact-evidence__source"><strong>Fuente:</strong> {digitalImpact.source}</p>
+  </section>
+</section>
+
+<style>
+  .project-results {
+    border-block: 1px solid var(--ink);
+  }
+  .project-results__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.72fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: end;
+    padding-block: clamp(2rem, 5vw, 4rem);
+  }
+  .project-results__header h2 {
+    max-width: 13ch;
+    margin: 0.8rem 0 0;
+  }
+  .project-results__header p {
+    color: var(--ink-soft);
+  }
+  .result-ledger {
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.46fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+    border-top: 1px solid var(--line);
+  }
+  .result-ledger__heading {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .result-ledger__heading h3 {
+    margin: 0.4rem 0 0;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+  }
+  .result-ledger__index {
+    color: var(--terracotta);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-weight: 800;
+  }
+  .execution-ledger,
+  .reach-details {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0;
+  }
+  .execution-ledger div,
+  .reach-details div,
+  .publication-summary dl div {
+    min-width: 0;
+    padding: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  dd {
+    margin: 0;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.7rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  dt {
+    margin-top: 0.5rem;
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+  .reach-layout {
+    display: grid;
+    grid-template-columns: minmax(14rem, 0.6fr) minmax(0, 1fr);
+    gap: 1px;
+    background: var(--line);
+  }
+  .reach-primary {
+    display: grid;
+    align-content: center;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--petrol);
+    color: var(--paper);
+  }
+  .reach-primary strong {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(4rem, 9vw, 7rem);
+    line-height: 0.9;
+  }
+  .reach-primary span {
+    max-width: 20ch;
+    margin-top: 1rem;
+    font-weight: 800;
+  }
+  .reach-primary p {
+    margin: 1.4rem 0 0;
+    color: var(--mist);
+    font-size: 0.76rem;
+  }
+  .reach-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: var(--white);
+  }
+  .publication-summary {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 2rem;
+    border-block: 1px solid var(--line);
+  }
+  .publication-summary > div {
+    padding: 1.25rem 1rem;
+  }
+  .publication-summary > div > strong {
+    display: block;
+    color: var(--terracotta);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1;
+  }
+  .publication-summary p {
+    color: var(--ink-soft);
+  }
+  .publication-summary dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+  }
+  .publication-summary dd {
+    font-size: clamp(2rem, 3.4vw, 3rem);
+  }
+  .publication-summary dt {
+    overflow-wrap: anywhere;
+  }
+  .publication-table-wrap {
+    margin-top: 1.5rem;
+    overflow-x: auto;
+  }
+  .publication-table-wrap th[scope='row'] {
+    min-width: 19rem;
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .webinar-reach {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--terracotta);
+  }
+  .webinar-reach strong {
+    display: block;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 2rem;
+  }
+  .learning-balance {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--mist);
+  }
+  .learning-balance strong {
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    line-height: 1;
+  }
+  .learning-balance p {
+    max-width: 62ch;
+    margin-top: 1.5rem;
+  }
+  .impact-evidence {
+    padding-block: clamp(2.5rem, 6vw, 5rem);
+    border-top: 1px solid var(--line);
+  }
+  .impact-evidence__heading {
+    max-width: 52rem;
+    margin-bottom: 1.5rem;
+  }
+  .impact-evidence__heading h3 {
+    margin: 0.4rem 0 0.7rem;
+  }
+  .impact-evidence__heading p,
+  figcaption,
+  .impact-evidence__source {
+    color: var(--ink-soft);
+  }
+  .impact-evidence__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: 1.25rem;
+  }
+  figure {
+    min-width: 0;
+    margin: 0;
+  }
+  figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    background: white;
+  }
+  .impact-evidence__crop {
+    aspect-ratio: 787 / 445;
+    overflow: hidden;
+  }
+  .impact-evidence__crop img {
+    border: 0;
+  }
+  figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.76rem;
+  }
+  .impact-evidence__source {
+    margin-top: 1.5rem;
+    font-size: 0.82rem;
+  }
+  @media (max-width: 800px) {
+    .project-results__header,
+    .result-ledger,
+    .reach-layout,
+    .publication-summary,
+    .webinar-reach,
+    .impact-evidence__grid {
+      grid-template-columns: 1fr;
+    }
+    .execution-ledger,
+    .reach-details,
+    .publication-summary dl {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 480px) {
+    .execution-ledger,
+    .reach-details,
+    .publication-summary dl {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

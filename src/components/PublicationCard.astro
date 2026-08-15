@@ -83,29 +83,21 @@ const { publication } = Astro.props;
     overflow: hidden;
     background: var(--paper-deep);
   }
-  .publication-card__preview::after {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 3.5rem;
-    background: rgba(22, 75, 74, 0.72);
-    content: '';
-    pointer-events: none;
-  }
   .publication-card__preview img {
     display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 1125 / 1407;
-    object-fit: cover;
-    transition: transform 180ms ease;
+    object-fit: contain;
+    object-position: center;
+    background: var(--paper-deep);
+    transition: filter 180ms ease;
   }
   .publication-card__preview:hover img {
-    transform: scale(1.025);
+    filter: brightness(0.97);
   }
   .publication-card__preview:focus-visible img {
-    transform: scale(1.025);
+    filter: brightness(0.97);
   }
   .publication-card__preview-label {
     position: absolute;

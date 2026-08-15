@@ -24,6 +24,18 @@ import {
 } from '../../src/lib/publications';
 import { projectStatus, projectTimeline, projectWeeks } from '../../src/lib/project';
 import { diagnosticSummary, financialResults } from '../../src/data/diagnostic';
+import {
+  calculateCreditComparison,
+  calculateCreditTotal,
+  calculateEmergencyFund,
+  fraudChecklist,
+} from '../../src/lib/financial-tools';
+import {
+  closureSurveyQuestions,
+  digitalImpact,
+  publicationImpactTotals,
+  publicationMetrics,
+} from '../../src/data/digital-impact';
 
 const activity = (
   id: string,
@@ -126,7 +138,7 @@ describe('content utilities', () => {
     expect(getDocumentRoute(entries[0])).toBe('/documentos/later/');
   });
 
-  it('valida que un PDF documental original exista', () => {
+  it('valida que una edición pública documental exista', () => {
     const documentEntry = {
       id: 'actividad-2-publica',
       body: '',
@@ -143,20 +155,20 @@ describe('content utilities', () => {
         updatedAt: new Date('2026-07-30'),
         originalFile: 'docs/fuentes-academicas/source.pdf',
         webRoute: '/actividades/actividad-2-decisiones-que-si-suman/',
-        pageCount: 3,
-        version: '1.0 original académico',
+        pageCount: 4,
+        version: '1.1 edición pública',
         ods: [4],
         tags: [],
         downloadable: true,
-        publicVersion: '/documents/actividad-2-original.pdf',
+        publicVersion: '/documents/actividad-2-publica.pdf',
         privacyReviewed: true as const,
-        documentSource: 'original' as const,
+        documentSource: 'publica' as const,
         evidenceStatus: 'disponible' as const,
       },
     } as DocumentEntry;
     expect(validateDocumentEntry(documentEntry)).toEqual([]);
     expect(validateDocumentEntry(documentEntry, '/tmp/documentos-inexistentes')).toContain(
-      'PDF documental inexistente: /documents/actividad-2-original.pdf',
+      'PDF documental inexistente: /documents/actividad-2-publica.pdf',
     );
   });
 
@@ -318,13 +330,134 @@ describe('content utilities', () => {
     });
   });
 
+  it('consolida el alcance digital desde las capturas de Meta', () => {
+    expect(digitalImpact.fanPage).toMatchObject({
+      viewsLabel: '1,5 mil',
+      viewers: 524,
+      visits: 258,
+      interactions: 248,
+      followers: 12,
+      threeSecondVideoViews: 213,
+    });
+    expect(publicationMetrics).toHaveLength(6);
+    expect(publicationImpactTotals).toEqual({
+      views: 746,
+      reach: 169,
+      interactions: 123,
+      reactions: 90,
+      comments: 27,
+      shares: 6,
+    });
+    expect(digitalImpact.webinar).toMatchObject({
+      views: 236,
+      reach: 190,
+      viewers: 192,
+      interactions: 15,
+      reactions: 7,
+      comments: 1,
+      shares: 7,
+      viewsTargetReached: true,
+    });
+  });
+
+  it('evalúa asistencia, consentimiento y encuesta sin inferir datos', () => {
+    expect(digitalImpact.liveAttendance).toEqual({ count: 2, target: 5, targetReached: false });
+    expect(digitalImpact.teacherNotification.status).toBe('evidencia-registrada');
+    expect(digitalImpact.interviewConsent.status).toBe('pendiente-verificacion');
+    expect(digitalImpact.closureSurvey).toEqual({
+      status: 'habilitada',
+      responseCount: 0,
+      href: 'https://forms.gle/wswjtPct8SRjvuLB8',
+    });
+  });
+
+  it('define una encuesta final breve y sin datos sensibles', () => {
+    expect(closureSurveyQuestions).toHaveLength(6);
+    expect(closureSurveyQuestions.map((question) => question.key)).toEqual([
+      'satisfaction',
+      'utility',
+      'financial-action',
+      'application',
+      'webinar-exercise',
+      'comment',
+    ]);
+    expect(closureSurveyQuestions.map((question) => question.prompt).join(' ')).not.toMatch(
+      /documento|ingresos|teléfono|entidad financiera/iu,
+    );
+    expect(closureSurveyQuestions.at(-1)?.guidance).toContain('No incluya nombres');
+  });
+
+  it('calcula localmente una meta de fondo de emergencia', () => {
+    expect(
+      calculateEmergencyFund({
+        essentialMonthlyExpense: 1_200_000,
+        targetMonths: 3,
+        possibleMonthlySavings: 300_000,
+      }),
+    ).toEqual({ targetFund: 3_600_000, monthsToTarget: 12 });
+    expect(
+      calculateEmergencyFund({
+        essentialMonthlyExpense: 1_200_000,
+        targetMonths: 3,
+        possibleMonthlySavings: 0,
+      }),
+    ).toEqual({ targetFund: 3_600_000, monthsToTarget: null });
+  });
+
+  it('compara el costo total sin asumir que la cuota menor es mejor', () => {
+    const optionA = {
+      principal: 3_000_000,
+      monthlyRatePercent: 1.5,
+      termMonths: 12,
+      extraCosts: 120_000,
+    };
+    const optionB = {
+      principal: 3_000_000,
+      monthlyRatePercent: 1.8,
+      termMonths: 24,
+      extraCosts: 192_000,
+    };
+    expect(calculateCreditComparison(optionA)).toEqual({
+      installment: 275_040,
+      totalCost: 3_420_480,
+    });
+    expect(calculateCreditTotal(optionB)).toBe(3_913_032);
+  });
+
+  it('rechaza valores financieros no finitos o negativos', () => {
+    expect(() =>
+      calculateEmergencyFund({
+        essentialMonthlyExpense: Number.NaN,
+        targetMonths: 3,
+        possibleMonthlySavings: 100_000,
+      }),
+    ).toThrow(RangeError);
+    expect(() =>
+      calculateCreditTotal({
+        principal: 3_000_000,
+        monthlyRatePercent: -1,
+        termMonths: 12,
+        extraCosts: 0,
+      }),
+    ).toThrow(RangeError);
+  });
+
+  it('publica ocho verificaciones independientes contra el fraude', () => {
+    expect(fraudChecklist).toHaveLength(8);
+    expect(fraudChecklist.join(' ')).toContain('canal oficial');
+    expect(fraudChecklist.join(' ')).toContain('dinero anticipado');
+  });
+
   it('refleja el cierre verificable de las semanas 4 a 7', () => {
     expect(projectStatus.currentWeek).toBe('Semana 7');
+    expect(projectStatus.status).toBe('en-cierre');
     expect(projectWeeks.map(({ week, status }) => ({ week, status }))).toEqual([
+      { week: 'Semana 2', status: 'completada' },
+      { week: 'Semana 3', status: 'completada' },
       { week: 'Semana 4', status: 'completada' },
       { week: 'Semana 5', status: 'completada' },
       { week: 'Semana 6', status: 'completada' },
-      { week: 'Semana 7', status: 'en-progreso' },
+      { week: 'Semana 7', status: 'en-cierre' },
     ]);
   });
 });

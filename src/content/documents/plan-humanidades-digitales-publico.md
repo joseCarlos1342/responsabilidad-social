@@ -1,25 +1,27 @@
 ---
 title: 'Plan de Humanidades Digitales'
-description: 'Documento original académico del plan multidimensional y la ruta de intervención educativa sobre decisiones financieras responsables.'
+description: 'Edición pública revisada del plan multidimensional y la ruta educativa sobre decisiones financieras responsables.'
 slug: plan-humanidades-digitales-publico
 documentType: plan
 week: 'Semanas 4 a 7'
-status: en-desarrollo
+status: en-cierre
 publishedAt: 2026-07-27
-updatedAt: 2026-07-30
+updatedAt: 2026-08-14
 originalFile: docs/fuentes-academicas/plan-responsabilidad-social-educacion-financiera.pdf
 webRoute: /plan-humanidades-digitales/
-pageCount: 24
-version: 'Original académico'
+pageCount: 40
+version: 'Edición pública sanitizada'
 ods: [1, 4, 8, 10, 12, 16, 17]
 tags: [plan, contexto local, contexto nacional, Latinoamérica, seguimiento]
 downloadable: true
-publicVersion: /documents/plan-responsabilidad-social-educacion-financiera.pdf
+publicVersion: /documents/plan-humanidades-digitales-publico.pdf
 privacyReviewed: true
-documentSource: original
+documentSource: publica
 evidenceStatus: disponible
 ---
 
-Esta ficha enlaza el documento original académico del plan de Humanidades Digitales solicitado por el autor. Conserva el diseño institucional, la estructura completa de 24 páginas y los datos de autoría presentes en la fuente.
+Esta ficha enlaza una edición pública de 40 páginas reconstruida en formato lineal desde el plan académico. Excluye el identificador universitario, el nombre completo y los metadatos de la fuente local.
 
 La [versión web del plan](/plan-humanidades-digitales/) ofrece la lectura HTML principal y sus enlaces actualizables.
+
+La edición pública conserva la planificación histórica. La versión web registra la ejecución completada y la evaluación final en cierre, sin alterar retroactivamente las metas formuladas.

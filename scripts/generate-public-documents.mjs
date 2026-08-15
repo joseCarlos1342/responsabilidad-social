@@ -39,6 +39,10 @@ function sanitize(text) {
     .replaceAll(/\bID\s*[:.]?\s*967350\b/giu, '')
     .replaceAll(/\b967350\b/gu, '')
     .replaceAll(
+      /https:\/\/decisiones-que-si-suman\.pages\.dev\/documents\/Pruebas\.pdf#page=7/giu,
+      'https://decisiones-que-si-suman.pages.dev/actividades/actividad-4-del-diagnostico-a-la-accion/#resultados-diagnostico',
+    )
+    .replaceAll(
       /Durante la semana 4 dejé preparado el instrumento\s+y\s+comencé su aplicación/giu,
       'Durante la semana 4 el instrumento quedó preparado para su aplicación',
     )

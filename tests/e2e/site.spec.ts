@@ -82,6 +82,7 @@ test('muestra las seis evidencias de publicaciones de las semanas 4 a 6', async 
   for (const number of [5, 6]) {
     const card = page.locator(`[data-publication="${number}"]`);
     await expect(card.locator('img')).toHaveAttribute('alt', /Primera página/);
+    await expect(card.locator('img')).toHaveCSS('object-fit', 'contain');
     await expect(card.locator('a.button')).toHaveAttribute('href', `/documents/publi${number}.pdf`);
     await expect(card.getByText('Enlace individual no disponible')).toBeVisible();
     expect((await request.get(`/documents/publi${number}.pdf`)).ok()).toBeTruthy();
@@ -120,7 +121,7 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   await page.goto('/actividades/actividad-4-del-diagnostico-a-la-accion/');
   await expect(page.getByText('COMPLETADA', { exact: true }).first()).toBeVisible();
   await expect(page.getByText('Publicado: 27/7/2026')).toBeVisible();
-  await expect(page.getByText('Actualizado: 10/8/2026')).toBeVisible();
+  await expect(page.getByText('Actualizado: 14/8/2026')).toBeVisible();
   await expect(page.getByText('16 respuestas diagnósticas').first()).toBeVisible();
   await expect(
     page.getByRole('heading', { name: '16 respuestas para orientar el proyecto.' }),
@@ -156,15 +157,15 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Plan de Humanidades Digitales' })).toBeVisible();
   await expect(page.getByText('Cronograma de semanas 4 a 7')).toBeVisible();
 
-  await page.getByRole('tab', { name: 'Documento original' }).click();
-  await expect(page.getByText('Documento original académico', { exact: true })).toBeVisible();
+  await page.getByRole('tab', { name: 'Versión pública (PDF)' }).click();
+  await expect(page.getByText('Edición pública revisada', { exact: true })).toBeVisible();
   await expect(page.locator('[data-pdf-viewer]')).toHaveAttribute(
     'data-src',
-    '/documents/plan-responsabilidad-social-educacion-financiera.pdf',
+    '/documents/plan-humanidades-digitales-publico.pdf',
   );
 });
 
-test('difiere los medios pesados hasta interacción', async ({ page }) => {
+test('difiere los reproductores de video hasta interacción', async ({ page }) => {
   const externalVideoRequests: string[] = [];
   page.on('request', (request) => {
     if (/youtube|ytimg|googlevideo/iu.test(request.url()))
@@ -172,13 +173,14 @@ test('difiere los medios pesados hasta interacción', async ({ page }) => {
   });
   await page.goto('/');
   await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(0);
-  await expect(page.locator('[data-youtube-lite]')).toHaveCount(2);
-  await expect(page.locator('[data-evidence-pdf] iframe')).toHaveCount(0);
+  await expect(page.locator('[data-youtube-lite]')).toHaveCount(1);
+  await expect(page.getByText('CONSENTIMIENTO PENDIENTE DE VERIFICACIÓN')).toBeVisible();
+  await expect(page.locator('#entrevista a[href*="youtu"]')).toHaveCount(0);
   expect(externalVideoRequests).toEqual([]);
-  await page.getByRole('button', { name: /Cargar reproductor de la entrevista/ }).click();
+  await page.getByRole('button', { name: /Cargar reproductor del webinar/ }).click();
   await expect(page.locator('[data-youtube-lite] iframe')).toHaveAttribute(
     'src',
-    'https://www.youtube-nocookie.com/embed/mLFCR_STZ2Q?rel=0',
+    'https://www.youtube-nocookie.com/embed/StYZ2l1TA3U?rel=0',
   );
   await expect(page.getByText('Reproductor cargado. Usa los controles de YouTube.')).toBeVisible();
   const videoFrame = await page
@@ -190,21 +192,10 @@ test('difiere los medios pesados hasta interacción', async ({ page }) => {
     });
   expect(videoFrame.width).toBeGreaterThan(600);
   expect(videoFrame.ratio).toBeCloseTo(16 / 9, 1);
-  await page.getByRole('button', { name: /Cargar reproductor del webinar/ }).click();
-  await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(2);
-  await expect(page.locator('[data-youtube-lite] iframe').nth(1)).toHaveAttribute(
-    'src',
-    'https://www.youtube-nocookie.com/embed/StYZ2l1TA3U?rel=0',
+  await expect(page.getByRole('link', { name: 'Ver rendimiento global' })).toHaveAttribute(
+    'href',
+    '/documents/estadisticas1.png',
   );
-  await page.getByRole('button', { name: 'Ver evidencia' }).click();
-  await expect(page.locator('[data-evidence-pdf] iframe')).toHaveAttribute(
-    'src',
-    '/documents/Pruebas.pdf#page=1',
-  );
-  const dialogWidth = await page
-    .locator('[data-evidence-pdf] dialog')
-    .evaluate((element) => element.getBoundingClientRect().width);
-  expect(dialogWidth).toBeGreaterThan(600);
 });
 
 test('filtra actividades progresivamente', async ({ page }) => {
@@ -259,8 +250,8 @@ test('muestra la biblioteca y las cuatro entregas', async ({ page }) => {
   await expect(page.getByText('Actividad 6 · De la información a la acción')).toBeVisible();
   await expect(page.getByText('Plan de Humanidades Digitales').first()).toBeVisible();
   await expect(page.locator('body')).not.toContainText('967350');
-  await expect(page.getByRole('link', { name: /Ver versión pública/ })).toHaveCount(0);
-  await expect(page.getByRole('link', { name: /Ver documento original/ })).toHaveCount(4);
+  await expect(page.getByRole('link', { name: /Ver versión pública/ })).toHaveCount(3);
+  await expect(page.getByRole('link', { name: /Ver documento original/ })).toHaveCount(1);
 });
 
 test('publica Actividad 6 con video, resultados y material diferido', async ({ page, request }) => {
@@ -319,7 +310,7 @@ test('rutas principales no producen errores de consola', async ({ page }) => {
 test('navega entre versión web y PDF, renderiza páginas y conserva controles', async ({ page }) => {
   await page.goto('/documentos/actividad-4-publica/');
   const webTab = page.getByRole('tab', { name: 'Versión web' });
-  const pdfTab = page.getByRole('tab', { name: 'Documento original' });
+  const pdfTab = page.getByRole('tab', { name: 'Versión pública (PDF)' });
   await expect(webTab).toHaveAttribute('aria-selected', 'true');
   await pdfTab.click();
   await expect(pdfTab).toHaveAttribute('aria-selected', 'true');
@@ -341,10 +332,10 @@ test('navega entre versión web y PDF, renderiza páginas y conserva controles',
   await page.keyboard.press('0');
   await expect(page.locator('[data-zoom]')).toHaveText('100%');
   await page.getByRole('button', { name: 'Página siguiente' }).evaluate((button) => {
-    for (let index = 0; index < 4; index += 1) (button as HTMLButtonElement).click();
+    for (let index = 0; index < 6; index += 1) (button as HTMLButtonElement).click();
   });
-  await expect(page.locator('[data-status]')).toHaveText('Página 5 de 5 cargada.');
-  await expect(page.locator('[data-page-input]')).toHaveValue('5');
+  await expect(page.locator('[data-status]')).toHaveText('Página 7 de 7 cargada.');
+  await expect(page.locator('[data-page-input]')).toHaveValue('7');
   await expect(page.getByRole('button', { name: 'Página siguiente' })).toBeDisabled();
   const popupPromise = page.waitForEvent('popup');
   await page.getByRole('link', { name: /Abrir PDF en otra pestaña/ }).click();
@@ -352,10 +343,10 @@ test('navega entre versión web y PDF, renderiza páginas y conserva controles',
   const downloadPromise = page.waitForEvent('download');
   await page.locator('.pdf-toolbar a[download]').click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe('actividad-4-original.pdf');
+  expect(download.suggestedFilename()).toBe('actividad-4-publica.pdf');
 });
 
-test('carga directamente los PDF originales con contenido visible', async ({
+test('carga directamente las ediciones PDF con contenido visible', async ({
   browser,
 }, testInfo) => {
   const context = await browser.newContext({
@@ -404,14 +395,26 @@ test('carga directamente los PDF originales con contenido visible', async ({
   });
 
   const documents = [
-    { route: '/documentos/actividad-2-publica/?vista=documento', pages: 3 },
-    { route: '/documentos/actividad-4-publica/?vista=documento', pages: 5 },
-    { route: '/documentos/actividad-6-publica/?vista=documento', pages: 13 },
+    {
+      route: '/documentos/actividad-2-publica/?vista=documento',
+      pages: 4,
+      tab: 'Versión pública (PDF)',
+    },
+    {
+      route: '/documentos/actividad-4-publica/?vista=documento',
+      pages: 7,
+      tab: 'Versión pública (PDF)',
+    },
+    {
+      route: '/documentos/actividad-6-publica/?vista=documento',
+      pages: 13,
+      tab: 'Documento original',
+    },
   ];
 
   for (const document of documents) {
     await page.goto(document.route);
-    await expect(page.getByRole('tab', { name: 'Documento original' })).toHaveAttribute(
+    await expect(page.getByRole('tab', { name: document.tab })).toHaveAttribute(
       'aria-selected',
       'true',
     );
@@ -458,7 +461,7 @@ test('carga directamente los PDF originales con contenido visible', async ({
 });
 
 test('bloquea la navegación hasta completar el primer render PDF', async ({ page }) => {
-  await page.route('**/documents/actividad-2-original.pdf', async (route) => {
+  await page.route('**/documents/actividad-2-publica.pdf', async (route) => {
     await new Promise((resolve) => setTimeout(resolve, 500));
     await route.continue();
   });
@@ -480,7 +483,7 @@ test('bloquea la navegación hasta completar el primer render PDF', async ({ pag
   });
   await expect(pageInput).toBeEnabled();
   await expect(pageInput).toHaveValue('1');
-  await expect(page.locator('[data-status]')).toHaveText('Página 1 de 3 cargada.');
+  await expect(page.locator('[data-status]')).toHaveText('Página 1 de 4 cargada.');
 });
 
 test('actividad 4 no inventa resultados y funciona en móvil', async ({ page }) => {
@@ -489,15 +492,12 @@ test('actividad 4 no inventa resultados y funciona en móvil', async ({ page }) 
   await expect(page.getByText('diagnóstico se aplicó y cuenta con 16 respuestas')).toBeVisible();
   await expect(page.getByText('comenzó su aplicación')).toHaveCount(0);
   await expect(page.getByText('16 respuestas diagnósticas').first()).toBeVisible();
-  await page.getByRole('button', { name: 'Ver evidencia' }).click();
-  await expect(page.locator('[data-pdf-dialog]')).toBeVisible();
-  await expect(page.locator('[data-pdf-dialog] iframe')).toHaveAttribute(
-    'src',
-    /Pruebas\.pdf#page=1/,
+  await expect(page.getByRole('link', { name: 'estadísticas globales' })).toHaveAttribute(
+    'href',
+    '/documents/estadisticas1.png',
   );
-  await page.keyboard.press('Escape');
-  await expect(page.locator('[data-pdf-dialog]')).not.toBeVisible();
-  await page.getByRole('tab', { name: 'Documento original' }).click();
+  await expect(page.locator('a[href*="Pruebas.pdf"]')).toHaveCount(0);
+  await page.getByRole('tab', { name: 'Versión pública (PDF)' }).click();
   await expect(page.locator('.pdf-viewer')).toBeVisible();
 });
 
@@ -506,9 +506,9 @@ test('publica la lista final de evidencias verificadas', async ({ page }) => {
   await expect(
     page.getByRole('heading', { name: 'Lista de evidencias actualizada' }),
   ).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Captura del diagnóstico' })).toHaveAttribute(
+  await expect(page.getByRole('link', { name: 'Consolidado agregado' })).toHaveAttribute(
     'href',
-    '/documents/Pruebas.pdf#page=7',
+    '#resultados-diagnostico',
   );
   await expect(
     page.getByRole('link', { name: 'Instrumento diagnóstico', exact: true }),
@@ -521,7 +521,72 @@ test('publica la lista final de evidencias verificadas', async ({ page }) => {
     'href',
     'https://www.canva.com/d/osljqsu323O_2OF',
   );
-  await expect(page.getByText(/37 reacciones, 6 comentarios y 1 compartido/)).toBeVisible();
+  await expect(
+    page.getByText(
+      /746 visualizaciones, 123 interacciones, 90 reacciones, 27 comentarios y 6 compartidos/,
+    ),
+  ).toBeVisible();
+});
+
+test('publica el dashboard con métricas y límites verificables', async ({ page, request }) => {
+  await page.goto('/');
+  await expect(
+    page.getByRole('heading', { name: 'Lo ejecutado, lo observado y sus límites.' }),
+  ).toBeVisible();
+  await expect(page.getByText('746').first()).toBeVisible();
+  await expect(page.getByText('236 visualizaciones', { exact: true })).toBeVisible();
+  await expect(page.getByText('Meta global evaluada, no alcanzada.')).toBeVisible();
+  await expect(page.getByText('Semana 7 · En cierre')).toBeVisible();
+  const publicationStatBoxes = await page
+    .locator('.publication-summary dl > div')
+    .evaluateAll((items) =>
+      items.map((item) => {
+        const box = item.getBoundingClientRect();
+        return { left: box.left, right: box.right, top: box.top, bottom: box.bottom };
+      }),
+    );
+  expect(publicationStatBoxes[0]?.right).toBeLessThanOrEqual(publicationStatBoxes[1]?.left ?? 0);
+  expect(publicationStatBoxes[2]?.right).toBeLessThanOrEqual(publicationStatBoxes[3]?.left ?? 0);
+  for (const privatePath of [
+    '/documents/Pruebas.pdf',
+    '/documents/soportewebinar.jpg',
+    '/documents/actividad-2-original.pdf',
+    '/documents/actividad-4-original.pdf',
+    '/documents/plan-responsabilidad-social-educacion-financiera.pdf',
+  ]) {
+    expect((await request.get(privatePath)).status()).toBe(404);
+  }
+});
+
+test('habilita la encuesta final sin afirmar resultados', async ({ page }) => {
+  await page.goto('/encuesta-cierre/');
+  await expect(
+    page.getByRole('heading', { name: 'Encuesta de cierre y seguimiento.' }),
+  ).toBeVisible();
+  await expect(page.locator('.survey-preview > li')).toHaveCount(6);
+  await expect(page.getByText('ENCUESTA HABILITADA')).toBeVisible();
+  await expect(
+    page.getByText(/resultados todavía están pendientes de consolidación/),
+  ).toBeVisible();
+  const formLink = page.getByRole('link', { name: 'Responder la encuesta' });
+  await expect(formLink).toHaveAttribute('href', 'https://forms.gle/wswjtPct8SRjvuLB8');
+  await expect(formLink).toHaveAttribute('target', '_blank');
+  await expect(page.locator('a[href="https://forms.gle/wswjtPct8SRjvuLB8"]')).toHaveCount(1);
+});
+
+test('calcula localmente y publica recursos de cierre', async ({ page }) => {
+  await page.goto('/recursos/');
+  const calculator = page.locator('[data-emergency-calculator]');
+  await calculator.locator('[name="essentialExpense"]').fill('1200000');
+  await calculator.locator('[name="targetMonths"]').fill('3');
+  await calculator.locator('[name="monthlySavings"]').fill('300000');
+  await calculator.getByRole('button', { name: 'Calcular mi referencia' }).click();
+  await expect(calculator.locator('[data-target-fund]')).toContainText('3.600.000');
+  await expect(calculator.locator('[data-months-to-target]')).toHaveText('12 meses');
+  await expect(page.getByRole('columnheader', { name: 'Opción A' })).toBeVisible();
+  await expect(page.getByRole('columnheader', { name: 'Opción B' })).toBeVisible();
+  await expect(page.locator('.fraud-checklist li')).toHaveCount(8);
+  await expect(page.getByText(/no se envían ni guardan los valores/)).toBeVisible();
 });
 
 test('publica la plantilla de presupuesto editable como recurso', async ({ page }) => {
@@ -541,9 +606,9 @@ test('publica la plantilla de presupuesto editable como recurso', async ({ page 
 });
 
 test('muestra un error recuperable si el PDF no está disponible', async ({ page }) => {
-  await page.route('**/documents/actividad-2-original.pdf', (route) => route.abort());
+  await page.route('**/documents/actividad-2-publica.pdf', (route) => route.abort());
   await page.goto('/documentos/actividad-2-publica/');
-  await page.getByRole('tab', { name: 'Documento original' }).click();
+  await page.getByRole('tab', { name: 'Versión pública (PDF)' }).click();
   await expect(page.locator('[data-status]')).toContainText('No se pudo cargar el PDF', {
     timeout: 30_000,
   });

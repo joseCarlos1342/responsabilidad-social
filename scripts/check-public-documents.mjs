@@ -2,22 +2,28 @@ import { execFileSync } from 'node:child_process';
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-const originalDocuments = [
-  { name: 'actividad-2-original.pdf', pages: 3, inspectRestrictedContent: false },
-  { name: 'actividad-4-original.pdf', pages: 5, inspectRestrictedContent: false },
-  { name: 'Actividad 6 Original.pdf', pages: 13, inspectRestrictedContent: true },
+const reviewedDocuments = [
+  { name: 'actividad-2-publica.pdf', pages: 4, label: 'edición pública sanitizada' },
+  { name: 'actividad-4-publica.pdf', pages: 7, label: 'edición pública sanitizada' },
   {
-    name: 'plan-responsabilidad-social-educacion-financiera.pdf',
-    pages: 24,
-    inspectRestrictedContent: false,
+    name: 'plan-humanidades-digitales-publico.pdf',
+    pages: 40,
+    label: 'edición pública sanitizada',
   },
+  { name: 'Actividad 6 Original.pdf', pages: 13, label: 'material original revisado' },
 ];
 const publishedEvidence = [
   { name: 'publi5.pdf', pages: 4 },
   { name: 'publi6.pdf', pages: 4 },
-  { name: 'Pruebas.pdf', pages: 10 },
 ];
-const forbidden = [/967350/u, /comencé su aplicación/iu, /comenzó su aplicación/iu];
+const forbidden = [
+  /967350/u,
+  /José Carlos Gómez Rodríguez/iu,
+  /Jose Carlos Gomez Rodriguez/iu,
+  /Pruebas\.pdf/iu,
+  /comencé su aplicación/iu,
+  /comenzó su aplicación/iu,
+];
 
 const verifyPdf = (name, pages, label, inspectRestrictedContent = false) => {
   const path = join('public', 'documents', name);
@@ -40,47 +46,9 @@ const verifyPdf = (name, pages, label, inspectRestrictedContent = false) => {
   });
 };
 
-for (const { name, pages, inspectRestrictedContent } of originalDocuments) {
-  await verifyPdf(name, pages, 'PDF original académico', inspectRestrictedContent);
+for (const { name, pages, label } of reviewedDocuments) {
+  await verifyPdf(name, pages, label, true);
 }
-
-const activityFourPath = join('public', 'documents', 'actividad-4-original.pdf');
-const activityFourFinalPage = execFileSync(
-  'mutool',
-  ['draw', '-F', 'txt', '-o', '-', activityFourPath, '5'],
-  { encoding: 'utf8' },
-);
-const activityFourEvidence = [
-  'Lista de Evidencias Actualizada',
-  'https://decisiones-que-si-suman.pages.dev/',
-  'https://www.canva.com/d/osljqsu323O_2OF',
-  '37 reacciones',
-  '6 comentarios',
-  '1 compartido',
-];
-for (const evidence of activityFourEvidence) {
-  if (!activityFourFinalPage.includes(evidence)) {
-    throw new Error(`actividad-4-original.pdf: falta evidencia final: ${evidence}`);
-  }
-}
-const activityFourAnnotations = execFileSync(
-  'mutool',
-  ['show', activityFourPath, 'pages/5/Annots/*'],
-  { encoding: 'utf8' },
-);
-const activityFourLinks = [
-  'https://decisiones-que-si-suman.pages.dev/',
-  'https://decisiones-que-si-suman.pages.dev/documents/Pruebas.pdf#page=7',
-  'https://decisiones-que-si-suman.pages.dev/actividades/actividad-4-del-diagnostico-a-la-accion/#instrumento-diagnostico',
-  'https://decisiones-que-si-suman.pages.dev/documents/publi2.pdf',
-  'https://www.canva.com/d/osljqsu323O_2OF',
-];
-for (const uri of activityFourLinks) {
-  if (!activityFourAnnotations.includes(`/URI (${uri})`)) {
-    throw new Error(`actividad-4-original.pdf: falta enlace interactivo: ${uri}`);
-  }
-}
-console.log('actividad-4-original.pdf: lista final y enlaces interactivos verificados');
 
 for (const { name, pages } of publishedEvidence) {
   await verifyPdf(name, pages, 'evidencia visual autorizada', true);

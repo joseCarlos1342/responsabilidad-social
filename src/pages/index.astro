@@ -7,8 +7,8 @@ import DocumentCard from '../components/DocumentCard.astro';
 import PublicationCard from '../components/PublicationCard.astro';
 import DiagnosticSummary from '../components/DiagnosticSummary.astro';
 import YouTubeLite from '../components/YouTubeLite.astro';
-import EvidencePdfCard from '../components/EvidencePdfCard.astro';
 import ResultsComparison from '../components/ResultsComparison.astro';
+import ProjectResultsDashboard from '../components/ProjectResultsDashboard.astro';
 import { sortActivities } from '../lib/content';
 import { projectStatus, projectTimeline, projectWeeks } from '../lib/project';
 import { sortDocuments, validateDocuments } from '../lib/documents';
@@ -20,9 +20,7 @@ const featured = activities.find((activity) => activity.data.featured) ?? activi
 const documents = sortDocuments(await getCollection('document'));
 validateDocuments(documents);
 const publicationProgress = getPublicationProgress(publications);
-const weekStatuses = new Map<string, (typeof projectWeeks)[number]['status']>(
-  projectWeeks.map((item) => [item.week, item.status]),
-);
+const weeksByName = new Map(projectWeeks.map((item) => [item.week, item]));
 const projectIndicators = [
   { value: '6', label: 'Publicaciones' },
   { value: '16', label: 'Respuestas diagnósticas' },
@@ -30,7 +28,7 @@ const projectIndicators = [
   { value: String(financialResults.totalResponseCount), label: 'Respuestas registradas en total' },
   { value: '1', label: 'Entrevista' },
   { value: '1', label: 'Webinar' },
-  { value: '≈69 min', label: 'Duración del webinar' },
+  { value: '69:01', label: 'Duración del webinar' },
   { value: '1', label: 'Video de reflexión / voz en off' },
 ] as const;
 ---
@@ -140,7 +138,9 @@ const projectIndicators = [
           </p>
         </div>
         <div class="state-card">
-          <span class="eyebrow-data">Estado general</span><StatusBadge status="en-progreso" /><p>
+          <span class="eyebrow-data">Estado general</span><StatusBadge
+            status={projectStatus.status}
+          /><p>
             {projectStatus.currentStage}
           </p>
         </div>
@@ -200,17 +200,19 @@ const projectIndicators = [
 
   <section class="section evidence-section" id="entrevista">
     <div class="site-shell evidence-section__grid">
-      <YouTubeLite
-        videoId="mLFCR_STZ2Q"
-        title="Educación financiera para tomar mejores decisiones | Entrevista"
-        thumbnail="/assets/entrevista-youtube.jpg"
-        thumbnailAlt="Miniatura de la entrevista sobre educación financiera y mejores decisiones."
-        youtubeHref="https://youtu.be/mLFCR_STZ2Q"
-        description="Entrevista publicada para incorporar una perspectiva basada en experiencia sobre crédito responsable y prevención del sobreendeudamiento. Su duración verificada es 7:20, por debajo de la meta original de 15 minutos."
-        duration="7:20"
-        playLabel="Cargar reproductor de la entrevista"
-        label="Semana 5 · Entrevista"
-      />
+      <div class="consent-evidence">
+        <span class="kicker">Semana 5 · Entrevista</span>
+        <h2>Realizada; publicación retenida hasta verificar el consentimiento.</h2>
+        <p>
+          El registro dura 7:20, por debajo de la meta original de 15 minutos. El reproductor, el
+          archivo y cualquier dato de la persona entrevistada permanecen fuera del sitio mientras se
+          incorpora y revisa la constancia externa de autorización informada.
+        </p>
+        <StatusBadge
+          status="pendiente-verificacion"
+          label="CONSENTIMIENTO PENDIENTE DE VERIFICACIÓN"
+        />
+      </div>
       <div class="evidence-column">
         <div class="section-heading">
           <span class="kicker">Sección de evidencias</span>
@@ -220,13 +222,17 @@ const projectIndicators = [
             atribuir causalidad ni generalizar los resultados a toda la población.
           </p>
         </div>
-        <EvidencePdfCard
-          src="/documents/Pruebas.pdf"
-          title="Pruebas de publicaciones y diagnóstico"
-          summary="Capturas de las seis publicaciones, interacciones y resultados gráficos del diagnóstico inicial."
-          pageCount={10}
-          thumbnail="/assets/pruebas-evidencia.png"
-        />
+        <div class="evidence-links">
+          <strong>Evidencia digital agregada</strong>
+          <p>
+            Las capturas públicas conservan únicamente estadísticas globales y por publicación. Las
+            evidencias con nombres, perfiles o enlaces privados se mantienen fuera del sitio.
+          </p>
+          <div>
+            <a href="/documents/estadisticas1.png">Ver rendimiento global ↗</a>
+            <a href="/documents/estadisticas2.png">Ver estadísticas por publicación ↗</a>
+          </div>
+        </div>
         <div class="evidence-status-list" aria-label="Estado de evidencias principales">
           <div><span>Plan</span><strong>DISPONIBLE</strong></div>
           <div><span>Diagnóstico</span><strong>COMPLETADO · 16 respuestas</strong></div>
@@ -270,10 +276,27 @@ const projectIndicators = [
             posterior cuenta con seis respuestas.
           </p>
         </div>
-        <div class="webinar-context__pending">
+        <div>
           <span class="eyebrow-data">Alcance</span>
-          <p><strong>Dato de alcance pendiente de consolidación.</strong></p>
+          <p><strong>236 visualizaciones · meta de más de 20 superada.</strong></p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section project-results-section" id="alcance-digital">
+    <div class="site-shell">
+      <ProjectResultsDashboard />
+      <div class="closure-callout">
+        <div>
+          <span class="eyebrow-data">Semana 7 · En cierre</span>
+          <h3>Encuesta final habilitada.</h3>
+          <p>
+            Satisfacción, utilidad, acción financiera y seguimiento se calcularán cuando existan
+            respuestas.
+          </p>
+        </div>
+        <a class="button" href="/encuesta-cierre/">Responder encuesta →</a>
       </div>
     </div>
   </section>
@@ -346,7 +369,10 @@ const projectIndicators = [
               <>
                 <div class="timeline__meta">
                   <span class="timeline__week">{item.week}</span>
-                  <StatusBadge status={weekStatuses.get(item.week) ?? 'pendiente'} />
+                  <StatusBadge
+                    status={weeksByName.get(item.week)?.status ?? 'pendiente'}
+                    label={weeksByName.get(item.week)?.label}
+                  />
                 </div>
                 <div>
                   <>
@@ -652,6 +678,24 @@ const projectIndicators = [
     gap: clamp(2.5rem, 7vw, 7rem);
     align-items: start;
   }
+  .consent-evidence {
+    display: grid;
+    gap: 1rem;
+    align-content: center;
+    min-height: 25rem;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    border: 1px solid var(--gold);
+    background: var(--white);
+  }
+  .consent-evidence h2 {
+    max-width: 13ch;
+    margin: 0;
+  }
+  .consent-evidence p {
+    max-width: 58ch;
+    margin: 0;
+    color: var(--ink-soft);
+  }
   .evidence-column {
     display: grid;
     gap: 1.5rem;
@@ -680,6 +724,41 @@ const projectIndicators = [
     font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     font-size: 0.72rem;
     text-align: right;
+  }
+  .evidence-links {
+    display: grid;
+    gap: 0.8rem;
+    padding: 1.25rem;
+    border-left: 4px solid var(--terracotta);
+    background: var(--white);
+  }
+  .evidence-links p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .evidence-links div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.2rem;
+  }
+  .closure-callout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: end;
+    justify-content: space-between;
+    margin-top: clamp(2rem, 5vw, 4rem);
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border: 1px solid var(--gold);
+    background: var(--white);
+  }
+  .closure-callout h3 {
+    margin: 0.45rem 0;
+  }
+  .closure-callout p {
+    max-width: 62ch;
+    margin: 0;
+    color: var(--ink-soft);
   }
   .academic-week-section {
     background: var(--paper-deep);

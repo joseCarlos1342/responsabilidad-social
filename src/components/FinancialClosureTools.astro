@@ -1,0 +1,426 @@
+---
+import { calculateCreditComparison, fraudChecklist } from '../lib/financial-tools';
+
+const credits = [
+  {
+    name: 'Opción A',
+    principal: 3_000_000,
+    monthlyRatePercent: 1.5,
+    termMonths: 12,
+    extraCosts: 120_000,
+  },
+  {
+    name: 'Opción B',
+    principal: 3_000_000,
+    monthlyRatePercent: 1.8,
+    termMonths: 24,
+    extraCosts: 192_000,
+  },
+] as const;
+const comparisons = credits.map((credit) => ({ ...credit, ...calculateCreditComparison(credit) }));
+const formatCurrency = (value: number) =>
+  value.toLocaleString('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+---
+
+<div class="closure-tools">
+  <section
+    class="tool-section emergency-tool"
+    id="calculadora-fondo"
+    aria-labelledby="emergency-tool-title"
+  >
+    <header class="tool-heading">
+      <span class="eyebrow-data">Recurso complementario de cierre · 14 de agosto de 2026</span>
+      <h2 id="emergency-tool-title">Calculadora de fondo de emergencia</h2>
+      <p>Convierte una meta en meses en un fondo objetivo y un tiempo aproximado de ahorro.</p>
+    </header>
+    <form class="calculator" data-emergency-calculator>
+      <div class="calculator__fields">
+        <label>
+          <span>Gasto mensual esencial</span>
+          <input
+            id="essential-expense"
+            name="essentialExpense"
+            type="number"
+            min="0"
+            step="1000"
+            inputmode="decimal"
+            required
+          />
+        </label>
+        <label>
+          <span>Meta en meses</span>
+          <input
+            id="target-months"
+            name="targetMonths"
+            type="number"
+            min="1"
+            max="24"
+            step="1"
+            value="3"
+            required
+          />
+        </label>
+        <label>
+          <span>Ahorro mensual posible</span>
+          <input
+            id="monthly-savings"
+            name="monthlySavings"
+            type="number"
+            min="0"
+            step="1000"
+            inputmode="decimal"
+            required
+          />
+        </label>
+      </div>
+      <button class="button" type="submit">Calcular mi referencia</button>
+      <div class="calculator__results" aria-live="polite" aria-atomic="true">
+        <div>
+          <span id="target-fund-label">Fondo objetivo</span>
+          <output
+            aria-labelledby="target-fund-label"
+            for="essential-expense target-months"
+            data-target-fund>$0</output
+          >
+        </div>
+        <div>
+          <span id="target-time-label">Tiempo aproximado</span>
+          <output
+            aria-labelledby="target-time-label"
+            for="essential-expense target-months monthly-savings"
+            data-months-to-target>—</output
+          >
+        </div>
+      </div>
+      <p class="tool-disclaimer">
+        Ejercicio educativo. No constituye asesoría financiera personalizada. El cálculo se ejecuta
+        en tu dispositivo: no se envían ni guardan los valores.
+      </p>
+    </form>
+  </section>
+
+  <section
+    class="tool-section credit-tool"
+    id="comparador-creditos"
+    aria-labelledby="credit-tool-title"
+  >
+    <header class="tool-heading">
+      <span class="eyebrow-data">Caso comparativo educativo</span>
+      <h2 id="credit-tool-title">Dos cuotas, dos costos distintos</h2>
+      <p>
+        Valores ficticios para observar por qué una cuota menor no implica un crédito más económico.
+      </p>
+    </header>
+    <div
+      class="credit-table"
+      tabindex="0"
+      role="region"
+      aria-label="Comparación de dos créditos ficticios"
+    >
+      <table>
+        <thead><tr><th>Dato</th>{comparisons.map((credit) => <th>{credit.name}</th>)}</tr></thead>
+        <tbody>
+          <tr
+            ><th scope="row">Monto</th>{
+              comparisons.map((credit) => <td>{formatCurrency(credit.principal)}</td>)
+            }</tr
+          >
+          <tr
+            ><th scope="row">Tasa</th>{
+              comparisons.map((credit) => (
+                <td>{credit.monthlyRatePercent.toLocaleString('es-CO')} % mensual</td>
+              ))
+            }</tr
+          >
+          <tr
+            ><th scope="row">Plazo</th>{
+              comparisons.map((credit) => <td>{credit.termMonths} meses</td>)
+            }</tr
+          >
+          <tr
+            ><th scope="row">Cuota calculada</th>{
+              comparisons.map((credit) => <td>{formatCurrency(credit.installment)}</td>)
+            }</tr
+          >
+          <tr
+            ><th scope="row">Costos fuera de la cuota</th>{
+              comparisons.map((credit) => <td>{formatCurrency(credit.extraCosts)}</td>)
+            }</tr
+          >
+          <tr class="credit-total"
+            ><th scope="row">Costo total estimado</th>{
+              comparisons.map((credit) => <td>{formatCurrency(credit.totalCost)}</td>)
+            }</tr
+          >
+        </tbody>
+      </table>
+    </div>
+    <p class="credit-conclusion">
+      La opción B tiene una cuota mensual menor, pero su plazo y costos fuera de la cuota producen
+      un valor total mayor. Compara siempre monto, tasa, plazo, cuota, seguros y costo total.
+    </p>
+    <p class="tool-disclaimer">
+      Ejemplo ficticio. La cuota se estima con amortización de pago fijo y los costos indicados se
+      suman por fuera de ella. No promociona entidades ni recomienda una opción personal.
+    </p>
+  </section>
+
+  <section
+    class="tool-section fraud-checklist"
+    id="checklist-fraude"
+    aria-labelledby="fraud-checklist-title"
+  >
+    <header class="tool-heading">
+      <span class="eyebrow-data">Checklist imprimible</span>
+      <h2 id="fraud-checklist-title">Antes de entregar dinero o información, verifica</h2>
+    </header>
+    <ul>
+      {
+        fraudChecklist.map((item) => (
+          <li>
+            <span aria-hidden="true">□</span>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+    <div class="checklist-footer">
+      <p>
+        Consulta la <a
+          href="https://www.superfinanciera.gov.co/educacionSFC/"
+          target="_blank"
+          rel="noreferrer">ruta educativa de la Superintendencia Financiera</a
+        >
+        y las <a href="/referencias/">fuentes del proyecto</a>.
+      </p>
+      <button class="button button--quiet" type="button" data-print-checklist
+        >Imprimir checklist</button
+      >
+    </div>
+  </section>
+</div>
+
+<script>
+  import { calculateEmergencyFund } from '../lib/financial-tools';
+
+  const form = document.querySelector<HTMLFormElement>('[data-emergency-calculator]');
+  const currency = new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    maximumFractionDigits: 0,
+  });
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const target = form.querySelector<HTMLOutputElement>('[data-target-fund]');
+    const months = form.querySelector<HTMLOutputElement>('[data-months-to-target]');
+    try {
+      const result = calculateEmergencyFund({
+        essentialMonthlyExpense: Number(data.get('essentialExpense')),
+        targetMonths: Number(data.get('targetMonths')),
+        possibleMonthlySavings: Number(data.get('monthlySavings')),
+      });
+      if (target) target.value = currency.format(result.targetFund);
+      if (months) {
+        months.value = result.monthsToTarget
+          ? `${result.monthsToTarget} ${result.monthsToTarget === 1 ? 'mes' : 'meses'}`
+          : 'Define un ahorro mensual mayor que cero';
+      }
+    } catch {
+      if (target) target.value = 'Revisa los valores';
+      if (months) months.value = 'Usa números válidos y no negativos';
+    }
+  });
+
+  document.querySelector('[data-print-checklist]')?.addEventListener('click', () => {
+    document.body.classList.add('print-fraud-checklist');
+    window.print();
+    document.body.classList.remove('print-fraud-checklist');
+  });
+</script>
+
+<style>
+  .closure-tools {
+    display: grid;
+    gap: clamp(3rem, 8vw, 7rem);
+    margin-top: 5rem;
+  }
+  .tool-section {
+    scroll-margin-top: 2rem;
+  }
+  .tool-heading {
+    max-width: 54rem;
+    margin-bottom: 1.5rem;
+  }
+  .tool-heading h2 {
+    max-width: 15ch;
+    margin: 0.7rem 0 1rem;
+  }
+  .tool-heading p {
+    max-width: 62ch;
+    color: var(--ink-soft);
+  }
+  .calculator {
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border: 1px solid var(--ink);
+    background: var(--white);
+  }
+  .calculator__fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .calculator label {
+    display: grid;
+    gap: 0.45rem;
+    color: var(--petrol);
+    font-weight: 800;
+  }
+  .calculator input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+  }
+  .calculator__results {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.5rem;
+    border-block: 1px solid var(--line);
+  }
+  .calculator__results div {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.2rem 0;
+  }
+  .calculator__results span {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+  .calculator__results output {
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.6rem, 4vw, 2.7rem);
+    font-weight: 700;
+  }
+  .tool-disclaimer {
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+  }
+  .credit-table {
+    overflow-x: auto;
+    border-block: 1px solid var(--line);
+  }
+  .credit-table table {
+    min-width: 38rem;
+  }
+  .credit-table th:not([scope='row']) {
+    background: var(--petrol);
+    color: var(--paper);
+  }
+  .credit-total {
+    background: var(--mist);
+    font-weight: 800;
+  }
+  .credit-total td {
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+  }
+  .credit-conclusion {
+    max-width: 70ch;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--terracotta);
+    font-weight: 700;
+  }
+  .fraud-checklist {
+    padding: clamp(1.25rem, 5vw, 3rem);
+    background: #172a46;
+    color: #fffdf9;
+  }
+  .fraud-checklist .eyebrow-data {
+    color: #f2a093;
+  }
+  .fraud-checklist h2 {
+    color: #fffdf9;
+  }
+  .fraud-checklist ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .fraud-checklist li {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.7rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 253, 249, 0.25);
+  }
+  .fraud-checklist li span {
+    color: #f2a093;
+    font-size: 1.3rem;
+    line-height: 1;
+  }
+  .checklist-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+  }
+  .checklist-footer p {
+    max-width: 60ch;
+    margin: 0;
+    color: #d8e2ee;
+  }
+  .checklist-footer a {
+    color: #fffdf9;
+  }
+  .checklist-footer .button {
+    border-color: #fffdf9;
+    color: #fffdf9;
+  }
+  @media (max-width: 720px) {
+    .calculator__fields,
+    .calculator__results,
+    .fraud-checklist ul {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media print {
+    :global(body.print-fraud-checklist *) {
+      visibility: hidden !important;
+    }
+    :global(body.print-fraud-checklist) .fraud-checklist,
+    :global(body.print-fraud-checklist) .fraud-checklist * {
+      visibility: visible !important;
+    }
+    :global(body.print-fraud-checklist) .fraud-checklist {
+      position: absolute;
+      inset: 0;
+      min-height: 100vh;
+      background: white;
+      color: black;
+    }
+    :global(body.print-fraud-checklist) .fraud-checklist h2,
+    :global(body.print-fraud-checklist) .fraud-checklist a,
+    :global(body.print-fraud-checklist) .checklist-footer p {
+      color: black;
+    }
+    :global(body.print-fraud-checklist) [data-print-checklist] {
+      display: none;
+    }
+  }
+</style>

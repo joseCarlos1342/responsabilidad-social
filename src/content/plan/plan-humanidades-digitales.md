@@ -1,8 +1,8 @@
 ---
 title: 'Plan de Humanidades Digitales'
 description: 'Ruta de trabajo de las semanas 4 a 7 para una intervención educativa sobre decisiones financieras responsables en Neiva.'
-updatedDate: 2026-08-10
-status: ejecutada
+updatedDate: 2026-08-14
+status: en-cierre
 territory: 'Neiva, Huila, Colombia'
 references:
   - label: 'Pacheco Duarte et al. (2022), Ruta de Innovación Social'
@@ -12,9 +12,9 @@ references:
 documentSlug: plan-humanidades-digitales-publico
 ---
 
-> **Estado del plan:** ejecución principal completada y cierre en progreso. Existen seis publicaciones, diagnóstico inicial, entrevista, webinar, evaluación posterior y video de reflexión. Las métricas definitivas de alcance, satisfacción y seguimiento permanecen pendientes de consolidación.
+> **Estado del plan:** EJECUCIÓN COMPLETADA · EVALUACIÓN FINAL EN CIERRE. Existen seis publicaciones, diagnóstico inicial, entrevista, webinar, evaluación posterior y video de reflexión. El alcance digital ya está consolidado; satisfacción, acción financiera y seguimiento esperan la encuesta final.
 
-> **Trazabilidad:** este plan fue publicado inicialmente durante la fase de preparación. Los estados actuales se incorporaron el 10 de agosto de 2026 sin modificar las metas originales.
+> **Trazabilidad:** este plan fue publicado inicialmente durante la fase de preparación. Los estados y evidencias actuales se incorporaron el 14 de agosto de 2026 sin modificar retroactivamente las metas originales.
 
 ## Problemática seleccionada
 
@@ -70,7 +70,7 @@ La participación será voluntaria. No se solicitarán nombres, documentos, sald
 
 ## Entrevista a una experta
 
-La entrevista fue realizada y publicada en YouTube para incorporar una perspectiva basada en experiencia sobre análisis financiero, gestión de crédito y orientación a consumidores. No se publican nombre ni perfil adicional de la persona entrevistada porque esos datos no están verificados en las fuentes disponibles.
+La entrevista fue realizada para incorporar una perspectiva basada en experiencia sobre análisis financiero, gestión de crédito y orientación a consumidores. El blog retiene su enlace, reproductor y datos personales hasta incorporar y verificar la constancia externa de consentimiento informado. La grabación dispone de subtítulos automáticos en español.
 
 **Tema:** errores frecuentes al solicitar crédito y prácticas para prevenir el sobreendeudamiento.
 
@@ -80,7 +80,7 @@ La entrevista fue realizada y publicada en YouTube para incorporar una perspecti
 - ¿Qué señales alertan sobre sobreendeudamiento o fraude?
 - ¿Qué rutas confiables debería seguir una persona que anticipa dificultades de pago?
 
-**Evidencia registrada:** video publicado en YouTube y archivo original conservado fuera del bundle web. La metadata del original registra 7 minutos y 20 segundos, por debajo de la meta de 15 minutos; la entrevista no se presenta como cumplimiento de esa meta.
+**Evidencia registrada:** la entrevista fue realizada y el archivo original se conserva fuera del bundle web. La duración es 7 minutos y 20 segundos, por debajo de la meta de 15 minutos; la entrevista no se presenta como cumplimiento de esa meta. La transcripción automática no contiene una autorización explícita para grabar y publicar. Existe una constancia externa anunciada, pendiente de incorporación y revisión; por eso el consentimiento todavía no se marca como verificado y el acceso público permanece retenido.
 
 ## Webinar o seminario virtual
 
@@ -92,7 +92,9 @@ La entrevista fue realizada y publicada en YouTube para incorporar una perspecti
 
 **Estructura:** bienvenida y reglas de participación; diagnóstico inicial; presupuesto con ejemplo de ingresos variables; gastos hormiga, metas y fondo de emergencia; comparación de crédito por cuota, tasa, plazo y costo total; señales de sobreendeudamiento y fraude; preguntas; evaluación final y acción personal para los siguientes siete días.
 
-El webinar y la evaluación posterior fueron ejecutados. Las metas de mínimo 5 asistentes en vivo y 20 visualizaciones acumuladas continúan como **datos de alcance pendientes de consolidación**. La comparación descriptiva agregada fue de aproximadamente +14,1 puntos porcentuales, por debajo de la meta global de +20 pp.
+El webinar y la evaluación posterior fueron ejecutados. La captura de Meta registra **236 visualizaciones**, 190 de alcance, 192 espectadores y 15 interacciones para su publicación: la meta de más de 20 visualizaciones fue cumplida y superada. El recap de Teams registra **2 participantes en vivo**, por debajo de la meta mínima de 5. La comparación descriptiva agregada fue de aproximadamente +14,1 puntos porcentuales, por debajo de la meta global de +20 pp.
+
+La invitación de Teams y la participación de la docente constituyen evidencia disponible de notificación. El soporte original contiene nombres y datos de conexión, por lo que no se publica íntegramente. El cumplimiento del objetivo de que 80 % completara una actividad práctica no puede calcularse con la evidencia de sesión disponible; se conserva como **indicador no medido durante la sesión**.
 
 ## Cronograma de semanas 4 a 7
 
@@ -101,22 +103,40 @@ El webinar y la evaluación posterior fueron ejecutados. Las metas de mínimo 5 
 | 4      | Activar blog, publicar dos contenidos y aplicar el diagnóstico.       | Página activa, publicaciones 1–2 y 16 respuestas.                                |
 | 5      | Publicar dos contenidos, registrar interacción y publicar entrevista. | Publicaciones 3–4, comentarios y entrevista de 7:20; meta de 15 min no cumplida. |
 | 6      | Publicar crédito y fraude; ejecutar webinar y evaluación.             | Publicaciones 5–6, webinar de 69:01 y seis respuestas posteriores.               |
-| 7      | Revisar métricas, comparación y reflexión.                            | Comparación y video de reflexión disponibles; alcance y seguimiento en cierre.   |
+| 7      | Revisar métricas, comparación y reflexión.                            | Alcance y reflexión consolidados; encuesta final y seguimiento en cierre.        |
 
 ## Indicadores de seguimiento
 
-| Dimensión   | Indicador                                        | Meta o criterio                                                                                                  |
-| ----------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| Ejecución   | Publicaciones, entrevista y webinar              | Completado: 6 publicaciones, 1 entrevista y 1 webinar.                                                           |
-| Alcance     | Participantes, visualizaciones y reacciones      | Asistentes y visualizaciones pendientes de consolidación; no se asignan valores sin evidencia.                   |
-| Aprendizaje | Comprensión de presupuesto, costo total y fraude | Comparación descriptiva: n=16 inicial y n=6 posterior, grupos no emparejados.                                    |
-| Aplicación  | Acción financiera escogida                       | Meta proyectada: al menos 70 % formula una acción verificable.                                                   |
-| Calidad     | Claridad, accesibilidad y utilidad               | Revisar la encuesta de satisfacción y la retroalimentación recibida mediante los canales académicos disponibles. |
-| Ética       | Datos sensibles publicados                       | Cero. Consentimiento de la experta antes de publicar.                                                            |
+| Dimensión   | Indicador                                        | Meta o criterio                                                                                    |
+| ----------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
+| Ejecución   | Publicaciones, entrevista y webinar              | Ampliamente cumplida: 6 publicaciones, 1 entrevista, 1 webinar y 1 video de reflexión.             |
+| Alcance     | Participantes, visualizaciones y reacciones      | Webinar: 236 visualizaciones frente a meta de más de 20. Asistencia en vivo: 2 frente a meta de 5. |
+| Aprendizaje | Comprensión de presupuesto, costo total y fraude | Comparación descriptiva: n=16 inicial y n=6 posterior, grupos no emparejados.                      |
+| Aplicación  | Acción financiera escogida                       | Pendiente de encuesta final: meta de al menos 70 % con una acción verificable.                     |
+| Calidad     | Satisfacción y utilidad percibida                | Pendiente de encuesta final: meta de promedio mínimo 4/5.                                          |
+| Ética       | Protección de datos y consentimiento             | Evidencias públicas agregadas; constancia externa de consentimiento pendiente de revisión.         |
+| Seguimiento | Aplicación durante los días posteriores          | [Encuesta de cierre habilitada](/encuesta-cierre/); resultados pendientes de consolidación.        |
 
 ## Seguimiento y evaluación
 
 Se utilizó un instrumento breve antes y después de las actividades. Se registraron 16 respuestas iniciales y seis posteriores. No se publican respuestas individuales ni se afirma impacto causal a partir de grupos pequeños y no emparejados. La proporción global de respuestas plenamente favorables fue 70/128 (54,7 %) al inicio y 33/48 (68,8 %) después, una diferencia descriptiva de +14,1 pp.
+
+## Alcance e interacción digital
+
+Entre el 17 de julio y el 13 de agosto de 2026, las estadísticas de la Fan Page registraron aproximadamente **1,5 mil visualizaciones**, **524 espectadores**, **258 visitas**, **248 interacciones**, **12 seguidores** y **213 reproducciones de video de al menos tres segundos**.
+
+La suma de los seis registros educativos visibles fue de **746 visualizaciones**, **169 de alcance acumulado por publicación**, **123 interacciones**, **90 reacciones**, **27 comentarios** y **6 acciones de compartir**. El alcance acumulado no representa personas únicas y no se suma a las visualizaciones globales de la Fan Page.
+
+**Fuente:** estadísticas de Meta/Facebook de la Fan Page Decisiones que sí suman. Estas cifras describen alcance, interacción y participación digital; no demuestran por sí solas cambio de comportamiento.
+
+## Lo que también aprendimos
+
+- La entrevista duró 7:20 frente a la meta de 15 minutos.
+- La asistencia en vivo registrada fue de 2 personas frente a la meta de 5.
+- La comparación usa grupos no emparejados de n=16 y n=6.
+- La mejora agregada fue +14,1 pp frente a la meta de +20 pp.
+- El conocimiento de canales oficiales pasó de 50 % a 33,3 % y requiere refuerzo.
+- Satisfacción, acción financiera y seguimiento permanecerán pendientes hasta recibir la encuesta final.
 
 ## Referencias
 

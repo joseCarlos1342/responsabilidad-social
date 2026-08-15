@@ -1,32 +1,49 @@
 export const projectStatus = {
   currentWeek: 'Semana 7',
+  status: 'en-cierre' as const,
   currentStage:
-    'La ejecución principal está completada; el proyecto se encuentra en cierre y consolidación de métricas de alcance y seguimiento.',
+    'Ejecución completada · evaluación final en cierre. La encuesta de satisfacción y seguimiento todavía no tiene respuestas.',
 } as const;
 
 export const projectWeeks = [
   {
+    week: 'Semana 2',
+    status: 'completada' as const,
+    label: 'COMPLETADA',
+    summary: 'Contexto, problemática, territorio y propósito documentados.',
+  },
+  {
+    week: 'Semana 3',
+    status: 'completada' as const,
+    label: 'COMPLETADA',
+    summary: 'Instrumento diagnóstico y criterios de privacidad preparados.',
+  },
+  {
     week: 'Semana 4',
     status: 'completada' as const,
+    label: 'COMPLETADA',
     summary: 'Página activa, publicaciones 1 y 2, diagnóstico y 16 respuestas.',
   },
   {
     week: 'Semana 5',
     status: 'completada' as const,
+    label: 'EJECUTADA · 1 META ESPECÍFICA NO ALCANZADA',
     summary:
-      'Publicaciones 3 y 4, interacción y entrevista publicada; la duración objetivo no se cumplió.',
+      'Publicaciones 3 y 4, interacción y entrevista realizada; duración 7:20 frente a meta de 15 minutos. Consentimiento pendiente de verificación.',
   },
   {
     week: 'Semana 6',
     status: 'completada' as const,
+    label: 'COMPLETADA EN EJECUCIÓN',
     summary:
-      'Publicaciones 5 y 6, webinar de 69 minutos y evaluación posterior; alcance por consolidar.',
+      'Publicaciones 5 y 6, webinar de 69:01, evaluación posterior y meta de visualizaciones superada.',
   },
   {
     week: 'Semana 7',
-    status: 'en-progreso' as const,
+    status: 'en-cierre' as const,
+    label: 'EN CIERRE',
     summary:
-      'Comparación descriptiva y reflexión final disponibles; métricas y seguimiento en cierre.',
+      'Alcance y reflexión consolidados; satisfacción, acción financiera y seguimiento esperan la encuesta final.',
   },
 ] as const;
 
@@ -50,17 +67,18 @@ export const projectTimeline = [
     week: 'Semana 5',
     title: 'Ahorro y entrevista',
     detail:
-      'Publicaciones 3 y 4, comentarios y entrevista publicada; la duración mínima prevista no se cumplió.',
+      'Publicaciones 3 y 4, comentarios y entrevista realizada; publicación retenida hasta verificar consentimiento.',
   },
   {
     week: 'Semana 6',
     title: 'Crédito, fraude y webinar',
-    detail: 'Publicaciones 5 y 6, webinar de 69 minutos y seis respuestas posteriores completadas.',
+    detail:
+      'Publicaciones 5 y 6, webinar de 69:01, seis respuestas posteriores y más de 20 visualizaciones.',
   },
   {
     week: 'Semana 7',
     title: 'Resultados, evaluación y reflexión',
     detail:
-      'Comparación descriptiva y video de reflexión disponibles; métricas de alcance en cierre.',
+      'Comparación, alcance y video de reflexión disponibles; encuesta final y seguimiento en cierre.',
   },
 ] as const;

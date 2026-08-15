@@ -5,12 +5,13 @@ import type { ContentStatus } from '../lib/content';
 interface Props {
   status: ContentStatus;
   onAccent?: boolean;
+  label?: string;
 }
-const { status, onAccent = false } = Astro.props;
+const { status, onAccent = false, label } = Astro.props;
 ---
 
 <span class:list={['status', `status--${status}`, { 'status--accent': onAccent }]}
-  >{statusLabels[status]}</span
+  >{label ?? statusLabels[status]}</span
 >
 
 <style>

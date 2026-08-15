@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
+---
+
+<BaseLayout
+  title="Encuesta de cierre y seguimiento"
+  description="Encuesta breve y anónima para evaluar satisfacción, utilidad, acción financiera y seguimiento."
+>
+  <section class="section closure-survey">
+    <div class="site-shell closure-survey__layout">
+      <div class="closure-survey__intro">
+        <Breadcrumbs items={[{ label: 'Encuesta de cierre' }]} />
+        <span class="kicker">Seguimiento final</span>
+        <h1>Encuesta de cierre y seguimiento.</h1>
+        <p class="lede">
+          Seis preguntas para valorar la utilidad del proyecto y reconocer qué acciones pudieron
+          aplicarse. No se solicitan datos personales ni financieros.
+        </p>
+        <StatusBadge status="en-cierre" label="ENCUESTA HABILITADA" />
+        <p class="closure-survey__status">
+          Las respuestas se reciben en Google Forms y se analizarán únicamente de manera agregada.
+          Los resultados todavía están pendientes de consolidación.
+        </p>
+        <a
+          class="button"
+          href={digitalImpact.closureSurvey.href}
+          target="_blank"
+          rel="noopener noreferrer">Responder la encuesta ↗</a
+        >
+      </div>
+
+      <div class="closure-survey__sheet">
+        <p class="notice">
+          Si ya transcurrieron varios días desde tu participación, responde teniendo en cuenta si
+          lograste aplicar alguna acción durante ese período.
+        </p>
+        <ol class="survey-preview" aria-label="Preguntas incluidas en la encuesta">
+          {
+            closureSurveyQuestions.map((question) => (
+              <li>
+                <h2>{question.prompt}</h2>
+                {question.options ? (
+                  <ul>
+                    {question.options.map((option) => (
+                      <li>{option}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p class="survey-preview__guidance">{question.guidance}</p>
+                )}
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .closure-survey__layout {
+    display: grid;
+    grid-template-columns: minmax(17rem, 0.7fr) minmax(0, 1.3fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: start;
+  }
+  .closure-survey__intro {
+    position: sticky;
+    top: 1.5rem;
+  }
+  .closure-survey__intro h1 {
+    max-width: 9ch;
+    margin-block: 1rem;
+    font-size: clamp(3rem, 7vw, 6rem);
+  }
+  .closure-survey__status {
+    max-width: 46ch;
+    margin-top: 1rem;
+    color: var(--ink-soft);
+  }
+  .closure-survey__sheet {
+    padding: clamp(1rem, 4vw, 2.5rem);
+    border: 1px solid var(--ink);
+    background: var(--white);
+    box-shadow: 12px 12px 0 var(--terracotta);
+  }
+  .survey-preview {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: survey;
+  }
+  .survey-preview > li {
+    display: grid;
+    grid-template-columns: 2.2rem minmax(0, 1fr);
+    column-gap: 0.8rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--line);
+    counter-increment: survey;
+  }
+  .survey-preview > li::before {
+    color: var(--terracotta);
+    content: counter(survey, decimal-leading-zero);
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 0.78rem;
+    font-weight: 800;
+    line-height: 2;
+  }
+  .survey-preview h2 {
+    margin: 0;
+    color: var(--petrol);
+    font-size: clamp(1.2rem, 2.4vw, 1.65rem);
+    line-height: 1.25;
+  }
+  .survey-preview ul {
+    grid-column: 2;
+    margin: 1rem 0 0;
+    padding-left: 1.2rem;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .survey-preview__guidance {
+    grid-column: 2;
+    margin: 1rem 0 0;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .survey-preview ul li + li {
+    margin-top: 0.35rem;
+  }
+  @media (max-width: 820px) {
+    .closure-survey__layout {
+      grid-template-columns: 1fr;
+    }
+    .closure-survey__intro {
+      position: static;
+    }
+  }
+  @media (max-width: 520px) {
+    .closure-survey__sheet {
+      box-shadow: 7px 7px 0 var(--terracotta);
+    }
+  }
+</style>

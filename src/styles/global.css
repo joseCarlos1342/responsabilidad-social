@@ -283,6 +283,8 @@ p {
 }
 
 .status--en-progreso::before,
+.status--en-cierre::before,
+.status--pendiente-verificacion::before,
 .status--en-preparacion::before {
   background: var(--terracotta);
 }

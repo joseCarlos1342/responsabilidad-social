@@ -18,7 +18,13 @@ const referenceSchema = z.object({
   href: z.url().optional(),
 });
 
-const documentStatus = z.enum(['planeado', 'en-desarrollo', 'ejecutado', 'finalizado']);
+const documentStatus = z.enum([
+  'planeado',
+  'en-desarrollo',
+  'en-cierre',
+  'ejecutado',
+  'finalizado',
+]);
 
 const activity = defineCollection({
   loader: glob({ base: './src/content/actividades', pattern: '**/*.{md,mdx}' }),
@@ -30,7 +36,7 @@ const activity = defineCollection({
     week: z.string(),
     date: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
-    status: z.enum(['planeada', 'en-desarrollo', 'ejecutada', 'finalizada']),
+    status: z.enum(['planeada', 'en-desarrollo', 'en-cierre', 'ejecutada', 'finalizada']),
     category: z.enum(['diagnóstico', 'planificación', 'acción', 'reflexión']),
     contentType: z.enum(['actividad', 'entrada-reflexiva', 'guía']),
     tags: z.array(z.string()),
@@ -54,7 +60,7 @@ const plan = defineCollection({
     title: z.string(),
     description: z.string(),
     updatedDate: z.coerce.date(),
-    status: z.enum(['planeada', 'en-desarrollo', 'ejecutada', 'finalizada']),
+    status: z.enum(['planeada', 'en-desarrollo', 'en-cierre', 'ejecutada', 'finalizada']),
     territory: z.string(),
     download: z.string().optional(),
     references: z.array(referenceSchema).default([]),

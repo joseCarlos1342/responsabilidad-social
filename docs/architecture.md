@@ -28,9 +28,9 @@ Los XLSX con filas individuales permanecen ignorados bajo `docs/fuentes-academic
 Markdown/MDX → schema Zod → getCollection/render → rutas estáticas → dist → Cloudflare Pages
 ```
 
-La colección `document` relaciona una edición pública o un original académico autorizado con su ruta web. La validación build-time comprueba que el PDF exista bajo `public/documents/`, que la ruta sea conocida y que la revisión declarada corresponda a su origen. Las actividades 2, 4 y 6 y el plan conservan sus PDFs originales autorizados.
+La colección `document` relaciona una edición pública o un material académico revisado con su ruta web. La validación build-time comprueba que el PDF exista bajo `public/documents/`, que la ruta sea conocida y que la revisión declarada corresponda a su origen. Las actividades 2 y 4 y el plan usan ediciones sanitizadas; la Actividad 6 conserva un material original previamente revisado.
 
-Las seis evidencias sociales se conservan con sus nombres originales (`publi1.pdf` a `publi6.pdf`) bajo `public/documents/` y sus miniaturas de primera página bajo `public/assets/publicaciones/`. Las publicaciones 5 y 6 no tienen URL individual verificable en el repositorio, por lo que remiten a su PDF y al consolidado de pruebas sin inventar enlaces.
+Las seis evidencias sociales se conservan con sus nombres originales (`publi1.pdf` a `publi6.pdf`) bajo `public/documents/` y sus miniaturas de primera página bajo `public/assets/publicaciones/`. Las publicaciones 5 y 6 no tienen URL individual verificable en el repositorio, por lo que remiten a su PDF y a estadísticas agregadas sin inventar enlaces.
 
 ## Rendimiento
 

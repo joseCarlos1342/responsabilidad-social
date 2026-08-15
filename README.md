@@ -31,11 +31,13 @@ pnpm dev
 
 Abre `http://localhost:4321/`.
 
+Si el servidor informa que inició en segundo plano, comprueba su estado con `pnpm exec astro dev status`, revisa sus mensajes con `pnpm exec astro dev logs` y detenlo con `pnpm exec astro dev stop`.
+
 ## Añadir una actividad
 
 1. Crea `src/content/actividades/mi-nueva-actividad.md` o `.mdx`.
 2. Completa el frontmatter según `src/content.config.ts`.
-3. Usa un `order` nuevo y un estado real: `planeada`, `en-desarrollo`, `ejecutada` o `finalizada`.
+3. Usa un `order` nuevo y un estado real: `planeada`, `en-desarrollo`, `en-cierre`, `ejecutada` o `finalizada`.
 4. Declara evidencias como `pendiente` hasta que existan y hayan sido revisadas.
 5. Añade imágenes propias o con licencia compatible en `public/assets/` y documenta su fuente.
 6. Ejecuta `pnpm validate`.
@@ -97,4 +99,4 @@ docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 
 ## Estado actual de la materia
 
-La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra el recorrido con video, webinar y comparación descriptiva. Las seis publicaciones, la entrevista de 7:20, el webinar de 69:01, seis respuestas posteriores y el video de voz en off de 8:00 tienen evidencia disponible. Asistentes, visualizaciones, satisfacción y seguimiento continúan pendientes de consolidación.
+La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra la ejecución con video, webinar y comparación descriptiva. Las seis publicaciones acumulan 746 visualizaciones y el webinar registra 236 visualizaciones, 2 asistentes en vivo y 69:01 de duración. La encuesta final está habilitada; satisfacción, aplicación y seguimiento continúan pendientes de respuestas consolidadas.

@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import FinancialClosureTools from '../components/FinancialClosureTools.astro';
 const resources = await getCollection('recurso');
 ---
 
@@ -48,6 +49,7 @@ const resources = await getCollection('recurso');
           ))
         }
       </div>
+      <FinancialClosureTools />
     </div>
   </section>
 </BaseLayout>

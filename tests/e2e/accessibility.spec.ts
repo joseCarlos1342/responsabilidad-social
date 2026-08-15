@@ -11,6 +11,9 @@ for (const path of [
   '/documentos/',
   '/documentos/actividad-4-publica/',
   '/documentos/actividad-6-publica/',
+  '/encuesta-cierre/',
+  '/recursos/',
+  '/privacidad/',
 ]) {
   test(`sin violaciones axe en ${path}`, async ({ page }) => {
     await page.goto(path);
@@ -22,7 +25,7 @@ for (const path of [
 test('las pestañas y el visor mantienen una ruta accesible', async ({ page }) => {
   await page.goto('/documentos/actividad-2-publica/');
   await expect(page.getByRole('tablist', { name: 'Modo de lectura' })).toBeVisible();
-  await page.getByRole('tab', { name: 'Documento original' }).click();
+  await page.getByRole('tab', { name: 'Versión pública (PDF)' }).click();
   await expect(page.locator('.pdf-toolbar')).toHaveAttribute('role', 'toolbar');
   await expect(page.locator('canvas')).toHaveAttribute('aria-label', /Página 1/);
 });

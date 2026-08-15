@@ -11,7 +11,9 @@ export type ContentStatus =
   | 'finalizado'
   | 'completada'
   | 'en-progreso'
+  | 'en-cierre'
   | 'pendiente'
+  | 'pendiente-verificacion'
   | 'evidencia-registrada'
   | 'en-preparacion';
 
@@ -25,7 +27,9 @@ export const statusLabels: Record<ContentStatus, string> = {
   finalizado: 'COMPLETADO',
   completada: 'COMPLETADA',
   'en-progreso': 'EN PROGRESO',
+  'en-cierre': 'EN CIERRE',
   pendiente: 'PENDIENTE',
+  'pendiente-verificacion': 'PENDIENTE DE VERIFICACIÓN',
   'evidencia-registrada': 'EVIDENCIA DISPONIBLE',
   'en-preparacion': 'EN PREPARACIÓN',
 };
@@ -139,7 +143,7 @@ export const odsData = [
     explanation:
       'El plan proyecta colaboración con una experta y actores cercanos para convertir conocimientos técnicos en recursos públicos.',
     action:
-      'La entrevista y el webinar publicados incorporan experiencia, preguntas y participación al recorrido educativo.',
+      'La entrevista realizada y el webinar publicado incorporan experiencia, preguntas y participación al recorrido educativo; el acceso a la entrevista permanece retenido hasta verificar consentimiento.',
     scope: 'Alianza académica y comunitaria documentada.',
     limitation:
       'La existencia de estos recursos no demuestra por sí sola impacto ni sustituye el seguimiento.',
