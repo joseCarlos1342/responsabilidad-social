@@ -198,8 +198,10 @@ export const digitalImpact = {
     note: 'La invitación de Teams y la participación de la docente están registradas.',
   },
   interviewConsent: {
-    status: 'pendiente-verificacion',
-    note: 'Existe una constancia externa anunciada, pendiente de incorporación y revisión.',
+    status: 'verificado',
+    note: 'Constancia audiovisual verificada para grabación y uso de fragmentos con fines académicos y educativos.',
+    href: '/video/permiso.mp4',
+    durationSeconds: 41,
   },
   practicalWebinarObjective: {
     targetPercentage: 80,

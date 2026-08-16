@@ -165,7 +165,10 @@ test('navega a actividad 2, actividad 4 y al plan', async ({ page }) => {
   );
 });
 
-test('difiere los reproductores de video hasta interacción', async ({ page }) => {
+test('difiere los reproductores y publica la autorización verificada', async ({
+  page,
+  request,
+}) => {
   const externalVideoRequests: string[] = [];
   page.on('request', (request) => {
     if (/youtube|ytimg|googlevideo/iu.test(request.url()))
@@ -173,16 +176,31 @@ test('difiere los reproductores de video hasta interacción', async ({ page }) =
   });
   await page.goto('/');
   await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(0);
-  await expect(page.locator('[data-youtube-lite]')).toHaveCount(1);
-  await expect(page.getByText('CONSENTIMIENTO PENDIENTE DE VERIFICACIÓN')).toBeVisible();
-  await expect(page.locator('#entrevista a[href*="youtu"]')).toHaveCount(0);
+  await expect(page.locator('[data-youtube-lite]')).toHaveCount(2);
+  await expect(page.getByText('AUTORIZACIÓN VERIFICADA', { exact: true })).toBeVisible();
+  await expect(page.getByText('Leer transcripción completa del permiso')).toBeVisible();
+  await expect(page.locator('#entrevista a[href*="youtu"]')).toHaveCount(1);
+  await expect(page.locator('#entrevista video source')).toHaveAttribute(
+    'src',
+    '/video/permiso.mp4',
+  );
+  expect((await request.get('/video/permiso.mp4')).ok()).toBeTruthy();
   expect(externalVideoRequests).toEqual([]);
+  await page.getByRole('button', { name: /Cargar reproductor de la entrevista/ }).click();
+  await expect(page.locator('#entrevista [data-youtube-lite] iframe')).toHaveAttribute(
+    'src',
+    'https://www.youtube-nocookie.com/embed/mLFCR_STZ2Q?rel=0',
+  );
   await page.getByRole('button', { name: /Cargar reproductor del webinar/ }).click();
-  await expect(page.locator('[data-youtube-lite] iframe')).toHaveAttribute(
+  await expect(page.locator('[data-youtube-lite] iframe')).toHaveCount(2);
+  await expect(page.locator('#webinar [data-youtube-lite] iframe')).toHaveAttribute(
     'src',
     'https://www.youtube-nocookie.com/embed/StYZ2l1TA3U?rel=0',
   );
-  await expect(page.getByText('Reproductor cargado. Usa los controles de YouTube.')).toBeVisible();
+  await expect(page.locator('[data-youtube-status]')).toHaveText([
+    'Reproductor cargado. Usa los controles de YouTube.',
+    'Reproductor cargado. Usa los controles de YouTube.',
+  ]);
   const videoFrame = await page
     .locator('[data-youtube-frame]')
     .first()
@@ -553,6 +571,7 @@ test('publica el dashboard con métricas y límites verificables', async ({ page
     '/documents/actividad-2-original.pdf',
     '/documents/actividad-4-original.pdf',
     '/documents/plan-responsabilidad-social-educacion-financiera.pdf',
+    '/video/permiso.mov',
   ]) {
     expect((await request.get(privatePath)).status()).toBe(404);
   }

@@ -29,7 +29,7 @@ export const projectWeeks = [
     status: 'completada' as const,
     label: 'EJECUTADA · 1 META ESPECÍFICA NO ALCANZADA',
     summary:
-      'Publicaciones 3 y 4, interacción y entrevista realizada; duración 7:20 frente a meta de 15 minutos. Consentimiento pendiente de verificación.',
+      'Publicaciones 3 y 4, interacción y entrevista autorizada; duración 7:20 frente a meta de 15 minutos.',
   },
   {
     week: 'Semana 6',
@@ -66,8 +66,7 @@ export const projectTimeline = [
   {
     week: 'Semana 5',
     title: 'Ahorro y entrevista',
-    detail:
-      'Publicaciones 3 y 4, comentarios y entrevista realizada; publicación retenida hasta verificar consentimiento.',
+    detail: 'Publicaciones 3 y 4, comentarios y edición de entrevista con autorización verificada.',
   },
   {
     week: 'Semana 6',

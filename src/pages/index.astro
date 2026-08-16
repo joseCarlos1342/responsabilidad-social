@@ -200,19 +200,17 @@ const projectIndicators = [
 
   <section class="section evidence-section" id="entrevista">
     <div class="site-shell evidence-section__grid">
-      <div class="consent-evidence">
-        <span class="kicker">Semana 5 · Entrevista</span>
-        <h2>Realizada; publicación retenida hasta verificar el consentimiento.</h2>
-        <p>
-          El registro dura 7:20, por debajo de la meta original de 15 minutos. El reproductor, el
-          archivo y cualquier dato de la persona entrevistada permanecen fuera del sitio mientras se
-          incorpora y revisa la constancia externa de autorización informada.
-        </p>
-        <StatusBadge
-          status="pendiente-verificacion"
-          label="CONSENTIMIENTO PENDIENTE DE VERIFICACIÓN"
-        />
-      </div>
+      <YouTubeLite
+        videoId="mLFCR_STZ2Q"
+        title="Educación financiera para tomar mejores decisiones | Entrevista"
+        thumbnail="/assets/entrevista-youtube.jpg"
+        thumbnailAlt="Vista de la entrevista sobre educación financiera y mejores decisiones."
+        youtubeHref="https://youtu.be/mLFCR_STZ2Q"
+        description="Edición académica publicada con autorización audiovisual para grabar y utilizar fragmentos dentro del proyecto. Su duración verificada es 7:20, por debajo de la meta original de 15 minutos."
+        duration="7:20"
+        playLabel="Cargar reproductor de la entrevista"
+        label="Semana 5 · Entrevista"
+      />
       <div class="evidence-column">
         <div class="section-heading">
           <span class="kicker">Sección de evidencias</span>
@@ -221,6 +219,38 @@ const projectIndicators = [
             Las evidencias permiten describir la ejecución y observar tendencias. No permiten
             atribuir causalidad ni generalizar los resultados a toda la población.
           </p>
+        </div>
+        <div class="consent-record">
+          <div class="consent-record__heading">
+            <StatusBadge status="completada" label="AUTORIZACIÓN VERIFICADA" />
+            <p>Constancia audiovisual · 41 segundos</p>
+          </div>
+          <video
+            controls
+            preload="metadata"
+            playsinline
+            aria-label="Constancia audiovisual de autorización para la entrevista"
+          >
+            <source src="/video/permiso.mp4" type="video/mp4" />
+            Tu navegador no puede reproducir este video. <a href="/video/permiso.mp4"
+              >Abrir constancia ↗</a
+            >
+          </video>
+          <details class="consent-record__transcript">
+            <summary>Leer transcripción completa del permiso</summary>
+            <p>
+              <strong>Entrevistador:</strong> “Buenas tardes, mi nombre es José Carlos Gómez [segundo
+              apellido omitido en la versión pública]. Soy estudiante de la actividad Práctica en Responsabilidad
+              Social de UNIMINUTO. Actualmente estoy desarrollando un proyecto de Humanidades Digitales
+              llamado Decisiones que sí suman, enfocado en educación financiera, presupuesto, ahorro,
+              crédito responsable y prevención del fraude. El objetivo de esta entrevista es conocer,
+              desde la experiencia de una profesional del sector financiero, algunas recomendaciones que
+              puedan ayudar a las personas a tomar decisiones más informadas y evitar el sobreendeudamiento.
+              Antes de comenzar, quisiera preguntarte: ¿nos autorizas a grabar esta entrevista y utilizar
+              algunos fragmentos con fines exclusivamente académicos y educativos dentro del proyecto?”
+            </p>
+            <p><strong>Persona entrevistada:</strong> “Sí, claro que sí.”</p>
+          </details>
         </div>
         <div class="evidence-links">
           <strong>Evidencia digital agregada</strong>
@@ -678,23 +708,45 @@ const projectIndicators = [
     gap: clamp(2.5rem, 7vw, 7rem);
     align-items: start;
   }
-  .consent-evidence {
+  .consent-record {
     display: grid;
-    gap: 1rem;
-    align-content: center;
-    min-height: 25rem;
-    padding: clamp(1.5rem, 5vw, 3rem);
+    gap: 1.25rem;
+    justify-items: center;
+    padding: clamp(1.25rem, 4vw, 2rem);
     border: 1px solid var(--gold);
     background: var(--white);
   }
-  .consent-evidence h2 {
-    max-width: 13ch;
-    margin: 0;
+  .consent-record__heading {
+    display: grid;
+    gap: 0.55rem;
+    justify-items: center;
+    text-align: center;
   }
-  .consent-evidence p {
-    max-width: 58ch;
+  .consent-record__heading p {
     margin: 0;
     color: var(--ink-soft);
+  }
+  .consent-record video {
+    display: block;
+    width: min(100%, 20rem);
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    background: #111;
+  }
+  .consent-record__transcript {
+    width: min(100%, 32rem);
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+  .consent-record__transcript summary {
+    min-height: 44px;
+    color: var(--petrol);
+    cursor: pointer;
+    font-weight: 800;
+    text-align: center;
+  }
+  .consent-record__transcript p {
+    margin: 0.5rem 0 0;
   }
   .evidence-column {
     display: grid;

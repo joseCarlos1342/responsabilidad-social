@@ -16,12 +16,13 @@ Todos los cambios relevantes se registran aquí.
 - Dashboard final separado por ejecución, alcance digital, aprendizaje y evidencia visual agregada.
 - Encuesta de cierre enlazada a Google Forms y ruta pública con las seis preguntas verificadas.
 - Calculadora local de fondo de emergencia, comparador ficticio de créditos y checklist imprimible contra el fraude.
+- Constancia audiovisual de consentimiento de la entrevista en formato MP4 optimizado para web.
 
 ### Changed
 
 - Portada, plan y cronología reflejan semanas 4–6 completadas y semana 7 en cierre.
 - Actividad 4 conserva su publicación histórica y enlaza la evaluación posterior incorporada el 10/08/2026.
-- Los reproductores de webinar y voz en off crean el iframe únicamente tras interacción; la entrevista no se expone mientras su consentimiento siga pendiente de verificación.
+- Los reproductores de entrevista, webinar y voz en off se cargan únicamente tras interacción.
 - Actividad 4 pasa a `COMPLETADA` con fecha de publicación histórica 27/07/2026 y actualización de resultados del 09/08/2026.
 - Actividad 4 incorpora 16 respuestas diagnósticas, resultados agregados y publicación de presupuesto sin presentarlos como impacto.
 - Actividad 4 incorpora una reflexión académica sustentada en el diagnóstico y diferencia sus aprendizajes del impacto aún no medido.
@@ -47,5 +48,4 @@ Todos los cambios relevantes se registran aquí.
 
 ### Pending
 
-- Incorporación y revisión de la constancia externa de consentimiento de la entrevistada.
 - Consolidación de satisfacción, aplicación y seguimiento final cuando existan respuestas de la encuesta.

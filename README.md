@@ -99,4 +99,4 @@ docs/fuentes-academicas/  Fuentes locales ignoradas por Git
 
 ## Estado actual de la materia
 
-La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra la ejecución con video, webinar y comparación descriptiva. Las seis publicaciones acumulan 746 visualizaciones y el webinar registra 236 visualizaciones, 2 asistentes en vivo y 69:01 de duración. La encuesta final está habilitada; satisfacción, aplicación y seguimiento continúan pendientes de respuestas consolidadas.
+La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra la ejecución con video, webinar y comparación descriptiva. La edición académica de la entrevista está publicada con autorización verificada para grabación y uso de fragmentos. Las seis publicaciones acumulan 746 visualizaciones y el webinar registra 236 visualizaciones, 2 asistentes en vivo y 69:01 de duración. La encuesta final está habilitada; satisfacción, aplicación y seguimiento continúan pendientes de respuestas consolidadas.

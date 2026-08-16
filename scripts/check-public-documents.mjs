@@ -98,3 +98,12 @@ const publicFiles = await readdir('public', { recursive: true });
 if (publicFiles.some((file) => file.toLowerCase().endsWith('.mov')))
   throw new Error('No se permite incluir archivos MOV dentro de public/');
 console.log('public/: no contiene archivos MOV pesados');
+
+const permissionVideo = await readFile(join('public', 'video', 'permiso.mp4'));
+if (permissionVideo.subarray(4, 8).toString() !== 'ftyp')
+  throw new Error('permiso.mp4: no es un contenedor MP4 válido');
+if (permissionVideo.byteLength > 10 * 1024 * 1024)
+  throw new Error('permiso.mp4: supera el límite público de 10 MB');
+console.log(
+  `permiso.mp4: copia web verificada (${(permissionVideo.byteLength / 1024 / 1024).toFixed(1)} MB)`,
+);

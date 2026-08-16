@@ -4,7 +4,7 @@
 - El sitio solo muestra `José Carlos Gómez`, no el nombre completo salvo que el contexto académico lo requiera.
 - Las respuestas individuales se conservan únicamente en fuentes locales ignoradas; no se versionan, publican ni incluyen en el bundle.
 - El diagnóstico debe ser voluntario, anónimo y limitado a hábitos/conocimientos.
-- La entrevista requiere consentimiento informado. La constancia externa anunciada permanece pendiente de incorporación y revisión, por lo que el sitio no lo marca como verificado.
+- La entrevista cuenta con autorización audiovisual verificada para grabación y uso de fragmentos con fines académicos y educativos. Se publica una copia MP4 optimizada sin metadatos; el MOV fuente permanece fuera de `public/`.
 - Ejemplos numéricos se marcan como ficticios.
 - Toda referencia externa conserva su atribución y se revisa antes de publicar.
 - El texto aclara que el contenido es educativo y no asesoría personalizada.

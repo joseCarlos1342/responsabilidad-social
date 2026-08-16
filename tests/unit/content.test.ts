@@ -363,7 +363,12 @@ describe('content utilities', () => {
   it('evalúa asistencia, consentimiento y encuesta sin inferir datos', () => {
     expect(digitalImpact.liveAttendance).toEqual({ count: 2, target: 5, targetReached: false });
     expect(digitalImpact.teacherNotification.status).toBe('evidencia-registrada');
-    expect(digitalImpact.interviewConsent.status).toBe('pendiente-verificacion');
+    expect(digitalImpact.interviewConsent).toEqual({
+      status: 'verificado',
+      note: 'Constancia audiovisual verificada para grabación y uso de fragmentos con fines académicos y educativos.',
+      href: '/video/permiso.mp4',
+      durationSeconds: 41,
+    });
     expect(digitalImpact.closureSurvey).toEqual({
       status: 'habilitada',
       responseCount: 0,

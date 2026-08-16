@@ -143,7 +143,7 @@ export const odsData = [
     explanation:
       'El plan proyecta colaboración con una experta y actores cercanos para convertir conocimientos técnicos en recursos públicos.',
     action:
-      'La entrevista realizada y el webinar publicado incorporan experiencia, preguntas y participación al recorrido educativo; el acceso a la entrevista permanece retenido hasta verificar consentimiento.',
+      'La entrevista autorizada y el webinar publicado incorporan experiencia, preguntas y participación al recorrido educativo.',
     scope: 'Alianza académica y comunitaria documentada.',
     limitation:
       'La existencia de estos recursos no demuestra por sí sola impacto ni sustituye el seguimiento.',

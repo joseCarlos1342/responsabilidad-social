@@ -70,7 +70,7 @@ La participación será voluntaria. No se solicitarán nombres, documentos, sald
 
 ## Entrevista a una experta
 
-La entrevista fue realizada para incorporar una perspectiva basada en experiencia sobre análisis financiero, gestión de crédito y orientación a consumidores. El blog retiene su enlace, reproductor y datos personales hasta incorporar y verificar la constancia externa de consentimiento informado. La grabación dispone de subtítulos automáticos en español.
+La entrevista fue realizada y publicada para incorporar una perspectiva basada en experiencia sobre análisis financiero, gestión de crédito y orientación a consumidores. La autorización cuenta con una [constancia audiovisual pública](/video/permiso.mp4). La grabación dispone de subtítulos automáticos en español.
 
 **Tema:** errores frecuentes al solicitar crédito y prácticas para prevenir el sobreendeudamiento.
 
@@ -80,7 +80,7 @@ La entrevista fue realizada para incorporar una perspectiva basada en experienci
 - ¿Qué señales alertan sobre sobreendeudamiento o fraude?
 - ¿Qué rutas confiables debería seguir una persona que anticipa dificultades de pago?
 
-**Evidencia registrada:** la entrevista fue realizada y el archivo original se conserva fuera del bundle web. La duración es 7 minutos y 20 segundos, por debajo de la meta de 15 minutos; la entrevista no se presenta como cumplimiento de esa meta. La transcripción automática no contiene una autorización explícita para grabar y publicar. Existe una constancia externa anunciada, pendiente de incorporación y revisión; por eso el consentimiento todavía no se marca como verificado y el acceso público permanece retenido.
+**Evidencia registrada:** entrevista publicada en YouTube y constancia audiovisual de autorización incorporada. La duración es 7 minutos y 20 segundos, por debajo de la meta de 15 minutos; la entrevista no se presenta como cumplimiento de esa meta. El MOV fuente de la autorización permanece fuera del bundle y la copia MP4 pública fue optimizada sin sus metadatos originales.
 
 ## Webinar o seminario virtual
 
@@ -114,7 +114,7 @@ La invitación de Teams y la participación de la docente constituyen evidencia 
 | Aprendizaje | Comprensión de presupuesto, costo total y fraude | Comparación descriptiva: n=16 inicial y n=6 posterior, grupos no emparejados.                      |
 | Aplicación  | Acción financiera escogida                       | Pendiente de encuesta final: meta de al menos 70 % con una acción verificable.                     |
 | Calidad     | Satisfacción y utilidad percibida                | Pendiente de encuesta final: meta de promedio mínimo 4/5.                                          |
-| Ética       | Protección de datos y consentimiento             | Evidencias públicas agregadas; constancia externa de consentimiento pendiente de revisión.         |
+| Ética       | Protección de datos y consentimiento             | Autorización verificada para grabación y uso académico de fragmentos.                              |
 | Seguimiento | Aplicación durante los días posteriores          | [Encuesta de cierre habilitada](/encuesta-cierre/); resultados pendientes de consolidación.        |
 
 ## Seguimiento y evaluación
