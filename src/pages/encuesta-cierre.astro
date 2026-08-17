@@ -14,7 +14,7 @@ import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
       <div class="closure-survey__intro">
         <Breadcrumbs items={[{ label: 'Encuesta de cierre' }]} />
         <span class="kicker">Seguimiento final</span>
-        <h1>Encuesta de cierre y seguimiento.</h1>
+        <h1><span>Encuesta</span><span>de cierre y</span><span>seguimiento.</span></h1>
         <p class="lede">
           Seis preguntas para valorar la utilidad del proyecto y reconocer qué acciones pudieron
           aplicarse. No se solicitan datos personales ni financieros.
@@ -63,18 +63,24 @@ import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
 <style>
   .closure-survey__layout {
     display: grid;
-    grid-template-columns: minmax(17rem, 0.7fr) minmax(0, 1.3fr);
+    grid-template-columns: minmax(17rem, 0.8fr) minmax(0, 1.2fr);
     gap: clamp(2rem, 7vw, 7rem);
     align-items: start;
   }
   .closure-survey__intro {
     position: sticky;
     top: 1.5rem;
+    min-width: 0;
   }
   .closure-survey__intro h1 {
-    max-width: 9ch;
+    max-width: 100%;
     margin-block: 1rem;
-    font-size: clamp(3rem, 7vw, 6rem);
+    font-size: clamp(3rem, 5vw, 4.75rem);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+  }
+  .closure-survey__intro h1 span {
+    display: block;
   }
   .closure-survey__status {
     max-width: 46ch;

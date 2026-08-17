@@ -578,6 +578,7 @@ test('publica el dashboard con métricas y límites verificables', async ({ page
 });
 
 test('habilita la encuesta final sin afirmar resultados', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/encuesta-cierre/');
   await expect(
     page.getByRole('heading', { name: 'Encuesta de cierre y seguimiento.' }),
@@ -591,6 +592,21 @@ test('habilita la encuesta final sin afirmar resultados', async ({ page }) => {
   await expect(formLink).toHaveAttribute('href', 'https://forms.gle/wswjtPct8SRjvuLB8');
   await expect(formLink).toHaveAttribute('target', '_blank');
   await expect(page.locator('a[href="https://forms.gle/wswjtPct8SRjvuLB8"]')).toHaveCount(1);
+  const surveyLayout = await page.evaluate(() => {
+    const intro = document.querySelector('.closure-survey__intro')?.getBoundingClientRect();
+    const sheet = document.querySelector('.closure-survey__sheet')?.getBoundingClientRect();
+    const title = document.querySelector('.closure-survey__intro h1');
+    return {
+      introRight: intro?.right ?? 0,
+      sheetLeft: sheet?.left ?? 0,
+      titleFits: title ? title.scrollWidth <= title.clientWidth : false,
+      bodyWidth: document.body.scrollWidth,
+      viewportWidth: window.innerWidth,
+    };
+  });
+  expect(surveyLayout.introRight).toBeLessThanOrEqual(surveyLayout.sheetLeft);
+  expect(surveyLayout.titleFits).toBe(true);
+  expect(surveyLayout.bodyWidth).toBe(surveyLayout.viewportWidth);
 });
 
 test('calcula localmente y publica recursos de cierre', async ({ page }) => {
