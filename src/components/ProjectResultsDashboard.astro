@@ -1,6 +1,7 @@
 ---
 import { financialResults } from '../data/diagnostic';
 import { digitalImpact, publicationImpactTotals, publicationMetrics } from '../data/digital-impact';
+import closureSurveyResults from '../data/closure-survey.generated.json';
 
 const formatNumber = (value: number) => value.toLocaleString('es-CO');
 const executionMetrics = [
@@ -10,7 +11,7 @@ const executionMetrics = [
   ['22', 'registros del instrumento'],
   ['1', 'entrevista'],
   ['1', 'webinar · 69:01'],
-  ['1', 'video de reflexión'],
+  ['1', 'informe final · 5:56'],
 ] as const;
 ---
 
@@ -156,6 +157,42 @@ const executionMetrics = [
     </div>
   </section>
 
+  <section class="result-ledger" aria-labelledby="closure-title">
+    <div class="result-ledger__heading">
+      <span class="result-ledger__index">04</span>
+      <div>
+        <span class="eyebrow-data">Cierre y aplicación</span><h3 id="closure-title">
+          Metas finales cumplidas.
+        </h3>
+      </div>
+    </div>
+    <div class="closure-balance">
+      <dl>
+        <div>
+          <dd>{closureSurveyResults.satisfaction.average.toLocaleString('es-CO')}/5</dd>
+          <dt>satisfacción · meta 4/5</dt>
+        </div>
+        <div>
+          <dd>{closureSurveyResults.utility.average}/5</dd>
+          <dt>utilidad percibida</dt>
+        </div>
+        <div>
+          <dd>{closureSurveyResults.application.atLeastPartialPercentage} %</dd>
+          <dt>aplicación total o parcial · meta 70 %</dt>
+        </div>
+        <div>
+          <dd>{closureSurveyResults.responseCount}</dd>
+          <dt>respuestas de cierre</dt>
+        </div>
+      </dl>
+      <p>
+        Resultados descriptivos del corte final. <a href="/encuesta-cierre/"
+          >Consultar encuesta, metodología y evidencia agregada →</a
+        >
+      </p>
+    </div>
+  </section>
+
   <section class="impact-evidence" aria-labelledby="impact-evidence-title">
     <div class="impact-evidence__heading">
       <span class="eyebrow-data">Evidencia visual</span>
@@ -168,6 +205,8 @@ const executionMetrics = [
           <img
             src={digitalImpact.evidence.overview}
             alt="Resumen de Meta con 1,5 mil visualizaciones, 524 espectadores, 258 visitas y 248 interacciones."
+            width="787"
+            height="797"
             loading="lazy"
             decoding="async"
           />
@@ -181,6 +220,8 @@ const executionMetrics = [
           <img
             src={digitalImpact.evidence.content}
             alt="Tabla de Meta con el rendimiento individual del webinar y las seis publicaciones educativas."
+            width="1631"
+            height="632"
             loading="lazy"
             decoding="async"
           />
@@ -361,6 +402,34 @@ const executionMetrics = [
   .learning-balance p {
     max-width: 62ch;
     margin-top: 1.5rem;
+  }
+  .closure-balance {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    background: var(--petrol);
+    color: var(--paper);
+  }
+  .closure-balance dl {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+  }
+  .closure-balance dl div {
+    padding: 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--paper) 30%, transparent);
+  }
+  .closure-balance dd {
+    color: var(--paper);
+  }
+  .closure-balance dt,
+  .closure-balance p {
+    color: var(--mist);
+  }
+  .closure-balance p {
+    margin: 1.5rem 0 0;
+  }
+  .closure-balance a {
+    color: var(--paper) !important;
+    font-weight: 800;
   }
   .impact-evidence {
     padding-block: clamp(2.5rem, 6vw, 5rem);

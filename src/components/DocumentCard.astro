@@ -91,6 +91,7 @@ const documentTypeLabel = {
   }
   .document-card h2 a {
     text-decoration: none;
+    overflow-wrap: anywhere;
   }
   .document-card p {
     max-width: 65ch;
@@ -118,11 +119,14 @@ const documentTypeLabel = {
   .document-card__facts dd {
     margin: 0;
     font-weight: 750;
+    overflow-wrap: anywhere;
   }
   .text-link {
+    min-width: 0;
     color: var(--petrol);
     font-weight: 800;
     text-decoration: none;
+    overflow-wrap: anywhere;
   }
   @media (max-width: 520px) {
     .document-card {

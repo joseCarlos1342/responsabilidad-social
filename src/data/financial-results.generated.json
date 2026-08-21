@@ -1,13 +1,13 @@
 {
-  "sourceFile": "Decisiones que suman despues del webinar.xlsx",
-  "sourceHref": "/documents/Decisiones%20que%20suman%20despues%20del%20webinar.xlsx",
+  "sourceFile": "comparacion-diagnostico-agregada.xlsx",
+  "sourceHref": "/documents/resultados/comparacion-diagnostico-agregada.xlsx",
   "totalResponseCount": 22,
   "paired": false,
   "methodology": "Diagnóstico inicial n=16 · Evaluación posterior n=6. Comparación descriptiva de grupos no emparejados.",
   "initial": {
     "responseCount": 16,
     "application": "Diagnóstico inicial",
-    "sourceHref": "/documents/Decisiones%20que%20suman.xlsx",
+    "sourceHref": "/documents/resultados/diagnostico-inicial-agregado.xlsx",
     "questions": [
       {
         "key": "budget",
@@ -182,7 +182,7 @@
   "posterior": {
     "responseCount": 6,
     "application": "Evaluación posterior",
-    "sourceHref": "/documents/Decisiones%20que%20suman%20despues%20del%20webinar.xlsx",
+    "sourceHref": "/documents/resultados/comparacion-diagnostico-agregada.xlsx",
     "questions": [
       {
         "key": "budget",

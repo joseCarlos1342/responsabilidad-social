@@ -102,7 +102,7 @@ const document = defineCollection({
     publicVersion: z
       .string()
       .regex(
-        /^\/documents\/(?:.*-(?:publico|publica|original)\.pdf|Actividad%206%20Original\.pdf|plan-responsabilidad-social-educacion-financiera\.pdf)$/u,
+        /^\/documents\/entregas\/(?:actividad-0[246]-(?:publica|original)|plan-humanidades-digitales-publico)\.pdf$/u,
       ),
     privacyReviewed: z.literal(true),
     documentSource: z.enum(['publica', 'original']),

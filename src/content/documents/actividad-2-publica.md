@@ -8,14 +8,14 @@ week: 'Semana 2'
 status: ejecutado
 publishedAt: 2026-07-07
 updatedAt: 2026-07-30
-originalFile: docs/fuentes-academicas/semana-4-decisiones-que-si-suman.pdf
+originalFile: docs/fuentes-academicas/privadas/documentos/actividad-02-original.pdf
 webRoute: /actividades/actividad-2-decisiones-que-si-suman/
 pageCount: 4
 version: '1.1 · edición pública sanitizada'
 ods: [1, 4, 8, 10, 16, 17]
 tags: [educación financiera, contexto, Neiva, Humanidades Digitales]
 downloadable: true
-publicVersion: /documents/actividad-2-publica.pdf
+publicVersion: /documents/entregas/actividad-02-publica.pdf
 privacyReviewed: true
 documentSource: publica
 evidenceStatus: disponible

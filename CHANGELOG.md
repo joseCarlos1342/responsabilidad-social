@@ -6,7 +6,7 @@ Todos los cambios relevantes se registran aquí.
 
 ### Added
 
-- Actividad 6 con video de voz en off, presentación original, teoría del cambio y reflexión profesional.
+- Actividad 6 con informe final y autoevaluación, video previo complementario, presentación original, teoría del cambio y reflexión profesional.
 - Webinar publicado con reproductor diferido y evaluación posterior de seis respuestas.
 - Generación build-time de resultados agregados desde el XLSX consolidado de 22 respuestas.
 - Comparación visual antes/después con nota metodológica para grupos no emparejados.
@@ -17,12 +17,13 @@ Todos los cambios relevantes se registran aquí.
 - Encuesta de cierre enlazada a Google Forms y ruta pública con las seis preguntas verificadas.
 - Calculadora local de fondo de emergencia, comparador ficticio de créditos y checklist imprimible contra el fraude.
 - Constancia audiovisual de consentimiento de la entrevista en formato MP4 optimizado para web.
+- Informe final de Semana 7 publicado con reproductor diferido y miniatura local sanitizada.
 
 ### Changed
 
-- Portada, plan y cronología reflejan semanas 4–6 completadas y semana 7 en cierre.
+- Portada, plan y cronología reflejan las semanas 4–7 completadas.
 - Actividad 4 conserva su publicación histórica y enlaza la evaluación posterior incorporada el 10/08/2026.
-- Los reproductores de entrevista, webinar y voz en off se cargan únicamente tras interacción.
+- Los reproductores de entrevista, webinar e informe final se cargan únicamente tras interacción.
 - Actividad 4 pasa a `COMPLETADA` con fecha de publicación histórica 27/07/2026 y actualización de resultados del 09/08/2026.
 - Actividad 4 incorpora 16 respuestas diagnósticas, resultados agregados y publicación de presupuesto sin presentarlos como impacto.
 - Actividad 4 incorpora una reflexión académica sustentada en el diagnóstico y diferencia sus aprendizajes del impacto aún no medido.
@@ -45,7 +46,3 @@ Todos los cambios relevantes se registran aquí.
 - SEO, sitemap, RSS, robots.txt y headers de seguridad para Cloudflare Pages.
 - Vitest, Playwright, axe, comprobador de enlaces y GitHub Actions.
 - Sistema visual documentado en `DESIGN.md`.
-
-### Pending
-
-- Consolidación de satisfacción, aplicación y seguimiento final cuando existan respuestas de la encuesta.

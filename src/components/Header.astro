@@ -1,16 +1,25 @@
 ---
+const pathname = Astro.url.pathname;
 const links = [
-  { href: '/actividades/', label: 'Actividades' },
-  { href: '/plan-humanidades-digitales/', label: 'Plan' },
-  { href: '/documentos/', label: 'Documentos' },
-  { href: '/proyecto/', label: 'Proyecto' },
-  { href: '/territorio/', label: 'Territorio' },
+  { href: '/recursos/', label: 'Aprender', active: pathname.startsWith('/recursos/') },
+  { href: '/resultados/', label: 'Resultados', active: pathname.startsWith('/resultados/') },
+  { href: '/documentos/', label: 'Evidencias', active: pathname.startsWith('/documentos/') },
+  {
+    href: '/actividades/',
+    label: 'Proyecto',
+    active:
+      pathname.startsWith('/actividades/') ||
+      pathname.startsWith('/plan-humanidades-digitales/') ||
+      pathname.startsWith('/proyecto/') ||
+      pathname.startsWith('/territorio/') ||
+      pathname.startsWith('/sobre-el-autor/'),
+  },
 ];
 ---
 
 <header class="site-header">
   <div class="site-shell header-inner">
-    <a class="brand" href="/" aria-label="Decisiones que sí suman, inicio">
+    <a class="brand" href="/">
       <span class="brand-mark" aria-hidden="true">↗</span>
       <span><strong>Decisiones</strong><small>que sí suman</small></span>
     </a>
@@ -25,20 +34,38 @@ const links = [
       <span aria-hidden="true">Menú</span>
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Navegación principal">
-      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={link.active ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
       <details class="video-nav" role="group" aria-label="Videos del proyecto">
         <summary>Videos</summary>
         <div class="video-nav__menu">
           <a href="/#entrevista">Entrevista · 7:20</a>
           <a href="/#webinar">Webinar · 69:01</a>
           <a href="/actividades/actividad-6-de-la-informacion-a-la-accion/#video-reflexion"
-            >Voz en off · 8:00</a
+            >Informe final · 5:56</a
           >
         </div>
       </details>
-      <a href="/sobre-el-autor/">Autor</a>
-      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Cambiar tema"
-        >◐</button
+      <details class="project-nav" role="group" aria-label="Más del proyecto">
+        <summary>Más del proyecto</summary>
+        <div class="video-nav__menu">
+          <a href="/plan-humanidades-digitales/">Plan de Humanidades Digitales</a>
+          <a href="/territorio/">Territorio</a>
+          <a href="/sobre-el-autor/">Sobre el autor</a>
+          <a href="/ods/">ODS y responsabilidad social</a>
+        </div>
+      </details>
+      <button
+        class="theme-toggle"
+        type="button"
+        data-theme-toggle
+        aria-label="Cambiar tema"
+        aria-pressed="false"><span aria-hidden="true">◐</span></button
       >
     </nav>
   </div>
@@ -102,6 +129,11 @@ const links = [
   .site-nav a {
     text-decoration: none;
   }
+  .site-nav > a[aria-current='page'] {
+    color: var(--terracotta);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+  }
   .video-nav {
     position: relative;
   }
@@ -119,9 +151,11 @@ const links = [
     color: var(--terracotta);
     content: '↓';
     font-size: 0.72rem;
+    transform-origin: center;
+    transition: transform var(--motion-state) var(--motion-ease-out);
   }
   .video-nav[open] summary::after {
-    content: '↑';
+    transform: rotate(180deg);
   }
   .video-nav__menu {
     position: absolute;
@@ -146,6 +180,9 @@ const links = [
     background: var(--mist);
     color: var(--terracotta);
   }
+  .project-nav {
+    position: relative;
+  }
   .theme-toggle,
   .menu-toggle {
     min-width: 42px;
@@ -155,6 +192,20 @@ const links = [
     background: transparent;
     color: var(--ink);
     cursor: pointer;
+    transition:
+      border-color var(--motion-state) var(--motion-ease-out),
+      color var(--motion-state) var(--motion-ease-out),
+      transform var(--motion-state) var(--motion-ease-out);
+  }
+  .theme-toggle:hover,
+  .menu-toggle:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+    transform: translateY(-1px);
+  }
+  .theme-toggle:active,
+  .menu-toggle:active {
+    transform: translateY(0);
   }
   .menu-toggle {
     display: none;
@@ -193,11 +244,15 @@ const links = [
     }
     .site-nav[data-open='true'] {
       display: flex;
+      animation: mobile-menu-enter 180ms var(--motion-ease-out) both;
     }
     .site-nav a {
       padding: 0.8rem;
     }
     .video-nav summary {
+      padding: 0.8rem;
+    }
+    .project-nav summary {
       padding: 0.8rem;
     }
     .video-nav__menu {
@@ -213,19 +268,54 @@ const links = [
       align-self: flex-start;
       margin: 0.5rem;
     }
+    @keyframes mobile-menu-enter {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-nav[data-open='true'] {
+      animation: none;
+    }
   }
 </style>
 
 <script>
-  const menuButton = document.querySelector('.menu-toggle');
-  const nav = document.querySelector('#site-nav');
+  const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.querySelector<HTMLElement>('#site-nav');
+  const closeMenu = () => {
+    nav?.setAttribute('data-open', 'false');
+    menuButton?.setAttribute('aria-expanded', 'false');
+    menuButton?.setAttribute('aria-label', 'Abrir menú');
+    menuButton?.querySelector('[data-menu-label]')?.replaceChildren('Abrir menú');
+  };
+  const openMenu = () => {
+    nav?.setAttribute('data-open', 'true');
+    menuButton?.setAttribute('aria-expanded', 'true');
+    menuButton?.setAttribute('aria-label', 'Cerrar menú');
+    menuButton?.querySelector('[data-menu-label]')?.replaceChildren('Cerrar menú');
+    requestAnimationFrame(() => nav?.querySelector<HTMLElement>('a, summary, button')?.focus());
+  };
   menuButton?.addEventListener('click', () => {
     const open = nav?.getAttribute('data-open') === 'true';
-    nav?.setAttribute('data-open', String(!open));
-    menuButton.setAttribute('aria-expanded', String(!open));
-    menuButton.setAttribute('aria-label', open ? 'Abrir menú' : 'Cerrar menú');
-    menuButton
-      .querySelector('[data-menu-label]')
-      ?.replaceChildren(open ? 'Abrir menú' : 'Cerrar menú');
+    if (open) {
+      closeMenu();
+      menuButton?.focus();
+    } else {
+      openMenu();
+    }
+  });
+  nav?.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key === 'Escape' && nav.getAttribute('data-open') === 'true') {
+      closeMenu();
+      menuButton?.focus();
+    }
   });
 </script>

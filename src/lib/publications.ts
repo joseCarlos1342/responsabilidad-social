@@ -6,8 +6,8 @@ export type Publication = {
   summary: string;
   format: 'Carrusel educativo';
   callToAction: string;
-  pdfHref: `/documents/publi${1 | 2 | 3 | 4 | 5 | 6}.pdf`;
-  thumbnailSrc: `/assets/publicaciones/publi${1 | 2 | 3 | 4 | 5 | 6}.png`;
+  pdfHref: `/documents/publicaciones/publicacion-0${1 | 2 | 3 | 4 | 5 | 6}.pdf`;
+  thumbnailSrc: `/assets/miniaturas/publicaciones/publicacion-0${1 | 2 | 3 | 4 | 5 | 6}.png`;
   thumbnailAlt: string;
   facebookHref?: string;
   status: 'ejecutada';
@@ -24,8 +24,8 @@ export const publications: readonly Publication[] = [
     format: 'Carrusel educativo',
     callToAction:
       'Desliza y haz tu autoevaluación → En comentarios, escribe una palabra: presupuesto, ahorro, crédito o fraude.',
-    pdfHref: '/documents/publi1.pdf',
-    thumbnailSrc: '/assets/publicaciones/publi1.png',
+    pdfHref: '/documents/publicaciones/publicacion-01.pdf',
+    thumbnailSrc: '/assets/miniaturas/publicaciones/publicacion-01.png',
     thumbnailAlt:
       'Primera página del carrusel “¿Cómo manejas tu dinero?” sobre un diagnóstico financiero rápido.',
     facebookHref: 'https://www.facebook.com/share/p/1DtDHVwr6r/',
@@ -40,8 +40,8 @@ export const publications: readonly Publication[] = [
       'Explica el presupuesto como una forma de ver qué decisiones se pueden controlar mediante la relación entre ingresos, gastos y saldo. Propone clasificar los gastos, registrar y comparar los valores, y elegir un ajuste pequeño con una meta concreta.',
     format: 'Carrusel educativo',
     callToAction: 'Desliza para construir uno en 3 pasos → Pruébala durante 7 días.',
-    pdfHref: '/documents/publi2.pdf',
-    thumbnailSrc: '/assets/publicaciones/publi2.png',
+    pdfHref: '/documents/publicaciones/publicacion-02.pdf',
+    thumbnailSrc: '/assets/miniaturas/publicaciones/publicacion-02.png',
     thumbnailAlt:
       'Primera página del carrusel “Presupuesto sin enredos” sobre organizar ingresos y gastos.',
     facebookHref: 'https://www.facebook.com/share/r/1MfWpiS7BT/',
@@ -56,8 +56,8 @@ export const publications: readonly Publication[] = [
       'Invita a observar gastos repetidos como domicilios, snacks, suscripciones, transportes evitables y compras por impulso. Propone registrarlos durante siete días, distinguir necesidad o deseo y convertir una parte del gasto en una meta.',
     format: 'Carrusel educativo',
     callToAction: 'Acepta el reto de 7 días → ¿Qué meta financiarías con ese dinero?',
-    pdfHref: '/documents/publi3.pdf',
-    thumbnailSrc: '/assets/publicaciones/publi3.png',
+    pdfHref: '/documents/publicaciones/publicacion-03.pdf',
+    thumbnailSrc: '/assets/miniaturas/publicaciones/publicacion-03.png',
     thumbnailAlt:
       'Primera página del carrusel “Pequeños gastos, gran diferencia” sobre gastos hormiga.',
     facebookHref: 'https://www.facebook.com/share/p/19BGtDDH9q/',
@@ -73,8 +73,8 @@ export const publications: readonly Publication[] = [
     format: 'Carrusel educativo',
     callToAction:
       'Desliza para construirlo por etapas → Adapta el monto a tu realidad, no a la de otra persona.',
-    pdfHref: '/documents/publi4.pdf',
-    thumbnailSrc: '/assets/publicaciones/publi4.png',
+    pdfHref: '/documents/publicaciones/publicacion-04.pdf',
+    thumbnailSrc: '/assets/miniaturas/publicaciones/publicacion-04.png',
     thumbnailAlt:
       'Primera página del carrusel “Tu fondo de emergencia” sobre ahorro para imprevistos.',
     facebookHref: 'https://www.facebook.com/share/p/1QUunWR1rH/',
@@ -89,8 +89,8 @@ export const publications: readonly Publication[] = [
       'Invita a revisar tasa, plazo, seguros, capacidad de pago y costo total antes de firmar. Una cuota menor no siempre significa un crédito más económico.',
     format: 'Carrusel educativo',
     callToAction: 'Haz una pausa antes de decidir → Revisa seis datos y compara opciones.',
-    pdfHref: '/documents/publi5.pdf',
-    thumbnailSrc: '/assets/publicaciones/publi5.png',
+    pdfHref: '/documents/publicaciones/publicacion-05.pdf',
+    thumbnailSrc: '/assets/miniaturas/publicaciones/publicacion-05.png',
     thumbnailAlt:
       'Primera página del carrusel “Antes de aceptar un crédito, mira más allá de la cuota”.',
     status: 'ejecutada',
@@ -104,8 +104,8 @@ export const publications: readonly Publication[] = [
       'Presenta señales de alerta, prácticas para proteger los datos y pasos para verificar ofertas, canales y entidades antes de entregar dinero o información.',
     format: 'Carrusel educativo',
     callToAction: 'Desconfía cuando haya presión o anticipos → Verifica por canales oficiales.',
-    pdfHref: '/documents/publi6.pdf',
-    thumbnailSrc: '/assets/publicaciones/publi6.png',
+    pdfHref: '/documents/publicaciones/publicacion-06.pdf',
+    thumbnailSrc: '/assets/miniaturas/publicaciones/publicacion-06.png',
     thumbnailAlt:
       'Primera página del carrusel “¿Crédito fácil o fraude?” sobre seguridad financiera.',
     status: 'ejecutada',

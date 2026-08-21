@@ -6,6 +6,8 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title: string;
   description: string;
+  socialTitle?: string;
+  mainClass?: string;
   canonical?: string;
   type?: 'website' | 'article';
   publishedDate?: Date;
@@ -16,11 +18,13 @@ interface Props {
 const {
   title,
   description,
+  socialTitle = title,
+  mainClass,
   canonical = Astro.url.href,
   type = 'website',
   publishedDate,
   updatedDate,
-  image = '/social-card.svg',
+  image = '/social-card.png',
 } = Astro.props;
 const imageUrl = new URL(image, Astro.site ?? Astro.url).href;
 const documentTitle = title.includes('Decisiones que sí suman')
@@ -48,26 +52,39 @@ const jsonLd = {
 <html lang="es-CO">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#164B4A" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="application-name" content="Decisiones que sí suman" />
+    <meta name="apple-mobile-web-app-title" content="Decisiones que sí suman" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title="Actividades" href="/rss.xml" />
+    <link rel="alternate" hreflang="es-CO" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
     <meta property="og:type" content={type} />
     <meta property="og:locale" content="es_CO" />
-    <meta property="og:title" content={title} />
+    <meta property="og:title" content={socialTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Decisiones que sí suman" />
     <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:secure_url" content={imageUrl} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
       content="Decisiones que sí suman, proyecto de educación financiera"
     />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
+    <meta name="twitter:title" content={socialTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageUrl} />
     <meta
@@ -86,7 +103,7 @@ const jsonLd = {
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <Header />
-    <main id="contenido" tabindex="-1">
+    <main id="contenido" class={mainClass} tabindex="-1">
       <slot />
     </main>
     <Footer />
@@ -97,15 +114,24 @@ const jsonLd = {
       } catch {
         savedTheme = null;
       }
-      if (savedTheme === 'dark') {
+      const updateThemeControls = (dark) => {
+        document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+          button.setAttribute('aria-pressed', String(dark));
+          button.setAttribute('aria-label', dark ? 'Activar tema claro' : 'Activar tema oscuro');
+        });
+      };
+      const initialDark = savedTheme === 'dark';
+      if (initialDark) {
         document.body.dataset.theme = 'dark';
         document.documentElement.style.colorScheme = 'dark';
       }
+      updateThemeControls(initialDark);
       document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
         button.addEventListener('click', () => {
           const dark = document.body.dataset.theme !== 'dark';
           document.body.dataset.theme = dark ? 'dark' : 'light';
           document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+          updateThemeControls(dark);
           try {
             localStorage.setItem('dqs-theme', dark ? 'dark' : 'light');
           } catch {
@@ -114,6 +140,71 @@ const jsonLd = {
           document.dispatchEvent(new CustomEvent('themechange', { detail: { dark } }));
         });
       });
+
+      const home = document.querySelector('main.home-page');
+      const hashTarget = location.hash
+        ? document.getElementById(decodeURIComponent(location.hash.slice(1)))
+        : null;
+      if (home && hashTarget) {
+        document.documentElement.style.scrollBehavior = 'auto';
+        let attempts = 0;
+        const alignHashTarget = () => {
+          const offset = hashTarget.getBoundingClientRect().top;
+          if (Math.abs(offset) < 1 || attempts >= 12) {
+            document.documentElement.style.removeProperty('scroll-behavior');
+            return;
+          }
+          attempts += 1;
+          window.scrollBy(0, offset);
+          requestAnimationFrame(alignHashTarget);
+        };
+        addEventListener('load', () => requestAnimationFrame(alignHashTarget), { once: true });
+      }
+    </script>
+    <script>
+      const motionBars = [...document.querySelectorAll<HTMLElement>('[data-motion-bar]')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const supportsMotionAnimation = typeof Element.prototype.animate === 'function';
+
+      if (reduceMotion) {
+        motionBars.forEach((bar) => {
+          bar.dataset.motionState = 'reduced';
+        });
+      } else if (!('IntersectionObserver' in window) || !supportsMotionAnimation) {
+        motionBars.forEach((bar) => {
+          bar.dataset.motionState = 'complete';
+        });
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
+
+              const bars = [...entry.target.querySelectorAll<HTMLElement>('[data-motion-bar]')];
+              const animations = bars.map((bar, index) => {
+                bar.dataset.motionState = 'running';
+                return bar.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], {
+                  duration: 560,
+                  delay: Math.min(index * 35, 175),
+                  easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                });
+              });
+
+              Promise.allSettled(animations.map((animation) => animation.finished)).then(() => {
+                bars.forEach((bar) => {
+                  bar.dataset.motionState = 'complete';
+                });
+              });
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.12 },
+        );
+
+        document.querySelectorAll<HTMLElement>('[data-motion-group]').forEach((group) => {
+          observer.observe(group);
+        });
+      }
     </script>
   </body>
 </html>

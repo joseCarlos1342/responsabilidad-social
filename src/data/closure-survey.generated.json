@@ -1,0 +1,81 @@
+{
+  "sourceFile": "encuesta-cierre-respuestas.xlsx",
+  "responseCount": 9,
+  "collectionPeriod": {
+    "start": "2026-08-14",
+    "end": "2026-08-17"
+  },
+  "satisfaction": {
+    "average": 4.6,
+    "targetAverage": 4,
+    "targetReached": true,
+    "distribution": [
+      { "value": 1, "count": 1, "percentage": 11.1 },
+      { "value": 2, "count": 0, "percentage": 0 },
+      { "value": 3, "count": 0, "percentage": 0 },
+      { "value": 4, "count": 0, "percentage": 0 },
+      { "value": 5, "count": 8, "percentage": 88.9 }
+    ]
+  },
+  "utility": {
+    "average": 5,
+    "targetAverage": 4,
+    "targetReached": true,
+    "distribution": [
+      { "value": 1, "count": 0, "percentage": 0 },
+      { "value": 2, "count": 0, "percentage": 0 },
+      { "value": 3, "count": 0, "percentage": 0 },
+      { "value": 4, "count": 0, "percentage": 0 },
+      { "value": 5, "count": 9, "percentage": 100 }
+    ]
+  },
+  "actions": [
+    { "key": "expense-tracking", "count": 2, "percentage": 22.2 },
+    { "key": "budget", "count": 4, "percentage": 44.4 },
+    { "key": "savings-goal", "count": 4, "percentage": 44.4 },
+    { "key": "emergency-fund", "count": 1, "percentage": 11.1 },
+    { "key": "compare-credit", "count": 1, "percentage": 11.1 },
+    { "key": "credit-total-cost", "count": 4, "percentage": 44.4 },
+    { "key": "official-channels", "count": 2, "percentage": 22.2 },
+    { "key": "other", "count": 1, "percentage": 11.1 },
+    { "key": "none", "count": 0, "percentage": 0 }
+  ],
+  "application": {
+    "fullCount": 6,
+    "partialCount": 3,
+    "notYetCount": 0,
+    "noActionCount": 0,
+    "fullPercentage": 66.7,
+    "atLeastPartialCount": 9,
+    "atLeastPartialPercentage": 100,
+    "targetPercentage": 70,
+    "targetReached": true
+  },
+  "webinarExercises": {
+    "fullCount": 6,
+    "partialCount": 1,
+    "noCount": 0,
+    "notSynchronousCount": 2,
+    "synchronousRespondents": 7,
+    "fullAmongSynchronousPercentage": 85.7,
+    "targetPercentage": 80,
+    "targetReachedBySelfReport": true,
+    "attendanceSourceCount": 2,
+    "attendanceSourceDiscrepancy": true,
+    "methodology": "Autorreporte de la encuesta final. No reemplaza el recap de Teams ni permite reconciliar la asistencia en vivo."
+  },
+  "openThemes": [
+    { "key": "credit-evaluation", "count": 5, "percentage": 55.6 },
+    { "key": "budget-tracking", "count": 3, "percentage": 33.3 },
+    { "key": "fraud-official-channels", "count": 3, "percentage": 33.3 },
+    { "key": "overall-useful", "count": 1, "percentage": 11.1 }
+  ],
+  "evidence": [
+    "/assets/evidencias/encuesta-cierre/grafico-01.png",
+    "/assets/evidencias/encuesta-cierre/grafico-02.png",
+    "/assets/evidencias/encuesta-cierre/grafico-03.png",
+    "/assets/evidencias/encuesta-cierre/grafico-04.png",
+    "/assets/evidencias/encuesta-cierre/grafico-05.png"
+  ],
+  "methodology": "Encuesta final voluntaria n=9. Resultados descriptivos y agregados; no se publican comentarios individuales."
+}

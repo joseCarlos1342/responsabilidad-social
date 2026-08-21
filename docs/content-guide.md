@@ -9,7 +9,7 @@
 - No promociones empresas, entidades ni productos.
 - Usa `planeada` o `en-desarrollo` mientras la actividad no tenga evidencia.
 - Relaciona cada actividad o plan con un `documentSlug` cuando exista una edición pública.
-- No marques un documento como descargable sin `privacyReviewed: true` y un PDF bajo `public/documents/`.
+- No marques un documento como descargable sin `privacyReviewed: true` y un PDF bajo `public/documents/entregas/`.
 
 ## Frontmatter mínimo
 
@@ -43,4 +43,4 @@ Usa `pendiente` para placeholders. Cuando exista una evidencia, revisa metadatos
 
 Los PDF públicos deben tener nombres `*-publico.pdf` o `*-publica.pdf`, una leyenda de versión pública y una revisión explícita de ID, metadatos, firmas, terceros, imágenes y datos de clientes. Los originales autorizados usan nombres `*-original.pdf`, conservan sus datos de autoría y deben anunciarse como originales, no como ediciones sanitizadas. Ejecuta `pnpm documents:check` antes de incorporarlos.
 
-Las evidencias de publicaciones sociales son una excepción controlada: `public/documents/publi1.pdf` a `public/documents/publi6.pdf` conservan los nombres proporcionados para mantener sus rutas. Cada una debe conservar su miniatura y su enlace directo al PDF; solo se añadirá un enlace individual de Facebook cuando exista una URL verificable. No se deben añadir métricas, fechas ni resultados que no aparezcan en la pieza visual.
+Las evidencias de publicaciones sociales son una excepción controlada: `public/documents/publicaciones/publicacion-01.pdf` a `publicacion-06.pdf` usan nombres canónicos y conservan redirecciones desde sus rutas históricas. Cada una debe mantener su miniatura bajo `public/assets/miniaturas/publicaciones/` y su enlace directo al PDF; solo se añadirá un enlace individual de Facebook cuando exista una URL verificable. No se deben añadir métricas, fechas ni resultados que no aparezcan en la pieza visual.

@@ -37,14 +37,17 @@ export function validateDocumentEntry(document: DocumentEntry, root = publicRoot
   if (
     isAbsolute(relativeAsset) ||
     relativeAsset.startsWith('..') ||
-    !relativeAsset.startsWith('documents/')
+    !relativeAsset.startsWith('documents/entregas/')
   ) {
-    errors.push(`archivo público fuera de public/documents: ${data.publicVersion}`);
+    errors.push(`archivo público fuera de public/documents/entregas: ${data.publicVersion}`);
   }
   if (!existsSync(assetPath) || !statSync(assetPath).isFile()) {
     errors.push(`PDF documental inexistente: ${data.publicVersion}`);
   }
-  if (data.originalFile?.startsWith('/public/')) {
+  if (
+    data.documentSource === 'publica' &&
+    data.originalFile?.replace(/^\/+/, '').startsWith('public/')
+  ) {
     errors.push(`el original no puede publicarse como asset: ${data.originalFile}`);
   }
   if (!data.privacyReviewed && data.documentSource === 'publica') {

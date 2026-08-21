@@ -37,4 +37,4 @@ Dirección: `Cuaderno de decisiones`, modo `Read`, staging editorial asimétrico
 
 ## Motion
 
-Una única entrada suave de la línea de saldo en portada; contenido siempre visible sin depender de animación. `prefers-reduced-motion` elimina transformaciones y transiciones.
+Movimiento editorial equilibrado: la línea de saldo protagoniza una única entrada suave en portada; las visualizaciones principales se trazan una vez al entrar en el campo visual y los controles ofrecen feedback breve. No hay revelados de secciones, parallax, rebotes ni conteos animados. El contenido y los valores permanecen visibles sin depender de JavaScript. `prefers-reduced-motion` elimina animaciones y transformaciones dinámicas.

@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import DiagnosticSummary from '../components/DiagnosticSummary.astro';
+import ProjectResultsDashboard from '../components/ProjectResultsDashboard.astro';
+import ResultsComparison from '../components/ResultsComparison.astro';
+---
+
+<BaseLayout
+  title="Resultados del proyecto"
+  description="Resultados descriptivos del diagnóstico, la ejecución, el alcance digital y la encuesta de cierre de Decisiones que sí suman."
+>
+  <article class="section results-page">
+    <div class="site-shell">
+      <Breadcrumbs items={[{ label: 'Resultados del proyecto' }]} />
+      <header class="results-page__header">
+        <div>
+          <span class="kicker">Fuente canónica de resultados</span>
+          <h1>Resultados del proyecto</h1>
+        </div>
+        <p class="lede">
+          Aquí puedes revisar qué se ejecutó, qué se observó y qué límites tienen los datos. Las
+          comparaciones son descriptivas y no representan un seguimiento persona a persona.
+        </p>
+      </header>
+
+      <nav class="results-page__nav" aria-label="Secciones de resultados">
+        <a href="#diagnostico">Diagnóstico inicial</a>
+        <a href="#alcance">Ejecución y alcance</a>
+        <a href="#comparacion">Evaluación posterior</a>
+        <a href="/encuesta-cierre/">Encuesta de cierre →</a>
+      </nav>
+
+      <section id="diagnostico" class="results-page__section" aria-labelledby="diagnostico-title">
+        <h2 id="diagnostico-title" class="sr-only">Diagnóstico inicial</h2>
+        <DiagnosticSummary />
+      </section>
+
+      <section id="alcance" class="results-page__section" aria-labelledby="alcance-title">
+        <h2 id="alcance-title" class="sr-only">Ejecución y alcance digital</h2>
+        <ProjectResultsDashboard />
+      </section>
+
+      <section id="comparacion" class="results-page__section" aria-labelledby="comparacion-title">
+        <h2 id="comparacion-title" class="sr-only">Evaluación posterior</h2>
+        <ResultsComparison />
+      </section>
+
+      <footer class="results-page__footer">
+        <p>
+          ¿Quieres comprobar cómo se construyeron estos resultados? Consulta las
+          <a href="/documentos/">evidencias y entregas públicas</a> o recorre las
+          <a href="/actividades/">actividades del proyecto</a>.
+        </p>
+      </footer>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .results-page__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.7fr);
+    gap: clamp(2rem, 7vw, 7rem);
+    align-items: end;
+    padding-block: 3rem 4rem;
+  }
+  .results-page__header h1 {
+    max-width: 10ch;
+    margin: 0.8rem 0 0;
+  }
+  .results-page__header .lede {
+    margin: 0;
+  }
+  .results-page__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.2rem;
+    padding-block: 1rem;
+    border-block: 1px solid var(--line);
+  }
+  .results-page__nav a {
+    color: var(--petrol);
+    font-size: 0.86rem;
+    font-weight: 800;
+  }
+  .results-page__section {
+    scroll-margin-top: 2rem;
+    padding-top: 2rem;
+  }
+  .results-page__footer {
+    max-width: 70ch;
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+  }
+  .results-page__footer a {
+    color: var(--petrol);
+    font-weight: 800;
+  }
+  @media (max-width: 800px) {
+    .results-page__header {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
+</style>

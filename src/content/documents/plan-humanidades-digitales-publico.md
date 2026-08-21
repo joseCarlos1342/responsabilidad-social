@@ -4,17 +4,17 @@ description: 'Edición pública revisada del plan multidimensional y la ruta edu
 slug: plan-humanidades-digitales-publico
 documentType: plan
 week: 'Semanas 4 a 7'
-status: en-cierre
+status: finalizado
 publishedAt: 2026-07-27
-updatedAt: 2026-08-14
-originalFile: docs/fuentes-academicas/plan-responsabilidad-social-educacion-financiera.pdf
+updatedAt: 2026-08-17
+originalFile: docs/fuentes-academicas/privadas/documentos/plan-responsabilidad-social-original.pdf
 webRoute: /plan-humanidades-digitales/
 pageCount: 40
 version: 'Edición pública sanitizada'
 ods: [1, 4, 8, 10, 12, 16, 17]
 tags: [plan, contexto local, contexto nacional, Latinoamérica, seguimiento]
 downloadable: true
-publicVersion: /documents/plan-humanidades-digitales-publico.pdf
+publicVersion: /documents/entregas/plan-humanidades-digitales-publico.pdf
 privacyReviewed: true
 documentSource: publica
 evidenceStatus: disponible
@@ -24,4 +24,4 @@ Esta ficha enlaza una edición pública de 40 páginas reconstruida en formato l
 
 La [versión web del plan](/plan-humanidades-digitales/) ofrece la lectura HTML principal y sus enlaces actualizables.
 
-La edición pública conserva la planificación histórica. La versión web registra la ejecución completada y la evaluación final en cierre, sin alterar retroactivamente las metas formuladas.
+La edición pública conserva la planificación histórica. La versión web registra la ejecución y evaluación final completadas, sin alterar retroactivamente las metas formuladas.

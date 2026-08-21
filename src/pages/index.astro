@@ -29,13 +29,15 @@ const projectIndicators = [
   { value: '1', label: 'Entrevista' },
   { value: '1', label: 'Webinar' },
   { value: '69:01', label: 'Duración del webinar' },
-  { value: '1', label: 'Video de reflexión / voz en off' },
+  { value: '1', label: 'Informe final y autoevaluación' },
 ] as const;
 ---
 
 <BaseLayout
-  title="Decisiones que sí suman | Educación financiera y responsabilidad social"
-  description="Proyecto de Humanidades Digitales desarrollado en Práctica en Responsabilidad Social de UNIMINUTO sobre presupuesto, ahorro, crédito responsable y prevención del fraude."
+  title="Educación financiera | Decisiones que sí suman"
+  socialTitle="Educación financiera para decidir mejor"
+  description="Proyecto académico de Humanidades Digitales sobre presupuesto, ahorro, crédito responsable y prevención del fraude en Neiva, Huila."
+  mainClass="home-page"
 >
   <section class="home-hero section">
     <div class="site-shell home-hero__grid">
@@ -58,7 +60,7 @@ const projectIndicators = [
           <span class="eyebrow-data">Cuaderno de trabajo / 01</span>
           <span class="board-dot" aria-hidden="true"></span>
         </div>
-        <div class="balance-line" aria-hidden="true">
+        <div class="balance-line" data-motion="balance-line" aria-hidden="true">
           <span></span><span></span><span></span><span></span>
         </div>
         <div class="decision-board__steps">
@@ -71,6 +73,36 @@ const projectIndicators = [
           <span class="eyebrow-data">saldo de claridad</span><strong>+ una pregunta útil</strong>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="section priority-section" aria-labelledby="priority-title">
+    <div class="site-shell">
+      <div class="section-heading priority-section__heading">
+        <span class="kicker">Encuentra lo importante</span>
+        <h2 id="priority-title">Elige una ruta y llega directo al contenido.</h2>
+        <p>
+          No necesitas recorrer toda la página. Empieza por el tema, los resultados o las evidencias
+          que quieres consultar.
+        </p>
+      </div>
+      <nav class="priority-navigation" aria-label="Accesos prioritarios">
+        <a class="priority-link" href="/recursos/">
+          <span class="eyebrow-data">Para aprender</span>
+          <strong>Aprender por tema</strong>
+          <span>Presupuesto, ahorro, crédito y prevención del fraude →</span>
+        </a>
+        <a class="priority-link priority-link--warm" href="/resultados/">
+          <span class="eyebrow-data">Para entender el alcance</span>
+          <strong>Ver resultados</strong>
+          <span>Diagnóstico, evaluación, cierre y límites →</span>
+        </a>
+        <a class="priority-link" href="/documentos/">
+          <span class="eyebrow-data">Para comprobar</span>
+          <strong>Revisar evidencias</strong>
+          <span>Documentos, versiones públicas, videos y soportes →</span>
+        </a>
+      </nav>
     </div>
   </section>
 
@@ -203,7 +235,7 @@ const projectIndicators = [
       <YouTubeLite
         videoId="mLFCR_STZ2Q"
         title="Educación financiera para tomar mejores decisiones | Entrevista"
-        thumbnail="/assets/entrevista-youtube.jpg"
+        thumbnail="/assets/miniaturas/videos/entrevista.jpg"
         thumbnailAlt="Vista de la entrevista sobre educación financiera y mejores decisiones."
         youtubeHref="https://youtu.be/mLFCR_STZ2Q"
         description="Edición académica publicada con autorización audiovisual para grabar y utilizar fragmentos dentro del proyecto. Su duración verificada es 7:20, por debajo de la meta original de 15 minutos."
@@ -227,13 +259,13 @@ const projectIndicators = [
           </div>
           <video
             controls
-            preload="metadata"
+            preload="none"
             playsinline
             aria-label="Constancia audiovisual de autorización para la entrevista"
           >
-            <source src="/video/permiso.mp4" type="video/mp4" />
-            Tu navegador no puede reproducir este video. <a href="/video/permiso.mp4"
-              >Abrir constancia ↗</a
+            <source src="/media/video/permiso-entrevista.mp4" type="video/mp4" />
+            Tu navegador no puede reproducir este video. <a
+              href="/media/video/permiso-entrevista.mp4">Abrir constancia ↗</a
             >
           </video>
           <details class="consent-record__transcript">
@@ -259,8 +291,12 @@ const projectIndicators = [
             evidencias con nombres, perfiles o enlaces privados se mantienen fuera del sitio.
           </p>
           <div>
-            <a href="/documents/estadisticas1.png">Ver rendimiento global ↗</a>
-            <a href="/documents/estadisticas2.png">Ver estadísticas por publicación ↗</a>
+            <a href="/assets/evidencias/resultados/estadisticas-generales.png"
+              >Ver rendimiento global ↗</a
+            >
+            <a href="/assets/evidencias/resultados/estadisticas-publicaciones.png"
+              >Ver estadísticas por publicación ↗</a
+            >
           </div>
         </div>
         <div class="evidence-status-list" aria-label="Estado de evidencias principales">
@@ -270,8 +306,8 @@ const projectIndicators = [
           <div><span>Entrevista</span><strong>COMPLETADA · YouTube</strong></div>
           <div><span>Webinar</span><strong>COMPLETADO · YouTube</strong></div>
           <div><span>Evaluación posterior</span><strong>COMPLETADA · 6 respuestas</strong></div>
-          <div><span>Video voz en off</span><strong>COMPLETADO · YouTube</strong></div>
-          <div><span>Seguimiento final</span><strong>EN PROGRESO · CIERRE</strong></div>
+          <div><span>Informe final</span><strong>COMPLETADO · YouTube</strong></div>
+          <div><span>Seguimiento final</span><strong>COMPLETADO · 9 respuestas</strong></div>
         </div>
       </div>
     </div>
@@ -282,7 +318,7 @@ const projectIndicators = [
       <YouTubeLite
         videoId="StYZ2l1TA3U"
         title="Webinar: Decisiones que sí suman"
-        thumbnail="/assets/webinar-youtube.webp"
+        thumbnail="/assets/miniaturas/videos/webinar.webp"
         thumbnailAlt="Miniatura del webinar Decisiones que sí suman sobre educación financiera."
         youtubeHref="https://youtu.be/StYZ2l1TA3U"
         description="Encuentro educativo sobre decisiones financieras responsables en el que se abordaron presupuesto, ahorro, crédito, capacidad de pago y prevención del fraude mediante ejemplos y ejercicios prácticos."
@@ -319,14 +355,14 @@ const projectIndicators = [
       <ProjectResultsDashboard />
       <div class="closure-callout">
         <div>
-          <span class="eyebrow-data">Semana 7 · En cierre</span>
-          <h3>Encuesta final habilitada.</h3>
+          <span class="eyebrow-data">Semana 7 · Completada</span>
+          <h3>Encuesta final consolidada.</h3>
           <p>
-            Satisfacción, utilidad, acción financiera y seguimiento se calcularán cuando existan
-            respuestas.
+            Nueve respuestas: satisfacción 4,6/5, utilidad 5/5 y 100 % de aplicación total o
+            parcial.
           </p>
         </div>
-        <a class="button" href="/encuesta-cierre/">Responder encuesta →</a>
+        <a class="button" href="/resultados/">Ver resultados completos →</a>
       </div>
     </div>
   </section>
@@ -341,14 +377,14 @@ const projectIndicators = [
         <span class="kicker">Actividad académica 6</span>
         <h2>De la información a la acción.</h2>
         <p>
-          La cuarta entrada y el video con voz en off documentan la experiencia social, los
-          resultados descriptivos, las fortalezas y los aspectos por mejorar.
+          La entrada final y el video de autoevaluación documentan la experiencia social, los
+          resultados descriptivos, las dificultades, los aprendizajes y las oportunidades de mejora.
         </p>
       </div>
       <div class="academic-week-card">
         <StatusBadge status="completada" />
         <ul>
-          <li>Video final con voz en off: publicado, duración 8:00.</li>
+          <li>Informe final y autoevaluación: publicado, duración 5:56.</li>
           <li>Cuarta entrada del blog: publicada.</li>
           <li>Presentación original: disponible bajo demanda.</li>
         </ul>
@@ -523,7 +559,9 @@ const projectIndicators = [
     height: 2px;
     background: var(--terracotta);
     content: '';
-    transform: rotate(-8deg);
+    transform: rotate(-8deg) scaleX(1);
+    transform-origin: left center;
+    animation: balance-line-draw var(--motion-authored) var(--motion-ease-out) 120ms both;
   }
   .balance-line span {
     position: relative;
@@ -532,6 +570,19 @@ const projectIndicators = [
     border: 2px solid var(--paper);
     border-radius: 50%;
     background: var(--terracotta);
+    animation: balance-node-mark 360ms var(--motion-ease-out) both;
+  }
+  .balance-line span:nth-child(1) {
+    animation-delay: 230ms;
+  }
+  .balance-line span:nth-child(2) {
+    animation-delay: 290ms;
+  }
+  .balance-line span:nth-child(3) {
+    animation-delay: 350ms;
+  }
+  .balance-line span:nth-child(4) {
+    animation-delay: 410ms;
   }
   .decision-board__steps {
     position: relative;
@@ -571,6 +622,36 @@ const projectIndicators = [
     color: var(--paper);
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 1.15rem;
+  }
+  @keyframes balance-line-draw {
+    from {
+      transform: rotate(-8deg) scaleX(0);
+    }
+
+    to {
+      transform: rotate(-8deg) scaleX(1);
+    }
+  }
+  @keyframes balance-node-mark {
+    from {
+      opacity: 0;
+      transform: scale(0.72);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .balance-line::before {
+      animation: none;
+      transform: rotate(-8deg);
+    }
+
+    .balance-line span {
+      animation: none;
+    }
   }
   .intro-strip {
     display: grid;
@@ -949,7 +1030,7 @@ const projectIndicators = [
   }
   .home-links__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
   }
   .deliveries-grid {
@@ -961,6 +1042,7 @@ const projectIndicators = [
   }
   .big-link {
     display: grid;
+    min-width: 0;
     min-height: 18rem;
     align-content: space-between;
     padding: clamp(1.5rem, 4vw, 3rem);
@@ -970,6 +1052,9 @@ const projectIndicators = [
   }
   .big-link--warm {
     background: var(--terracotta);
+    color: var(--white) !important;
+  }
+  .big-link--warm strong {
     color: var(--white);
   }
   .big-link--warm .eyebrow-data,
@@ -977,14 +1062,77 @@ const projectIndicators = [
     color: var(--white);
   }
   .big-link strong {
-    max-width: 12ch;
+    max-width: 14ch;
+    min-width: 0;
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
     line-height: 1;
+    overflow-wrap: normal;
+    text-wrap: balance;
+    word-break: normal;
   }
   .big-link span:last-child {
     font-size: 0.86rem;
     font-weight: 800;
+  }
+  .priority-section {
+    padding-top: clamp(2rem, 5vw, 4rem);
+    border-block: 1px solid var(--line);
+    background: var(--paper-deep);
+  }
+  .priority-section__heading {
+    max-width: 52rem;
+  }
+  .priority-section__heading h2 {
+    max-width: 16ch;
+  }
+  .priority-navigation {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+  .priority-link {
+    display: grid;
+    min-height: 13rem;
+    align-content: space-between;
+    gap: 1rem;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    background: var(--white);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .priority-link--warm {
+    background: var(--terracotta);
+    color: var(--white);
+  }
+  .priority-link strong {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.8rem, 3vw, 2.7rem);
+    line-height: 1;
+  }
+  .priority-link span:last-child {
+    color: var(--ink-soft);
+    font-size: 0.86rem;
+    font-weight: 750;
+  }
+  .priority-link.priority-link--warm span:last-child {
+    color: var(--white);
+  }
+  .priority-link--warm .eyebrow-data,
+  .priority-link--warm span:last-child {
+    color: var(--white);
+  }
+  .priority-link:hover,
+  .priority-link:focus-visible {
+    background: var(--mist);
+    color: var(--ink);
+  }
+  .priority-link--warm:hover,
+  .priority-link--warm:focus-visible {
+    background: var(--petrol);
+    color: var(--paper);
   }
   @media (max-width: 780px) {
     .home-hero__grid,
@@ -998,6 +1146,9 @@ const projectIndicators = [
     .webinar-context,
     .home-links__grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .priority-navigation {
+      grid-template-columns: 1fr;
     }
     .journey-metrics div:nth-child(odd),
     .webinar-context > div:nth-child(odd) {

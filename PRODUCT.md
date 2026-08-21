@@ -43,10 +43,11 @@ El estudiante trabaja como analista financiero y puede aprender de asesores, com
 
 ## Evidence on Hand
 
-- `docs/fuentes-academicas/semana-2-del-diagnostico-a-la-accion.pdf`: material titulado “Del diagnóstico a la acción”, con el desarrollo de la actividad de semana 4 y evidencias aún pendientes.
-- `docs/fuentes-academicas/semana-4-decisiones-que-si-suman.pdf`: material titulado “Decisiones Que Sí Suman”, con contexto, problemática y plan general.
-- `docs/fuentes-academicas/plan-responsabilidad-social-educacion-financiera.pdf`: documento de diagnóstico y plan de trabajo. Contiene información académica y metadatos privados; no se publica directamente.
-- Hay un diagnóstico inicial de 16 respuestas, seis publicaciones, una edición académica de la entrevista con autorización verificada para grabación y uso de fragmentos, un webinar de 69:01, seis respuestas posteriores y un video final con voz en off. La comparación es descriptiva y no emparejada. Se verificaron 2 asistentes en vivo y 236 visualizaciones del webinar; satisfacción y seguimiento esperan respuestas de la encuesta final.
+- `docs/fuentes-academicas/privadas/documentos/actividad-04-original.pdf`: material “Del diagnóstico a la acción”.
+- `docs/fuentes-academicas/privadas/documentos/actividad-02-original.pdf`: contexto, problemática y plan general de “Decisiones Que Sí Suman”.
+- `docs/fuentes-academicas/privadas/documentos/plan-responsabilidad-social-original.pdf`: diagnóstico y plan de trabajo con metadatos privados; no se publica directamente.
+- `docs/fuentes-academicas/privadas/documentos/instrucciones-actividad-semana-07.pdf`: guía y rúbrica de cierre añadida como fuente académica local.
+- Hay un diagnóstico inicial de 16 respuestas, seis publicaciones, una edición académica de la entrevista con autorización verificada, un webinar de 69:01, seis respuestas posteriores y un informe final de autoevaluación de 5:56. La encuesta de cierre consolidó nueve respuestas; toda comparación continúa siendo descriptiva y no emparejada.
 
 ## Product Principles
 

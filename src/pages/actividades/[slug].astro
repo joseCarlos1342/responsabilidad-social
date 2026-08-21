@@ -25,7 +25,7 @@ const relatedDocument = documents.find(
 if (!relatedDocument) throw new Error(`No hay documento relacionado para ${activity.id}.`);
 const { Content, headings } = await render(activity);
 const readingTime = estimateReadingTime(activity.body ?? '');
-const tocHeadings = headings.filter((heading) => heading.depth <= 2);
+const tocHeadings = headings.filter((heading) => heading.depth <= 3);
 const evidenceLabels = {
   pendiente: 'PENDIENTE',
   disponible: 'DISPONIBLE',
@@ -81,7 +81,7 @@ const evidenceLabels = {
               <ol>
                 {
                   tocHeadings.map((heading) => (
-                    <li>
+                    <li class:list={{ 'toc-item--sub': heading.depth === 3 }}>
                       <a href={`#${heading.slug}`}>{heading.text}</a>
                     </li>
                   ))
@@ -168,15 +168,19 @@ const evidenceLabels = {
           <nav class="activity-navigation" aria-label="Navegación entre actividades">
             {
               previousActivity ? (
-                <a href={`/actividades/${previousActivity.id}/`}>← Actividad anterior</a>
+                <a href={`/actividades/${previousActivity.id}/`}>
+                  ← Actividad {previousActivity.data.activityNumber}: {previousActivity.data.title}
+                </a>
               ) : (
                 <span />
               )
             }
-            <a href="/plan-humanidades-digitales/">Volver al plan</a>
+            <a href="/actividades/">Todas las actividades</a>
             {
               nextActivity ? (
-                <a href={`/actividades/${nextActivity.id}/`}>Actividad siguiente →</a>
+                <a href={`/actividades/${nextActivity.id}/`}>
+                  Actividad {nextActivity.data.activityNumber}: {nextActivity.data.title} →
+                </a>
               ) : (
                 <span />
               )
@@ -238,6 +242,10 @@ const evidenceLabels = {
   .toc a {
     color: var(--ink-soft);
     text-decoration: none;
+  }
+  .toc-item--sub {
+    padding-left: 0.7rem;
+    list-style-type: circle;
   }
   .article-main {
     min-width: 0;
@@ -322,6 +330,9 @@ const evidenceLabels = {
     }
     .toc ol {
       grid-template-columns: repeat(2, 1fr);
+    }
+    .toc-item--sub {
+      padding-left: 0;
     }
   }
   @media (max-width: 520px) {

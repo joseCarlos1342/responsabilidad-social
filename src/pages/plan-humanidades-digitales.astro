@@ -13,7 +13,8 @@ const relatedDocument = documents.find(
   (document) => document.data.slug === plan.data.documentSlug,
 ) as DocumentEntry | undefined;
 if (!relatedDocument) throw new Error('No hay documento público relacionado con el plan.');
-const { Content } = await render(plan);
+const { Content, headings } = await render(plan);
+const tocHeadings = headings.filter((heading) => heading.depth <= 2);
 ---
 
 <BaseLayout
@@ -41,6 +42,19 @@ const { Content } = await render(plan);
         <div slot="web">
           <div class="plan-layout">
             <aside class="plan-aside">
+              <nav class="plan-toc" aria-label="Tabla de contenido del plan">
+                <p class="eyebrow-data">En esta página</p>
+                <ol>
+                  {
+                    tocHeadings.map((heading) => (
+                      <li>
+                        <a href={`#${heading.slug}`}>{heading.text}</a>
+                      </li>
+                    ))
+                  }
+                </ol>
+              </nav>
+              <div class="rule"></div>
               <p class="eyebrow-data">Territorio</p>
               <strong>{plan.data.territory}</strong>
               <div class="rule"></div>
@@ -64,7 +78,11 @@ const { Content } = await render(plan);
           <nav class="plan-navigation" aria-label="Navegación del plan">
             <a href="/actividades/">Ver actividades →</a>
             <a href={relatedDocument.data.publicVersion} target="_blank" rel="noreferrer">
-              Ver documento original ↗
+              {
+                relatedDocument.data.documentSource === 'original'
+                  ? 'Ver documento original ↗'
+                  : 'Ver versión pública ↗'
+              }
             </a>
             <a href={relatedDocument.data.publicVersion} download>
               {
@@ -114,6 +132,17 @@ const { Content } = await render(plan);
     padding-top: 0.7rem;
     border-top: 1px solid var(--terracotta);
   }
+  .plan-toc ol {
+    display: grid;
+    gap: 0.55rem;
+    padding-left: 1rem;
+    margin: 0.55rem 0 0;
+    font-size: 0.8rem;
+  }
+  .plan-toc a {
+    color: var(--petrol);
+    text-decoration: none;
+  }
   .plan-aside strong {
     color: var(--petrol);
     font-family: Georgia, 'Times New Roman', serif;
@@ -144,6 +173,9 @@ const { Content } = await render(plan);
     }
     .plan-aside .rule {
       display: none;
+    }
+    .plan-toc {
+      grid-column: 1 / -1;
     }
   }
   @media (max-width: 520px) {

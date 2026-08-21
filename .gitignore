@@ -14,25 +14,8 @@ test-results/
 .codex/
 
 # Material académico original: contiene identificadores y metadatos privados.
-*.pdf
-*.docx
-*.mov
-*.xlsx
-!public/documents/
-!public/documents/**/*-publico.pdf
-!public/documents/**/*-publica.pdf
-!public/documents/**/*-original.pdf
-!public/documents/publi1.pdf
-!public/documents/publi2.pdf
-!public/documents/publi3.pdf
-!public/documents/publi4.pdf
-!public/documents/publi5.pdf
-!public/documents/publi6.pdf
-!public/documents/Pruebas.pdf
-!public/documents/Decisiones que suman.xlsx
-!public/documents/Decisiones que suman despues del webinar.xlsx
-!public/documents/Actividad 6 Original.pdf
-!public/documents/plan-responsabilidad-social-educacion-financiera.pdf
+docs/fuentes-academicas/**
+!docs/fuentes-academicas/README.md
 
 # Impeccable ephemeral output; shared skill/config files remain tracked.
 .impeccable/config.local.json

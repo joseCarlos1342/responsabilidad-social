@@ -16,10 +16,25 @@ const resources = await getCollection('recurso');
         <span class="kicker">Caja de herramientas</span><h1>
           Recursos para volver a la pregunta.
         </h1><p class="lede">
-          Las herramientas se incorporan cuando existen, han sido revisadas y no contienen datos de
-          terceros.
+          Elige un tema para encontrar una explicación, una herramienta o una fuente sin recorrer
+          toda la página.
         </p>
-      </header><div class="resource-list">
+      </header>
+      <nav class="topic-navigation" aria-label="Temas de aprendizaje">
+        <a href="#presupuesto"
+          ><strong>Presupuesto</strong><span>Ordena ingresos y gastos →</span></a
+        >
+        <a href="#calculadora-fondo"
+          ><strong>Ahorro</strong><span>Calcula un fondo de emergencia →</span></a
+        >
+        <a href="#comparador-creditos"
+          ><strong>Crédito responsable</strong><span>Compara costo total →</span></a
+        >
+        <a href="#checklist-fraude"
+          ><strong>Prevención del fraude</strong><span>Verifica antes de entregar datos →</span></a
+        >
+      </nav>
+      <div class="resource-list" id="presupuesto">
         {
           resources.map((resource) => (
             <article>
@@ -70,6 +85,43 @@ const resources = await getCollection('recurso');
     border: 1px solid var(--line);
     background: var(--line);
   }
+  .topic-navigation {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin-bottom: 2.5rem;
+    border: 1px solid var(--line);
+    background: var(--line);
+  }
+  .topic-navigation a {
+    display: grid;
+    min-height: 8rem;
+    align-content: space-between;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: var(--mist);
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .topic-navigation a:hover,
+  .topic-navigation a:focus-visible {
+    background: var(--terracotta);
+    color: var(--white);
+  }
+  .topic-navigation strong {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    line-height: 1.05;
+  }
+  .topic-navigation span {
+    color: var(--ink-soft);
+    font-size: 0.78rem;
+    font-weight: 750;
+  }
+  .topic-navigation a:hover span,
+  .topic-navigation a:focus-visible span {
+    color: var(--white);
+  }
   .resource-list article {
     min-height: 13rem;
     padding: 1.5rem;
@@ -93,7 +145,8 @@ const resources = await getCollection('recurso');
     color: var(--terracotta);
   }
   @media (max-width: 650px) {
-    .resource-list {
+    .resource-list,
+    .topic-navigation {
       grid-template-columns: 1fr;
     }
   }

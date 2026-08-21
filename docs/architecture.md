@@ -20,7 +20,7 @@ El sitio es un generador estático Astro 7. Las publicaciones viven en el reposi
 - `src/data/diagnostic.ts`: interfaz tipada para consumir el diagnóstico y la comparación.
 - `src/components/YouTubeLite.astro` y `src/components/EvidencePdfCard.astro`: medios diferidos que no cargan iframe ni PDF antes de interacción.
 
-Los XLSX con filas individuales permanecen ignorados bajo `docs/fuentes-academicas/`. El generador publica únicamente JSON y reportes XLSX agregados; si las fuentes privadas no están disponibles en un clon, valida y conserva los artefactos agregados versionados.
+Los XLSX con filas individuales permanecen ignorados bajo `docs/fuentes-academicas/privadas/datos/`. El generador publica únicamente JSON y reportes XLSX agregados; si las fuentes privadas no están disponibles en un clon, valida y conserva los artefactos agregados versionados.
 
 ## Flujo de publicación
 
@@ -28,9 +28,9 @@ Los XLSX con filas individuales permanecen ignorados bajo `docs/fuentes-academic
 Markdown/MDX → schema Zod → getCollection/render → rutas estáticas → dist → Cloudflare Pages
 ```
 
-La colección `document` relaciona una edición pública o un material académico revisado con su ruta web. La validación build-time comprueba que el PDF exista bajo `public/documents/`, que la ruta sea conocida y que la revisión declarada corresponda a su origen. Las actividades 2 y 4 y el plan usan ediciones sanitizadas; la Actividad 6 conserva un material original previamente revisado.
+La colección `document` relaciona una edición pública o un material académico revisado con su ruta web. La validación build-time comprueba que el PDF exista bajo `public/documents/entregas/`, que la ruta sea conocida y que la revisión declarada corresponda a su origen. Las actividades 2 y 4 y el plan usan ediciones sanitizadas; la Actividad 6 conserva un material original previamente revisado.
 
-Las seis evidencias sociales se conservan con sus nombres originales (`publi1.pdf` a `publi6.pdf`) bajo `public/documents/` y sus miniaturas de primera página bajo `public/assets/publicaciones/`. Las publicaciones 5 y 6 no tienen URL individual verificable en el repositorio, por lo que remiten a su PDF y a estadísticas agregadas sin inventar enlaces.
+Las seis evidencias sociales usan nombres canónicos (`publicacion-01.pdf` a `publicacion-06.pdf`) bajo `public/documents/publicaciones/` y sus miniaturas bajo `public/assets/miniaturas/publicaciones/`. Las publicaciones 5 y 6 no tienen URL individual verificable en el repositorio, por lo que remiten a su PDF y a estadísticas agregadas sin inventar enlaces.
 
 ## Rendimiento
 

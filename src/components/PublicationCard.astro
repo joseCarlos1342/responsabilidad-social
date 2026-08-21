@@ -14,7 +14,7 @@ const { publication } = Astro.props;
     href={publication.pdfHref}
     target="_blank"
     rel="noopener noreferrer"
-    aria-label={`Ver evidencia en PDF: publicación ${publication.number}, ${publication.title}`}
+    aria-label={`${publication.thumbnailAlt} Abrir evidencia en PDF de la publicación ${publication.number}: ${publication.title}`}
   >
     <img
       src={publication.thumbnailSrc}
@@ -54,7 +54,6 @@ const { publication } = Astro.props;
             href={publication.facebookHref}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label={`Ver publicación ${publication.number} en Facebook, abre en una nueva pestaña`}
           >
             Ver publicación en Facebook ↗
           </a>

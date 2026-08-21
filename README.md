@@ -5,7 +5,7 @@ Blog académico sobre educación financiera, responsabilidad social y Humanidade
 - **Autor:** José Carlos Gómez
 - **Asignatura:** Práctica en Responsabilidad Social
 - **Territorio:** Neiva, Huila, Colombia
-- **Estado:** ejecución principal completada; cierre y seguimiento en progreso
+- **Estado:** proyecto, evaluación y cierre completados
 
 ## Propósito
 
@@ -93,10 +93,10 @@ src/
 └── styles/           Tokens y estilos globales
 tests/                Unitarias, E2E y accesibilidad
 docs/                 Arquitectura, contenido, pruebas y ADRs
-public/               SVG, headers y recursos estáticos
-docs/fuentes-academicas/  Fuentes locales ignoradas por Git
+public/               Entregas, resultados y medios públicos revisados
+docs/fuentes-academicas/privadas/  Fuentes locales ignoradas por Git
 ```
 
 ## Estado actual de la materia
 
-La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra la ejecución con video, webinar y comparación descriptiva. La edición académica de la entrevista está publicada con autorización verificada para grabación y uso de fragmentos. Las seis publicaciones acumulan 746 visualizaciones y el webinar registra 236 visualizaciones, 2 asistentes en vivo y 69:01 de duración. La encuesta final está habilitada; satisfacción, aplicación y seguimiento continúan pendientes de respuestas consolidadas.
+La actividad 2 conserva el contexto inicial; la Actividad 4 documenta 16 respuestas diagnósticas y las dos primeras acciones; la Actividad 6 cierra el recorrido con el informe final y autoevaluación de 5:56, webinar y comparación descriptiva. La edición académica de la entrevista está publicada con autorización verificada para grabación y uso de fragmentos. Las seis publicaciones acumulan 746 visualizaciones y el webinar registra 236 visualizaciones, 2 asistentes en vivo y 69:01 de duración. La encuesta final consolidó nueve respuestas sin publicar registros individuales.

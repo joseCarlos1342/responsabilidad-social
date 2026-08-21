@@ -9,7 +9,7 @@ El proyecto necesita relacionar la lectura web con entregas académicas descarga
 
 ## Decisión
 
-Se crea una colección `document` con relación explícita a la ruta web. La biblioteca publica solo PDF reconstruidos y sanitizados bajo `public/documents/`, valida su existencia durante el build y exige `privacyReviewed: true`. Las páginas web siguen siendo la experiencia principal; PDF.js es una mejora progresiva cargada solo en la pestaña documental.
+Se crea una colección `document` con relación explícita a la ruta web. La biblioteca publica solo PDF reconstruidos y sanitizados bajo `public/documents/entregas/`, valida su existencia durante el build y exige `privacyReviewed: true`. Las páginas web siguen siendo la experiencia principal; PDF.js es una mejora progresiva cargada solo en la pestaña documental.
 
 ## Alternativas descartadas
 

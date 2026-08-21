@@ -1,0 +1,14 @@
+# Decisiones que sí suman
+
+> Blog académico de educación financiera y responsabilidad social desarrollado en Neiva, Huila, Colombia.
+
+El sitio documenta una intervención educativa sobre presupuesto, ahorro, crédito responsable y prevención del fraude. Su contenido es informativo y no constituye asesoría financiera personalizada.
+
+## Secciones principales
+
+- [Inicio](https://decisiones-que-si-suman.pages.dev/)
+- [Actividades](https://decisiones-que-si-suman.pages.dev/actividades/)
+- [Plan de Humanidades Digitales](https://decisiones-que-si-suman.pages.dev/plan-humanidades-digitales/)
+- [Documentos públicos](https://decisiones-que-si-suman.pages.dev/documentos/)
+- [Referencias](https://decisiones-que-si-suman.pages.dev/referencias/)
+- [Privacidad](https://decisiones-que-si-suman.pages.dev/privacidad/)

@@ -8,14 +8,14 @@ week: 'Semana 4'
 status: finalizado
 publishedAt: 2026-07-27
 updatedAt: 2026-08-10
-originalFile: docs/fuentes-academicas/semana-2-del-diagnostico-a-la-accion.pdf
+originalFile: docs/fuentes-academicas/privadas/documentos/actividad-04-original.pdf
 webRoute: /actividades/actividad-4-del-diagnostico-a-la-accion/
 pageCount: 7
 version: '1.2 · edición pública sanitizada'
 ods: [1, 4, 8, 10, 12, 16, 17]
 tags: [diagnóstico, presupuesto, ahorro, crédito responsable, seguridad digital]
 downloadable: true
-publicVersion: /documents/actividad-4-publica.pdf
+publicVersion: /documents/entregas/actividad-04-publica.pdf
 privacyReviewed: true
 documentSource: publica
 evidenceStatus: disponible

@@ -7,10 +7,10 @@ const files = [];
 for await (const file of glob('**/*.html', { cwd: root })) files.push(join(root, file));
 
 const broken = [];
-const hrefPattern = /href="([^"]+)"/g;
+const assetReferencePattern = /(?:href|poster|src)="([^"]+)"/g;
 for (const file of files) {
   const html = await readFile(file, 'utf8');
-  for (const match of html.matchAll(hrefPattern)) {
+  for (const match of html.matchAll(assetReferencePattern)) {
     const href = match[1];
     if (!href.startsWith('/') || href.startsWith('//') || href.startsWith('/#')) continue;
     const encodedPath = href.split('#')[0].split('?')[0];

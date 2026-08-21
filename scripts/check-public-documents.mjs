@@ -3,19 +3,31 @@ import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
 const reviewedDocuments = [
-  { name: 'actividad-2-publica.pdf', pages: 4, label: 'edición pública sanitizada' },
-  { name: 'actividad-4-publica.pdf', pages: 7, label: 'edición pública sanitizada' },
   {
-    name: 'plan-humanidades-digitales-publico.pdf',
+    name: 'entregas/actividad-02-publica.pdf',
+    pages: 4,
+    label: 'edición pública sanitizada',
+  },
+  {
+    name: 'entregas/actividad-04-publica.pdf',
+    pages: 7,
+    label: 'edición pública sanitizada',
+  },
+  {
+    name: 'entregas/plan-humanidades-digitales-publico.pdf',
     pages: 40,
     label: 'edición pública sanitizada',
   },
-  { name: 'Actividad 6 Original.pdf', pages: 13, label: 'material original revisado' },
+  {
+    name: 'entregas/actividad-06-original.pdf',
+    pages: 13,
+    label: 'material original revisado',
+  },
 ];
-const publishedEvidence = [
-  { name: 'publi5.pdf', pages: 4 },
-  { name: 'publi6.pdf', pages: 4 },
-];
+const publishedEvidence = Array.from({ length: 6 }, (_, index) => ({
+  name: `publicaciones/publicacion-0${index + 1}.pdf`,
+  pages: 4,
+}));
 const forbidden = [
   /967350/u,
   /José Carlos Gómez Rodríguez/iu,
@@ -81,13 +93,13 @@ const inspectAggregateSpreadsheet = (name, expectedRows, requiredHeaders) => {
   console.log(`${name}: reporte agregado sin filas individuales verificado`);
 };
 
-inspectAggregateSpreadsheet('Decisiones que suman.xlsx', 25, [
+inspectAggregateSpreadsheet('resultados/diagnostico-inicial-agregado.xlsx', 25, [
   'Pregunta',
   'Opción',
   'Respuestas',
   'Porcentaje',
 ]);
-inspectAggregateSpreadsheet('Decisiones que suman despues del webinar.xlsx', 10, [
+inspectAggregateSpreadsheet('resultados/comparacion-diagnostico-agregada.xlsx', 10, [
   'Indicador',
   'Inicial n',
   'Posterior n',
@@ -97,13 +109,69 @@ inspectAggregateSpreadsheet('Decisiones que suman despues del webinar.xlsx', 10,
 const publicFiles = await readdir('public', { recursive: true });
 if (publicFiles.some((file) => file.toLowerCase().endsWith('.mov')))
   throw new Error('No se permite incluir archivos MOV dentro de public/');
+const forbiddenPublicNames = ['pruebas-evidencia.png', 'pruebas-encuesta'];
+if (
+  publicFiles.some((file) => forbiddenPublicNames.some((name) => file.toLowerCase().includes(name)))
+) {
+  throw new Error('public/: contiene una evidencia privada o una ruta documental obsoleta');
+}
 console.log('public/: no contiene archivos MOV pesados');
 
-const permissionVideo = await readFile(join('public', 'video', 'permiso.mp4'));
+const reviewedImages = [
+  ...Array.from(
+    { length: 5 },
+    (_, index) => `assets/evidencias/encuesta-cierre/grafico-0${index + 1}.png`,
+  ),
+  'assets/evidencias/encuesta-cierre/confirmacion-envio.jpeg',
+  'assets/evidencias/resultados/estadisticas-generales.png',
+  'assets/evidencias/resultados/estadisticas-publicaciones.png',
+  ...Array.from(
+    { length: 6 },
+    (_, index) => `assets/miniaturas/publicaciones/publicacion-0${index + 1}.png`,
+  ),
+  'assets/miniaturas/videos/actividad-06.webp',
+  'assets/miniaturas/videos/entrevista.jpg',
+  'assets/miniaturas/videos/webinar.webp',
+  'favicon-32x32.png',
+  'apple-touch-icon.png',
+  'icon-192x192.png',
+  'icon-512x512.png',
+  'social-card.png',
+];
+for (const path of reviewedImages) {
+  const bytes = await readFile(join('public', path));
+  const validPng = bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  const validJpeg = bytes.subarray(0, 3).equals(Buffer.from([255, 216, 255]));
+  const validWebp =
+    bytes.subarray(0, 4).toString() === 'RIFF' && bytes.subarray(8, 12).toString() === 'WEBP';
+  if (!validPng && !validJpeg && !validWebp) throw new Error(`${path}: formato de imagen inválido`);
+  if (
+    path === 'social-card.png' &&
+    (bytes.readUInt32BE(16) !== 1200 || bytes.readUInt32BE(20) !== 630)
+  ) {
+    throw new Error('social-card.png: debe medir 1200 × 630 px');
+  }
+}
+console.log(`${reviewedImages.length} imágenes públicas revisadas tienen una firma válida`);
+
+const manifest = JSON.parse(await readFile(join('public', 'site.webmanifest'), 'utf8'));
+if (manifest.name !== 'Decisiones que sí suman' || manifest.lang !== 'es-CO')
+  throw new Error('site.webmanifest: identidad o idioma inválidos');
+console.log('site.webmanifest: manifest válido');
+
+const favicon = await readFile(join('public', 'favicon.ico'));
+if (favicon.byteLength === 0) throw new Error('favicon.ico: archivo vacío');
+console.log('favicon.ico: icono válido');
+
+const socialCard = await readFile(join('public', 'social-card.svg'), 'utf8');
+if (!socialCard.includes('<svg')) throw new Error('social-card.svg: contenido SVG inválido');
+console.log('social-card.svg: recurso vectorial verificado');
+
+const permissionVideo = await readFile(join('public', 'media', 'video', 'permiso-entrevista.mp4'));
 if (permissionVideo.subarray(4, 8).toString() !== 'ftyp')
-  throw new Error('permiso.mp4: no es un contenedor MP4 válido');
+  throw new Error('permiso-entrevista.mp4: no es un contenedor MP4 válido');
 if (permissionVideo.byteLength > 10 * 1024 * 1024)
-  throw new Error('permiso.mp4: supera el límite público de 10 MB');
+  throw new Error('permiso-entrevista.mp4: supera el límite público de 10 MB');
 console.log(
-  `permiso.mp4: copia web verificada (${(permissionVideo.byteLength / 1024 / 1024).toFixed(1)} MB)`,
+  `permiso-entrevista.mp4: copia web verificada (${(permissionVideo.byteLength / 1024 / 1024).toFixed(1)} MB)`,
 );

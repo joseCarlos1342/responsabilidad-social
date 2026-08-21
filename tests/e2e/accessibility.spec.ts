@@ -12,8 +12,13 @@ for (const path of [
   '/documentos/actividad-4-publica/',
   '/documentos/actividad-6-publica/',
   '/encuesta-cierre/',
+  '/resultados/',
   '/recursos/',
   '/privacidad/',
+  '/referencias/',
+  '/proyecto/',
+  '/territorio/',
+  '/ods/',
 ]) {
   test(`sin violaciones axe en ${path}`, async ({ page }) => {
     await page.goto(path);

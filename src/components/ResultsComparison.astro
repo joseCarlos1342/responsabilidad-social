@@ -23,7 +23,11 @@ const formatDifference = (value: number) =>
     </p>
   </div>
 
-  <div class="comparison-list" aria-label="Comparación de cinco indicadores principales">
+  <div
+    class="comparison-list"
+    aria-label="Comparación de cinco indicadores principales"
+    data-motion-group
+  >
     {
       featured.map((item) => (
         <article class="comparison-row">
@@ -38,6 +42,7 @@ const formatDifference = (value: number) =>
                 <span
                   class="comparison-bar comparison-bar--before"
                   style={`width:${item.initialPercentage}%`}
+                  data-motion-bar
                 />
               </div>
             </div>
@@ -47,6 +52,7 @@ const formatDifference = (value: number) =>
                 <span
                   class="comparison-bar comparison-bar--after"
                   style={`width:${item.posteriorPercentage}%`}
+                  data-motion-bar
                 />
               </div>
             </div>

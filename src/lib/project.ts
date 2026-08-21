@@ -1,8 +1,8 @@
 export const projectStatus = {
   currentWeek: 'Semana 7',
-  status: 'en-cierre' as const,
+  status: 'completada' as const,
   currentStage:
-    'Ejecución completada · evaluación final en cierre. La encuesta de satisfacción y seguimiento todavía no tiene respuestas.',
+    'Proyecto completado · evaluación final consolidada con nueve respuestas de cierre.',
 } as const;
 
 export const projectWeeks = [
@@ -40,10 +40,9 @@ export const projectWeeks = [
   },
   {
     week: 'Semana 7',
-    status: 'en-cierre' as const,
-    label: 'EN CIERRE',
-    summary:
-      'Alcance y reflexión consolidados; satisfacción, acción financiera y seguimiento esperan la encuesta final.',
+    status: 'completada' as const,
+    label: 'COMPLETADA',
+    summary: 'Alcance, reflexión y encuesta final consolidados con nueve respuestas agregadas.',
   },
 ] as const;
 
@@ -78,6 +77,6 @@ export const projectTimeline = [
     week: 'Semana 7',
     title: 'Resultados, evaluación y reflexión',
     detail:
-      'Comparación, alcance y video de reflexión disponibles; encuesta final y seguimiento en cierre.',
+      'Comparación, alcance, informe final y encuesta de cierre de nueve respuestas consolidados.',
   },
 ] as const;

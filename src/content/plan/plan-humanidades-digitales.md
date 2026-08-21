@@ -1,8 +1,8 @@
 ---
 title: 'Plan de Humanidades Digitales'
 description: 'Ruta de trabajo de las semanas 4 a 7 para una intervención educativa sobre decisiones financieras responsables en Neiva.'
-updatedDate: 2026-08-14
-status: en-cierre
+updatedDate: 2026-08-17
+status: finalizada
 territory: 'Neiva, Huila, Colombia'
 references:
   - label: 'Pacheco Duarte et al. (2022), Ruta de Innovación Social'
@@ -12,7 +12,7 @@ references:
 documentSlug: plan-humanidades-digitales-publico
 ---
 
-> **Estado del plan:** EJECUCIÓN COMPLETADA · EVALUACIÓN FINAL EN CIERRE. Existen seis publicaciones, diagnóstico inicial, entrevista, webinar, evaluación posterior y video de reflexión. El alcance digital ya está consolidado; satisfacción, acción financiera y seguimiento esperan la encuesta final.
+> **Estado del plan:** COMPLETADO. Existen seis publicaciones, diagnóstico inicial, entrevista autorizada, webinar, evaluación posterior, informe final y encuesta de cierre consolidada con nueve respuestas.
 
 > **Trazabilidad:** este plan fue publicado inicialmente durante la fase de preparación. Los estados y evidencias actuales se incorporaron el 14 de agosto de 2026 sin modificar retroactivamente las metas originales.
 
@@ -70,7 +70,7 @@ La participación será voluntaria. No se solicitarán nombres, documentos, sald
 
 ## Entrevista a una experta
 
-La entrevista fue realizada y publicada para incorporar una perspectiva basada en experiencia sobre análisis financiero, gestión de crédito y orientación a consumidores. La autorización cuenta con una [constancia audiovisual pública](/video/permiso.mp4). La grabación dispone de subtítulos automáticos en español.
+La entrevista fue realizada y publicada para incorporar una perspectiva basada en experiencia sobre análisis financiero, gestión de crédito y orientación a consumidores. La autorización cuenta con una [constancia audiovisual pública](/media/video/permiso-entrevista.mp4). La grabación dispone de subtítulos automáticos en español.
 
 **Tema:** errores frecuentes al solicitar crédito y prácticas para prevenir el sobreendeudamiento.
 
@@ -94,7 +94,7 @@ La entrevista fue realizada y publicada para incorporar una perspectiva basada e
 
 El webinar y la evaluación posterior fueron ejecutados. La captura de Meta registra **236 visualizaciones**, 190 de alcance, 192 espectadores y 15 interacciones para su publicación: la meta de más de 20 visualizaciones fue cumplida y superada. El recap de Teams registra **2 participantes en vivo**, por debajo de la meta mínima de 5. La comparación descriptiva agregada fue de aproximadamente +14,1 puntos porcentuales, por debajo de la meta global de +20 pp.
 
-La invitación de Teams y la participación de la docente constituyen evidencia disponible de notificación. El soporte original contiene nombres y datos de conexión, por lo que no se publica íntegramente. El cumplimiento del objetivo de que 80 % completara una actividad práctica no puede calcularse con la evidencia de sesión disponible; se conserva como **indicador no medido durante la sesión**.
+La invitación de Teams y la participación de la docente constituyen evidencia disponible de notificación. El soporte original contiene nombres y datos de conexión, por lo que no se publica íntegramente. En la encuesta final, 6 de 7 personas que se identificaron como participantes sincrónicas reportaron completar los ejercicios (85,7 %). Este autorreporte supera la meta de 80 %, pero no reemplaza ni puede reconciliarse con el recap de Teams, que registra 2 asistentes.
 
 ## Cronograma de semanas 4 a 7
 
@@ -103,23 +103,25 @@ La invitación de Teams y la participación de la docente constituyen evidencia 
 | 4      | Activar blog, publicar dos contenidos y aplicar el diagnóstico.       | Página activa, publicaciones 1–2 y 16 respuestas.                                |
 | 5      | Publicar dos contenidos, registrar interacción y publicar entrevista. | Publicaciones 3–4, comentarios y entrevista de 7:20; meta de 15 min no cumplida. |
 | 6      | Publicar crédito y fraude; ejecutar webinar y evaluación.             | Publicaciones 5–6, webinar de 69:01 y seis respuestas posteriores.               |
-| 7      | Revisar métricas, comparación y reflexión.                            | Alcance y reflexión consolidados; encuesta final y seguimiento en cierre.        |
+| 7      | Revisar métricas, comparación y reflexión.                            | Alcance, reflexión y encuesta final consolidados con nueve respuestas.           |
 
 ## Indicadores de seguimiento
 
 | Dimensión   | Indicador                                        | Meta o criterio                                                                                    |
 | ----------- | ------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| Ejecución   | Publicaciones, entrevista y webinar              | Ampliamente cumplida: 6 publicaciones, 1 entrevista, 1 webinar y 1 video de reflexión.             |
+| Ejecución   | Publicaciones, entrevista y webinar              | Cumplida: 6 publicaciones, 1 entrevista, 1 webinar y 1 informe final de autoevaluación.            |
 | Alcance     | Participantes, visualizaciones y reacciones      | Webinar: 236 visualizaciones frente a meta de más de 20. Asistencia en vivo: 2 frente a meta de 5. |
 | Aprendizaje | Comprensión de presupuesto, costo total y fraude | Comparación descriptiva: n=16 inicial y n=6 posterior, grupos no emparejados.                      |
-| Aplicación  | Acción financiera escogida                       | Pendiente de encuesta final: meta de al menos 70 % con una acción verificable.                     |
-| Calidad     | Satisfacción y utilidad percibida                | Pendiente de encuesta final: meta de promedio mínimo 4/5.                                          |
+| Aplicación  | Acción financiera escogida                       | Meta cumplida: 100 % reportó aplicación total o parcial frente a meta de 70 %.                     |
+| Calidad     | Satisfacción y utilidad percibida                | Meta cumplida: satisfacción 4,6/5 y utilidad 5/5 frente a meta de 4/5.                             |
 | Ética       | Protección de datos y consentimiento             | Autorización verificada para grabación y uso académico de fragmentos.                              |
-| Seguimiento | Aplicación durante los días posteriores          | [Encuesta de cierre habilitada](/encuesta-cierre/); resultados pendientes de consolidación.        |
+| Seguimiento | Aplicación durante los días posteriores          | [Encuesta de cierre consolidada](/encuesta-cierre/) con nueve respuestas agregadas.                |
 
 ## Seguimiento y evaluación
 
 Se utilizó un instrumento breve antes y después de las actividades. Se registraron 16 respuestas iniciales y seis posteriores. No se publican respuestas individuales ni se afirma impacto causal a partir de grupos pequeños y no emparejados. La proporción global de respuestas plenamente favorables fue 70/128 (54,7 %) al inicio y 33/48 (68,8 %) después, una diferencia descriptiva de +14,1 pp.
+
+La encuesta final reunió nueve respuestas entre el 14 y el 17 de agosto. La satisfacción promedio fue 4,6/5, la utilidad 5/5 y las nueve personas reportaron haber aplicado una acción total o parcialmente. Presupuesto, meta de ahorro y revisión de tasa, plazo y costo total fueron las acciones más elegidas, con cuatro selecciones cada una. Los resultados son descriptivos y no se vinculan persona a persona con los instrumentos anteriores.
 
 ## Alcance e interacción digital
 
@@ -136,7 +138,7 @@ La suma de los seis registros educativos visibles fue de **746 visualizaciones**
 - La comparación usa grupos no emparejados de n=16 y n=6.
 - La mejora agregada fue +14,1 pp frente a la meta de +20 pp.
 - El conocimiento de canales oficiales pasó de 50 % a 33,3 % y requiere refuerzo.
-- Satisfacción, acción financiera y seguimiento permanecerán pendientes hasta recibir la encuesta final.
+- La encuesta final alcanzó las metas de satisfacción y aplicación, con un corte descriptivo de nueve respuestas.
 
 ## Referencias
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
   estimateReadingTime,
@@ -24,6 +24,7 @@ import {
 } from '../../src/lib/publications';
 import { projectStatus, projectTimeline, projectWeeks } from '../../src/lib/project';
 import { diagnosticSummary, financialResults } from '../../src/data/diagnostic';
+import closureSurveyResults from '../../src/data/closure-survey.generated.json';
 import {
   calculateCreditComparison,
   calculateCreditTotal,
@@ -120,14 +121,14 @@ describe('content utilities', () => {
         status: 'ejecutado',
         publishedAt: new Date(publishedAt),
         updatedAt: new Date(publishedAt),
-        originalFile: 'docs/fuentes-academicas/source.pdf',
+        originalFile: 'docs/fuentes-academicas/privadas/documentos/source.pdf',
         webRoute: '/actividades/actividad-2-decisiones-que-si-suman/',
         pageCount: 1,
         version: '1.0 pública',
         ods: [4],
         tags: [],
         downloadable: true,
-        publicVersion: `/documents/${id}-publica.pdf`,
+        publicVersion: `/documents/entregas/${id}-publica.pdf`,
         privacyReviewed: true,
         documentSource: 'publica',
         evidenceStatus: 'disponible',
@@ -153,14 +154,14 @@ describe('content utilities', () => {
         status: 'ejecutado' as const,
         publishedAt: new Date('2026-07-07'),
         updatedAt: new Date('2026-07-30'),
-        originalFile: 'docs/fuentes-academicas/source.pdf',
+        originalFile: 'docs/fuentes-academicas/privadas/documentos/source.pdf',
         webRoute: '/actividades/actividad-2-decisiones-que-si-suman/',
         pageCount: 4,
         version: '1.1 edición pública',
         ods: [4],
         tags: [],
         downloadable: true,
-        publicVersion: '/documents/actividad-2-publica.pdf',
+        publicVersion: '/documents/entregas/actividad-02-publica.pdf',
         privacyReviewed: true as const,
         documentSource: 'publica' as const,
         evidenceStatus: 'disponible' as const,
@@ -168,7 +169,7 @@ describe('content utilities', () => {
     } as DocumentEntry;
     expect(validateDocumentEntry(documentEntry)).toEqual([]);
     expect(validateDocumentEntry(documentEntry, '/tmp/documentos-inexistentes')).toContain(
-      'PDF documental inexistente: /documents/actividad-2-publica.pdf',
+      'PDF documental inexistente: /documents/entregas/actividad-02-publica.pdf',
     );
   });
 
@@ -209,8 +210,10 @@ describe('content utilities', () => {
 
     publications.forEach((publication) => {
       requiredFields.forEach((field) => expect(publication[field]).toBeTruthy());
-      expect(publication.pdfHref).toMatch(/^\/documents\/publi[1-6]\.pdf$/u);
-      expect(publication.thumbnailSrc).toMatch(/^\/assets\/publicaciones\/publi[1-6]\.png$/u);
+      expect(publication.pdfHref).toMatch(/^\/documents\/publicaciones\/publicacion-0[1-6]\.pdf$/u);
+      expect(publication.thumbnailSrc).toMatch(
+        /^\/assets\/miniaturas\/publicaciones\/publicacion-0[1-6]\.png$/u,
+      );
       if (publication.facebookHref)
         expect(publication.facebookHref).toMatch(/^https:\/\/www\.facebook\.com\/share\//u);
       expect(existsSync(resolve(process.cwd(), 'public', publication.pdfHref.slice(1)))).toBe(true);
@@ -366,12 +369,18 @@ describe('content utilities', () => {
     expect(digitalImpact.interviewConsent).toEqual({
       status: 'verificado',
       note: 'Constancia audiovisual verificada para grabación y uso de fragmentos con fines académicos y educativos.',
-      href: '/video/permiso.mp4',
+      href: '/media/video/permiso-entrevista.mp4',
       durationSeconds: 41,
     });
+    expect(digitalImpact.practicalWebinarObjective).toEqual({
+      targetPercentage: 80,
+      status: 'autorreporte-consolidado',
+      reportedPercentage: 85.7,
+      sourceDiscrepancy: true,
+    });
     expect(digitalImpact.closureSurvey).toEqual({
-      status: 'habilitada',
-      responseCount: 0,
+      status: 'consolidada',
+      responseCount: 9,
       href: 'https://forms.gle/wswjtPct8SRjvuLB8',
     });
   });
@@ -390,6 +399,86 @@ describe('content utilities', () => {
       /documento|ingresos|teléfono|entidad financiera/iu,
     );
     expect(closureSurveyQuestions.at(-1)?.guidance).toContain('No incluya nombres');
+  });
+
+  it('consolida la encuesta final sin publicar respuestas individuales', () => {
+    expect(closureSurveyResults.responseCount).toBe(9);
+    expect(closureSurveyResults.satisfaction).toMatchObject({
+      average: 4.6,
+      targetAverage: 4,
+      targetReached: true,
+    });
+    expect(closureSurveyResults.utility.average).toBe(5);
+    expect(closureSurveyResults.actions).toEqual([
+      { key: 'expense-tracking', count: 2, percentage: 22.2 },
+      { key: 'budget', count: 4, percentage: 44.4 },
+      { key: 'savings-goal', count: 4, percentage: 44.4 },
+      { key: 'emergency-fund', count: 1, percentage: 11.1 },
+      { key: 'compare-credit', count: 1, percentage: 11.1 },
+      { key: 'credit-total-cost', count: 4, percentage: 44.4 },
+      { key: 'official-channels', count: 2, percentage: 22.2 },
+      { key: 'other', count: 1, percentage: 11.1 },
+      { key: 'none', count: 0, percentage: 0 },
+    ]);
+    expect(closureSurveyResults.application).toMatchObject({
+      fullCount: 6,
+      partialCount: 3,
+      atLeastPartialPercentage: 100,
+      targetPercentage: 70,
+      targetReached: true,
+    });
+    expect(closureSurveyResults.webinarExercises).toMatchObject({
+      synchronousRespondents: 7,
+      fullCount: 6,
+      partialCount: 1,
+      fullAmongSynchronousPercentage: 85.7,
+      attendanceSourceDiscrepancy: true,
+    });
+    expect(closureSurveyResults.openThemes).toEqual([
+      { key: 'credit-evaluation', count: 5, percentage: 55.6 },
+      { key: 'budget-tracking', count: 3, percentage: 33.3 },
+      { key: 'fraud-official-channels', count: 3, percentage: 33.3 },
+      { key: 'overall-useful', count: 1, percentage: 11.1 },
+    ]);
+    expect(closureSurveyResults.evidence).toHaveLength(5);
+    closureSurveyResults.evidence.forEach((evidence, index) => {
+      expect(evidence).toBe(`/assets/evidencias/encuesta-cierre/grafico-0${index + 1}.png`);
+      expect(existsSync(resolve(process.cwd(), 'public', evidence.slice(1)))).toBe(true);
+    });
+  });
+
+  it('conserva redirecciones permanentes para las rutas públicas anteriores', () => {
+    const redirectsPath = resolve(process.cwd(), 'public', '_redirects');
+    expect(existsSync(redirectsPath)).toBe(true);
+    const redirects = existsSync(redirectsPath) ? readFileSync(redirectsPath, 'utf8') : '';
+    const rules = redirects
+      .split('\n')
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => line.split(/\s+/u));
+    const expectedRedirects = [
+      '/documents/actividad-2-publica.pdf /documents/entregas/actividad-02-publica.pdf 301',
+      '/documents/Actividad%206%20Original.pdf /documents/entregas/actividad-06-original.pdf 301',
+      '/documents/publi1.pdf /documents/publicaciones/publicacion-01.pdf 301',
+      '/documents/Decisiones%20que%20suman.xlsx /documents/resultados/diagnostico-inicial-agregado.xlsx 301',
+      '/documents/Pruebas-Encuesta/1.png /assets/evidencias/encuesta-cierre/grafico-01.png 301',
+      '/video/permiso.mp4 /media/video/permiso-entrevista.mp4 301',
+    ];
+    expect(rules).toHaveLength(29);
+    expect(new Set(rules.map(([source]) => source)).size).toBe(rules.length);
+    rules.forEach(([source, destination, status, ...unexpected]) => {
+      expect(unexpected).toEqual([]);
+      expect(status).toBe('301');
+      expect(source).toMatch(/^\//u);
+      expect(destination).toMatch(/^\//u);
+      expect(
+        existsSync(resolve(process.cwd(), 'public', decodeURIComponent(source).slice(1))),
+      ).toBe(false);
+      expect(
+        existsSync(resolve(process.cwd(), 'public', decodeURIComponent(destination).slice(1))),
+      ).toBe(true);
+    });
+    expectedRedirects.forEach((redirect) => expect(redirects).toContain(redirect));
   });
 
   it('calcula localmente una meta de fondo de emergencia', () => {
@@ -455,14 +544,14 @@ describe('content utilities', () => {
 
   it('refleja el cierre verificable de las semanas 4 a 7', () => {
     expect(projectStatus.currentWeek).toBe('Semana 7');
-    expect(projectStatus.status).toBe('en-cierre');
+    expect(projectStatus.status).toBe('completada');
     expect(projectWeeks.map(({ week, status }) => ({ week, status }))).toEqual([
       { week: 'Semana 2', status: 'completada' },
       { week: 'Semana 3', status: 'completada' },
       { week: 'Semana 4', status: 'completada' },
       { week: 'Semana 5', status: 'completada' },
       { week: 'Semana 6', status: 'completada' },
-      { week: 'Semana 7', status: 'en-cierre' },
+      { week: 'Semana 7', status: 'completada' },
     ]);
   });
 });

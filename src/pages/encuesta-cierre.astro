@@ -3,6 +3,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
+import closureSurveyResults from '../data/closure-survey.generated.json';
+
+const formatDecimal = (value: number) => value.toLocaleString('es-CO');
+const actionLabels: Record<string, string> = {
+  'expense-tracking': 'Registrar gastos',
+  budget: 'Mejorar el presupuesto',
+  'savings-goal': 'Definir una meta de ahorro',
+  'emergency-fund': 'Fortalecer el fondo de emergencia',
+  'compare-credit': 'Comparar créditos',
+  'credit-total-cost': 'Revisar tasa, plazo y costo total',
+  'official-channels': 'Verificar canales oficiales',
+  other: 'Otra acción',
+};
+const themeLabels: Record<string, string> = {
+  'credit-evaluation': 'Evaluación del crédito y sus costos',
+  'budget-tracking': 'Presupuesto y registro de gastos',
+  'fraud-official-channels': 'Prevención del fraude y canales oficiales',
+  'overall-useful': 'Valoración integral del contenido',
+};
+const leadingActions = closureSurveyResults.actions
+  .filter((item) => item.count > 0 && item.key !== 'other')
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 6);
+const publicThemes = closureSurveyResults.openThemes.filter((item) => item.count >= 3);
 ---
 
 <BaseLayout
@@ -19,20 +43,123 @@ import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
           Seis preguntas para valorar la utilidad del proyecto y reconocer qué acciones pudieron
           aplicarse. No se solicitan datos personales ni financieros.
         </p>
-        <StatusBadge status="en-cierre" label="ENCUESTA HABILITADA" />
+        <StatusBadge
+          status="completada"
+          label={`RESULTADOS CONSOLIDADOS · N=${closureSurveyResults.responseCount}`}
+        />
         <p class="closure-survey__status">
-          Las respuestas se reciben en Google Forms y se analizarán únicamente de manera agregada.
-          Los resultados todavía están pendientes de consolidación.
+          Corte agregado del 14 al 17 de agosto de 2026. La satisfacción, utilidad y aplicación ya
+          cuentan con resultados verificables. Las respuestas posteriores no modifican este corte.
         </p>
         <a
           class="button"
           href={digitalImpact.closureSurvey.href}
           target="_blank"
-          rel="noopener noreferrer">Responder la encuesta ↗</a
+          rel="noopener noreferrer">Abrir formulario ↗</a
         >
       </div>
 
       <div class="closure-survey__sheet">
+        <section class="survey-results" aria-labelledby="survey-results-title">
+          <header class="survey-results__heading">
+            <span class="eyebrow-data">Resultados de cierre</span>
+            <h2 id="survey-results-title">La utilidad y la aplicación superaron sus metas.</h2>
+            <p>{closureSurveyResults.methodology}</p>
+          </header>
+
+          <dl class="closure-metrics">
+            <div>
+              <dd>{formatDecimal(closureSurveyResults.satisfaction.average)}/5</dd>
+              <dt>Satisfacción · meta 4/5 cumplida</dt>
+            </div>
+            <div>
+              <dd>{formatDecimal(closureSurveyResults.utility.average)}/5</dd>
+              <dt>Utilidad percibida</dt>
+            </div>
+            <div>
+              <dd>
+                {formatDecimal(closureSurveyResults.application.atLeastPartialPercentage)}&nbsp;%
+              </dd>
+              <dt>Aplicó al menos parcialmente · meta 70 %</dt>
+            </div>
+            <div>
+              <dd>{closureSurveyResults.responseCount}</dd>
+              <dt>Respuestas finales</dt>
+            </div>
+          </dl>
+
+          <div class="survey-results__split">
+            <div>
+              <h3>Acciones financieras elegidas</h3>
+              <ul class="result-bars" data-motion-group>
+                {
+                  leadingActions.map((item) => (
+                    <li>
+                      <span>{actionLabels[item.key]}</span>
+                      <strong>
+                        {item.count} · {formatDecimal(item.percentage)} %
+                      </strong>
+                      <i
+                        style={`--result-width: ${item.percentage}%`}
+                        data-motion-bar
+                        aria-hidden="true"
+                      />
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+            <div>
+              <h3>Temas más mencionados</h3>
+              <ul class="theme-list">
+                {
+                  publicThemes.map((item) => (
+                    <li>
+                      <span>{themeLabels[item.key]}</span>
+                      <strong>
+                        {item.count} de {closureSurveyResults.responseCount}
+                      </strong>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+          </div>
+
+          <p class="notice survey-results__limitation">
+            <strong>Ejercicios del webinar:</strong>{' '}
+            {closureSurveyResults.webinarExercises.fullCount} de {
+              closureSurveyResults.webinarExercises.synchronousRespondents
+            } personas que se identificaron como participantes sincrónicas reportaron realizarlos completamente
+            ({formatDecimal(closureSurveyResults.webinarExercises.fullAmongSynchronousPercentage)} %).
+            Este autorreporte no reemplaza el recap de Teams, que registra {
+              closureSurveyResults.webinarExercises.attendanceSourceCount
+            } asistentes; ambas fuentes no pueden reconciliarse y se mantienen diferenciadas.
+          </p>
+
+          <details class="survey-evidence">
+            <summary>Ver cinco capturas agregadas de Google Forms</summary>
+            <div>
+              {
+                closureSurveyResults.evidence.map((src, index) => (
+                  <a href={src} target="_blank" rel="noreferrer">
+                    <img
+                      src={src}
+                      alt={`Resultado agregado ${index + 1} de la encuesta final, sin respuestas individuales.`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ))
+              }
+            </div>
+          </details>
+        </section>
+
+        <div class="survey-instrument-heading">
+          <span class="eyebrow-data">Instrumento aplicado</span>
+          <h2>Las seis preguntas del cierre</h2>
+        </div>
         <p class="notice">
           Si ya transcurrieron varios días desde tu participación, responde teniendo en cuenta si
           lograste aplicar alguna acción durante ese período.
@@ -93,6 +220,121 @@ import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
     background: var(--white);
     box-shadow: 12px 12px 0 var(--terracotta);
   }
+  .survey-results {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .survey-results__heading {
+    max-width: 48rem;
+  }
+  .survey-results__heading h2 {
+    margin: 0.55rem 0 0.8rem;
+    font-size: clamp(2rem, 4vw, 3.6rem);
+  }
+  .survey-results__heading p {
+    max-width: 65ch;
+    color: var(--ink-soft);
+  }
+  .closure-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 2rem 0;
+    border-block: 1px solid var(--line);
+  }
+  .closure-metrics div {
+    min-width: 0;
+    padding: 1rem;
+    border-right: 1px solid var(--line);
+  }
+  .closure-metrics div:last-child {
+    border-right: 0;
+  }
+  .closure-metrics dd {
+    margin: 0;
+    color: var(--petrol);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .closure-metrics dt {
+    margin-top: 0.55rem;
+    color: var(--ink-soft);
+    font-size: 0.76rem;
+  }
+  .survey-results__split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(14rem, 0.85fr);
+    gap: 2rem;
+  }
+  .survey-results__split h3 {
+    margin: 0 0 1rem;
+    color: var(--petrol);
+    font-size: 1.35rem;
+  }
+  .result-bars,
+  .theme-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .result-bars li {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.4rem 1rem;
+    padding-block: 0.6rem;
+  }
+  .result-bars strong,
+  .theme-list strong {
+    color: var(--petrol);
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+  .result-bars i {
+    grid-column: 1 / -1;
+    width: var(--result-width);
+    height: 0.3rem;
+    background: var(--terracotta);
+  }
+  .theme-list li {
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    padding-block: 0.7rem;
+    border-top: 1px solid var(--line);
+  }
+  .survey-results__limitation {
+    margin-top: 2rem;
+  }
+  .survey-evidence {
+    margin-top: 1.2rem;
+  }
+  .survey-evidence summary {
+    min-height: 44px;
+    color: var(--petrol);
+    cursor: pointer;
+    font-weight: 800;
+  }
+  .survey-evidence > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .survey-evidence img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+  }
+  .survey-instrument-heading {
+    padding-top: 2.5rem;
+  }
+  .survey-instrument-heading h2 {
+    margin: 0.55rem 0 1.5rem;
+  }
   .survey-preview {
     margin: 2rem 0 0;
     padding: 0;
@@ -144,10 +386,25 @@ import { closureSurveyQuestions, digitalImpact } from '../data/digital-impact';
     .closure-survey__intro {
       position: static;
     }
+    .closure-metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .closure-metrics div:nth-child(2) {
+      border-right: 0;
+    }
+    .closure-metrics div:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--line);
+    }
+    .survey-results__split {
+      grid-template-columns: 1fr;
+    }
   }
   @media (max-width: 520px) {
     .closure-survey__sheet {
       box-shadow: 7px 7px 0 var(--terracotta);
+    }
+    .survey-evidence > div {
+      grid-template-columns: 1fr;
     }
   }
 </style>

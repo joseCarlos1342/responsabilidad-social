@@ -1,3 +1,5 @@
+import closureSurveyResults from './closure-survey.generated.json';
+
 export type PublicationMetric = {
   number: 1 | 2 | 3 | 4 | 5 | 6;
   title: string;
@@ -163,8 +165,8 @@ export const digitalImpact = {
   source: 'Estadísticas de Meta/Facebook de la Fan Page Decisiones que sí suman.',
   period: '17 de julio de 2026 – 13 de agosto de 2026',
   evidence: {
-    overview: '/documents/estadisticas1.png',
-    content: '/documents/estadisticas2.png',
+    overview: '/assets/evidencias/resultados/estadisticas-generales.png',
+    content: '/assets/evidencias/resultados/estadisticas-publicaciones.png',
   },
   fanPage: {
     viewsLabel: '1,5 mil',
@@ -200,16 +202,18 @@ export const digitalImpact = {
   interviewConsent: {
     status: 'verificado',
     note: 'Constancia audiovisual verificada para grabación y uso de fragmentos con fines académicos y educativos.',
-    href: '/video/permiso.mp4',
+    href: '/media/video/permiso-entrevista.mp4',
     durationSeconds: 41,
   },
   practicalWebinarObjective: {
     targetPercentage: 80,
-    status: 'no-consolidado',
+    status: 'autorreporte-consolidado',
+    reportedPercentage: closureSurveyResults.webinarExercises.fullAmongSynchronousPercentage,
+    sourceDiscrepancy: closureSurveyResults.webinarExercises.attendanceSourceDiscrepancy,
   },
   closureSurvey: {
-    status: 'habilitada',
-    responseCount: 0,
+    status: 'consolidada',
+    responseCount: closureSurveyResults.responseCount,
     href: 'https://forms.gle/wswjtPct8SRjvuLB8',
   },
 } as const;

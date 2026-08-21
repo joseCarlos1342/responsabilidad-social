@@ -4,13 +4,22 @@ import { mkdir, mkdtemp, readFile, rename, rm, utimes, writeFile } from 'node:fs
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
-const sourceRoot = resolve(process.env.DQS_SOURCE_DIR ?? 'docs/fuentes-academicas');
-const initialWorkbook = join(sourceRoot, 'Decisiones que suman.xlsx');
-const consolidatedWorkbook = join(sourceRoot, 'Decisiones que suman despues del webinar.xlsx');
+const sourceRoot = resolve(process.env.DQS_SOURCE_DIR ?? 'docs/fuentes-academicas/privadas');
+const initialWorkbook = join(sourceRoot, 'datos', 'diagnostico', 'respuestas-iniciales.xlsx');
+const consolidatedWorkbook = join(
+  sourceRoot,
+  'datos',
+  'diagnostico',
+  'respuestas-consolidadas.xlsx',
+);
+const closureWorkbook = join(sourceRoot, 'datos', 'cierre', 'encuesta-cierre-respuestas.xlsx');
 const outputPath = resolve('src/data/financial-results.generated.json');
-const initialPublicReport = resolve('public/documents/Decisiones que suman.xlsx');
+const closureOutputPath = resolve('src/data/closure-survey.generated.json');
+const initialPublicReport = resolve(
+  'public/documents/resultados/diagnostico-inicial-agregado.xlsx',
+);
 const consolidatedPublicReport = resolve(
-  'public/documents/Decisiones que suman despues del webinar.xlsx',
+  'public/documents/resultados/comparacion-diagnostico-agregada.xlsx',
 );
 
 const expectedHeaders = [
@@ -85,6 +94,34 @@ const questionDefinitions = [
   },
 ];
 const allowedAges = ['18–25', '26–35', '36–45', '46–60'];
+
+const closureExpectedHeaders = [
+  'Marca temporal',
+  'En una escala de 1 a 5, ¿qué tan satisfecho(a) se encuentra con los contenidos y actividades del proyecto “Decisiones que sí suman”?',
+  'En una escala de 1 a 5, ¿qué tan útiles considera los conocimientos adquiridos para tomar mejores decisiones financieras en su vida cotidiana?',
+  'Después de participar o consultar los contenidos del proyecto, ¿qué acción financiera decidió realizar?',
+  '¿Ha puesto en práctica alguna de las acciones anteriores desde que participó en el proyecto?',
+  'Si participó en el webinar “Decisiones que sí suman”, ¿realizó o siguió alguno de los ejercicios prácticos desarrollados durante la sesión?',
+  '¿Qué aspecto del proyecto le resultó más útil o qué tema considera que debería fortalecerse?',
+];
+
+const closureActionDefinitions = [
+  { key: 'expense-tracking', option: 'Registrar con mayor frecuencia mis gastos.' },
+  { key: 'budget', option: 'Elaborar o mejorar mi presupuesto.' },
+  { key: 'savings-goal', option: 'Definir una meta de ahorro.' },
+  { key: 'emergency-fund', option: 'Crear o fortalecer un fondo de emergencia.' },
+  { key: 'compare-credit', option: 'Comparar diferentes opciones antes de aceptar un crédito.' },
+  {
+    key: 'credit-total-cost',
+    option: 'Revisar tasa, cuota, plazo y costo total antes de endeudarme.',
+  },
+  {
+    key: 'official-channels',
+    option: 'Verificar información y canales oficiales para prevenir fraudes.',
+  },
+  { key: 'other', option: 'Otra.' },
+  { key: 'none', option: 'Ninguna por el momento.' },
+];
 
 const decodeXml = (value) =>
   value
@@ -356,6 +393,266 @@ async function validateGeneratedFallback() {
   );
 }
 
+function validateClosureRows(rows) {
+  const headers = rows[0] ?? [];
+  if (
+    JSON.stringify(headers.map(normalize)) !== JSON.stringify(closureExpectedHeaders.map(normalize))
+  ) {
+    throw new Error('Encuesta de cierre: los encabezados no coinciden con el instrumento público.');
+  }
+  const responses = rows.slice(1);
+  if (responses.length !== 9) {
+    throw new Error(`Encuesta de cierre: se esperaban 9 respuestas, hay ${responses.length}.`);
+  }
+  const applicationOptions = [
+    'Sí, ya la estoy aplicando.',
+    'La he aplicado parcialmente.',
+    'Todavía no la he aplicado.',
+    'No definí una acción.',
+  ].map(normalize);
+  const webinarOptions = [
+    'Sí, realicé los ejercicios.',
+    'Realicé algunos de forma parcial.',
+    'No los realicé.',
+    'No participé de manera sincrónica en el webinar.',
+  ].map(normalize);
+  responses.forEach((row, index) => {
+    if (row.length !== closureExpectedHeaders.length) {
+      throw new Error(`Encuesta de cierre: la fila ${index + 2} no tiene siete columnas.`);
+    }
+    for (const column of [1, 2]) {
+      const rating = Number(row[column]);
+      if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+        throw new Error(`Encuesta de cierre: calificación inválida en la fila ${index + 2}.`);
+      }
+    }
+    const selectedActions = closureActionDefinitions.filter(({ option }) =>
+      row[3].includes(option),
+    );
+    if (selectedActions.length === 0) {
+      throw new Error(`Encuesta de cierre: acción desconocida en la fila ${index + 2}.`);
+    }
+    const unknownActionText = selectedActions
+      .reduce((remaining, { option }) => remaining.replace(option, ''), row[3])
+      .replaceAll(',', '')
+      .trim();
+    if (unknownActionText) {
+      throw new Error(`Encuesta de cierre: opción adicional desconocida en la fila ${index + 2}.`);
+    }
+    if (selectedActions.some(({ key }) => key === 'none') && selectedActions.length > 1) {
+      throw new Error(`Encuesta de cierre: “Ninguna” no puede combinarse en la fila ${index + 2}.`);
+    }
+    if (!applicationOptions.includes(normalize(row[4]))) {
+      throw new Error(`Encuesta de cierre: aplicación desconocida en la fila ${index + 2}.`);
+    }
+    if (!webinarOptions.includes(normalize(row[5]))) {
+      throw new Error(
+        `Encuesta de cierre: respuesta de webinar desconocida en la fila ${index + 2}.`,
+      );
+    }
+    if (!Number.isFinite(Number(row[0])) || Number.isNaN(excelDate(row[0]).getTime())) {
+      throw new Error(`Encuesta de cierre: marca temporal inválida en la fila ${index + 2}.`);
+    }
+  });
+  return responses;
+}
+
+const countNormalized = (rows, column, expected) =>
+  rows.filter((row) => normalize(row[column]) === normalize(expected)).length;
+
+function summarizeClosureSurvey(rows) {
+  const responseCount = rows.length;
+  const ratings = (column) => rows.map((row) => Number(row[column]));
+  const summarizeRating = (column, targetAverage) => {
+    const values = ratings(column);
+    const average = roundOne(values.reduce((total, value) => total + value, 0) / responseCount);
+    return {
+      average,
+      targetAverage,
+      targetReached: average >= targetAverage,
+      distribution: [1, 2, 3, 4, 5].map((value) => ({
+        value,
+        count: values.filter((rating) => rating === value).length,
+        percentage: percentage(values.filter((rating) => rating === value).length, responseCount),
+      })),
+    };
+  };
+
+  const actions = closureActionDefinitions.map(({ key, option }) => {
+    const count = rows.filter((row) => row[3].includes(option)).length;
+    return { key, count, percentage: percentage(count, responseCount) };
+  });
+  const fullApplication = countNormalized(rows, 4, 'Sí, ya la estoy aplicando.');
+  const partialApplication = countNormalized(rows, 4, 'La he aplicado parcialmente.');
+  const notYetApplication = countNormalized(rows, 4, 'Todavía no la he aplicado.');
+  const noAction = countNormalized(rows, 4, 'No definí una acción.');
+  const fullExercises = countNormalized(rows, 5, 'Sí, realicé los ejercicios.');
+  const partialExercises = countNormalized(rows, 5, 'Realicé algunos de forma parcial.');
+  const noExercises = countNormalized(rows, 5, 'No los realicé.');
+  const notSynchronous = countNormalized(
+    rows,
+    5,
+    'No participé de manera sincrónica en el webinar.',
+  );
+  const synchronousRespondents = responseCount - notSynchronous;
+  const normalizedComments = rows.map((row) => normalize(row[6])).filter(Boolean);
+  const themeDefinitions = [
+    { key: 'credit-evaluation', pattern: /credito|prestamo|propuestas|opciones/u },
+    { key: 'budget-tracking', pattern: /ingresos|gastos|economia/u },
+    { key: 'fraud-official-channels', pattern: /robar|estafar|canales oficiales/u },
+    { key: 'overall-useful', pattern: /todo el contenido/u },
+  ];
+  const dates = rows.map((row) => excelDate(row[0]));
+
+  return {
+    sourceFile: 'encuesta-cierre-respuestas.xlsx',
+    responseCount,
+    collectionPeriod: {
+      start: new Date(Math.min(...dates)).toISOString().slice(0, 10),
+      end: new Date(Math.max(...dates)).toISOString().slice(0, 10),
+    },
+    satisfaction: summarizeRating(1, 4),
+    utility: summarizeRating(2, 4),
+    actions,
+    application: {
+      fullCount: fullApplication,
+      partialCount: partialApplication,
+      notYetCount: notYetApplication,
+      noActionCount: noAction,
+      fullPercentage: percentage(fullApplication, responseCount),
+      atLeastPartialCount: fullApplication + partialApplication,
+      atLeastPartialPercentage: percentage(fullApplication + partialApplication, responseCount),
+      targetPercentage: 70,
+      targetReached: (fullApplication + partialApplication) / responseCount >= 0.7,
+    },
+    webinarExercises: {
+      fullCount: fullExercises,
+      partialCount: partialExercises,
+      noCount: noExercises,
+      notSynchronousCount: notSynchronous,
+      synchronousRespondents,
+      fullAmongSynchronousPercentage: percentage(fullExercises, synchronousRespondents),
+      targetPercentage: 80,
+      targetReachedBySelfReport: fullExercises / synchronousRespondents >= 0.8,
+      attendanceSourceCount: 2,
+      attendanceSourceDiscrepancy: synchronousRespondents !== 2,
+      methodology:
+        'Autorreporte de la encuesta final. No reemplaza el recap de Teams ni permite reconciliar la asistencia en vivo.',
+    },
+    openThemes: themeDefinitions.map(({ key, pattern }) => {
+      const count = normalizedComments.filter((comment) => pattern.test(comment)).length;
+      return { key, count, percentage: percentage(count, responseCount) };
+    }),
+    evidence: [1, 2, 3, 4, 5].map(
+      (number) => `/assets/evidencias/encuesta-cierre/grafico-0${number}.png`,
+    ),
+    methodology:
+      'Encuesta final voluntaria n=9. Resultados descriptivos y agregados; no se publican comentarios individuales.',
+  };
+}
+
+function validateClosureAggregate(generated) {
+  const expectedKeys = [
+    'sourceFile',
+    'responseCount',
+    'collectionPeriod',
+    'satisfaction',
+    'utility',
+    'actions',
+    'application',
+    'webinarExercises',
+    'openThemes',
+    'evidence',
+    'methodology',
+  ];
+  if (JSON.stringify(Object.keys(generated)) !== JSON.stringify(expectedKeys)) {
+    throw new Error('El agregado de cierre contiene una estructura inesperada.');
+  }
+  if (generated.responseCount !== 9) {
+    throw new Error('El agregado versionado de la encuesta final no conserva nueve respuestas.');
+  }
+  for (const key of ['start', 'end']) {
+    if (!/^\d{4}-\d{2}-\d{2}$/u.test(generated.collectionPeriod?.[key] ?? '')) {
+      throw new Error(`Encuesta de cierre: fecha ${key} inválida.`);
+    }
+  }
+  for (const key of ['satisfaction', 'utility']) {
+    const metric = generated[key];
+    if (
+      !Number.isFinite(metric?.average) ||
+      metric.distribution?.length !== 5 ||
+      metric.distribution.reduce((total, item) => total + item.count, 0) !== generated.responseCount
+    ) {
+      throw new Error(`Encuesta de cierre: distribución inválida en ${key}.`);
+    }
+  }
+  if (
+    generated.actions?.length !== closureActionDefinitions.length ||
+    generated.actions.some(
+      (item) =>
+        !closureActionDefinitions.some(({ key }) => key === item.key) ||
+        item.count < 0 ||
+        item.count > generated.responseCount,
+    )
+  ) {
+    throw new Error('Encuesta de cierre: acciones agregadas inválidas.');
+  }
+  const applicationCount = ['fullCount', 'partialCount', 'notYetCount', 'noActionCount'].reduce(
+    (total, key) => total + generated.application[key],
+    0,
+  );
+  if (
+    applicationCount !== generated.responseCount ||
+    generated.application.atLeastPartialCount !==
+      generated.application.fullCount + generated.application.partialCount
+  ) {
+    throw new Error('Encuesta de cierre: consolidado de aplicación inválido.');
+  }
+  const webinarCount = ['fullCount', 'partialCount', 'noCount', 'notSynchronousCount'].reduce(
+    (total, key) => total + generated.webinarExercises[key],
+    0,
+  );
+  if (
+    webinarCount !== generated.responseCount ||
+    generated.webinarExercises.synchronousRespondents !==
+      generated.responseCount - generated.webinarExercises.notSynchronousCount
+  ) {
+    throw new Error('Encuesta de cierre: consolidado del webinar inválido.');
+  }
+  if (
+    !Array.isArray(generated.evidence) ||
+    generated.evidence.length !== 5 ||
+    generated.evidence.some(
+      (path) =>
+        !/^\/assets\/evidencias\/encuesta-cierre\/grafico-0[1-5]\.png$/u.test(path) ||
+        !existsSync(resolve('public', path.slice(1))),
+    )
+  ) {
+    throw new Error('Encuesta de cierre: faltan evidencias agregadas canónicas.');
+  }
+  if (JSON.stringify(generated).includes('Marca temporal')) {
+    throw new Error('Encuesta de cierre: el agregado contiene campos de respuestas individuales.');
+  }
+}
+
+async function processClosureSurvey() {
+  if (!existsSync(closureWorkbook)) {
+    if (!existsSync(closureOutputPath)) {
+      throw new Error('No está disponible la fuente privada ni el agregado de la encuesta final.');
+    }
+    const generated = JSON.parse(await readFile(closureOutputPath, 'utf8'));
+    validateClosureAggregate(generated);
+    console.log('Fuente privada de cierre no disponible; se conservó el agregado validado.');
+    return;
+  }
+  const rows = readWorkbook(closureWorkbook);
+  const responses = validateClosureRows(rows);
+  const output = summarizeClosureSurvey(responses);
+  validateClosureAggregate(output);
+  await writeFile(closureOutputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
+  console.log('Encuesta final agregada desde 9 respuestas sin publicar registros individuales.');
+}
+
 if (!existsSync(initialWorkbook) || !existsSync(consolidatedWorkbook)) {
   await validateGeneratedFallback();
 } else {
@@ -392,14 +689,14 @@ if (!existsSync(initialWorkbook) || !existsSync(consolidatedWorkbook)) {
     diagnosticRows,
     headers,
     'Diagnóstico inicial',
-    '/documents/Decisiones%20que%20suman.xlsx',
+    '/documents/resultados/diagnostico-inicial-agregado.xlsx',
   );
   const posterior = {
     ...summarize(
       posteriorRows,
       headers,
       'Evaluación posterior',
-      '/documents/Decisiones%20que%20suman%20despues%20del%20webinar.xlsx',
+      '/documents/resultados/comparacion-diagnostico-agregada.xlsx',
     ),
     date: '2026-08-09',
   };
@@ -433,8 +730,8 @@ if (!existsSync(initialWorkbook) || !existsSync(consolidatedWorkbook)) {
   const posteriorGlobal = (posteriorFavorable / posteriorSlots) * 100;
 
   const output = {
-    sourceFile: 'Decisiones que suman despues del webinar.xlsx',
-    sourceHref: '/documents/Decisiones%20que%20suman%20despues%20del%20webinar.xlsx',
+    sourceFile: 'comparacion-diagnostico-agregada.xlsx',
+    sourceHref: '/documents/resultados/comparacion-diagnostico-agregada.xlsx',
     totalResponseCount: allRows.length,
     paired: false,
     methodology:
@@ -495,3 +792,5 @@ if (!existsSync(initialWorkbook) || !existsSync(consolidatedWorkbook)) {
     'Datos y reportes agregados generados desde 22 respuestas (16 iniciales + 6 posteriores).',
   );
 }
+
+await processClosureSurvey();

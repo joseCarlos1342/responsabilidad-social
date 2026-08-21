@@ -4,20 +4,20 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
 const root = resolve(process.cwd());
-const outputDirectory = join(root, 'public', 'documents');
+const outputDirectory = join(root, 'public', 'documents', 'entregas');
 const jobs = [
   {
-    source: 'docs/fuentes-academicas/semana-4-decisiones-que-si-suman.pdf',
-    output: 'actividad-2-publica.pdf',
+    source: 'docs/fuentes-academicas/privadas/documentos/actividad-02-original.pdf',
+    output: 'actividad-02-publica.pdf',
     heading: 'Actividad 2 · Decisiones que sí suman',
   },
   {
-    source: 'docs/fuentes-academicas/semana-2-del-diagnostico-a-la-accion.pdf',
-    output: 'actividad-4-publica.pdf',
+    source: 'docs/fuentes-academicas/privadas/documentos/actividad-04-original.pdf',
+    output: 'actividad-04-publica.pdf',
     heading: 'Actividad 4 · Del diagnóstico a la acción',
   },
   {
-    source: 'docs/fuentes-academicas/plan-responsabilidad-social-educacion-financiera.pdf',
+    source: 'docs/fuentes-academicas/privadas/documentos/plan-responsabilidad-social-original.pdf',
     output: 'plan-humanidades-digitales-publico.pdf',
     heading: 'Plan de Humanidades Digitales',
   },
